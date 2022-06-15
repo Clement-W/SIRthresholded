@@ -62,14 +62,9 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
     # Initialisation d'un vecteur de N.lambda NA pour recueillir les cos carrés entre b_sir et b_seuillage
     # pour chaque valeur de lambda
     vect.cosca <- rep(NA, N.lambda)
-    # Pareil mais entre b_sir et b_seuillage_p*
-    vect.cosca.final <- rep(NA, N.lambda)
 
     # Initialisation de la liste des variables utiles
     list.relevant.variables <- list()
-
-    # estimation de beta en dimension p*
-    b.p1 = list()
 
     # Application de la méthode SIR avec seuillage, avec les N.lambda valeurs
     # de lambdas
@@ -87,22 +82,6 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
 
         # Stockage du cos carré entre b et b_seuillage pour cette valeur de lambda
         vect.cosca[i] <- resSparseSIR$cos.squared
-
-        # estimation en dimension p* sur les variables sélectionées
-        res.final <- SIR(Y, X[, resSparseSIR$list.relevant.variables, drop = FALSE], H = 10)
-        # on étend le beta pour qu'il ait une taille pp 
-        beta.final = matrix(rep(0, p), nrow = 1)
-
-        colnames(beta.final) <- colnames(X)
-
-        # On remplit les colonnes du beta.final avec les valeurs des colonnes du
-        # beta estimé par SIR avec le nombre de variable réduit
-        beta.final[which(colnames(beta.final) %in% colnames(res.final$b))] = res.final$b
-
-        vect.cosca.final[i] = cosine.squared(b.clas, beta.final)
-
-        # stockage du beta en dimension p*
-        b.p1[[i]] = res.final$b
 
         # Stocage des variables utiles pour cette valeur de lambda à l'indice i de la liste
         # des variables utiles
@@ -165,13 +144,10 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
         points(lambdas, vect.cosca, type = "l", ylab = "", xlab = "lambda", lwd = 3, col = "black")
         title(paste("Evolution of cos^2 as a function of lambda (with", thresholding, "thresholding)"))
 
-        # Affichage de l'évolution du cos2 entre SIR et beta.final
-        points(lambdas, vect.cosca.final, type = "l", ylab = " ", ylim = c(0, 1.2), xlab = "lambda", col = "orange", lwd = 3)
-
         # Ligne verticale au lambda optimal
         abline(v = lambda.opt, col = 6, lwd = 3)
 
-        legend("topright", legend = c("% of relevant variables", expression("optimal" ~ lambda), expression(cos ^ 2 ~ (hat(b)[thresholding] ~ "," ~ hat(b)[SIR])), expression(cos ^ 2 ~ (hat(b)[thresholding - p ~ "*"] ~ "," ~ hat(b)[SIR]))), col = c(3, 6, "black", "orange"), lty = c(1, 1, 3, 3), lwd = c(3, 3, 3, 3), cex = 1)
+        legend("topright", legend = c("% of relevant variables", expression("optimal" ~ lambda), expression(cos ^ 2 ~ (hat(b)[thresholding] ~ "," ~ hat(b)[SIR]))), col = c(3, 6, "black"), lty = c(1, 1, 1), lwd = c(3, 3, 3), cex = 1)
     }
 
     if (is.na(lambda.opt) == TRUE) {
