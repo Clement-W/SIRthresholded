@@ -23,7 +23,7 @@ An object of class SIR.bootstrap, with attributes:
 \item{p}{The number of variables in X.}
 }
 \description{
-Apply a single-index SIR (Sliced Inverse Regression) on a bootstraped sample of (X,Y) with H slices.
+Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped sample of (X,Y) with H slices.
 }
 \examples{
 # Generate Data

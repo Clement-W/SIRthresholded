@@ -1,12 +1,6 @@
-#=========== Méthode SIR avec Bootstrap ============
-# Y = Données y de R^1
-# X = Données x de R^p
-# H = nombre de tranche
-# B = Nombre d'échantillon bootstrap à tirer
-
 #'  Bootstrap SIR
 #'
-#' Apply a single-index SIR (Sliced Inverse Regression) on a bootstraped sample of (X,Y) with H slices.
+#' Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped sample of (X,Y) with H slices.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
