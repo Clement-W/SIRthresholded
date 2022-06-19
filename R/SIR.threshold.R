@@ -37,7 +37,7 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
     p <- ncol(X)
     
     if (is.null(colnames(X))) {
-        columnNames <- paste("X", 1:p, sep = "")
+        colnames(X) <- paste("X", 1:p, sep = "")
     }
 
     # Estimation de la direction des beta et de la matrice d'intérêt Sigma^-1 * Cov(Moyenne par tranche)
@@ -82,7 +82,7 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
         list.relevant.variables <- colnames(b.estim)[-which(b.estim == 0)]
     }
 
-    res = list(beta = b.estim, M1_th = M1_th, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p, nb.zeros = nb.zeros, list.relevant.variables = list.relevant.variables, cos.squared = cos.squared)
+    res = list(beta = b.estim, M1_th = M1_th, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p,H=H, nb.zeros = nb.zeros, list.relevant.variables = list.relevant.variables, cos.squared = cos.squared)
     class(res) = "SIR.threshold"
 
     return(res)

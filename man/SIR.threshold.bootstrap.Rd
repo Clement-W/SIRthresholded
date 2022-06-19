@@ -58,8 +58,8 @@ eps <- rnorm(n)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply SIR with hard thresholding
-SIR.threshold.bootstrap(Y,X,H=10,N.lambda=300,thresholding="hard",Nb.replications=200,k=1,graphic=TRUE,output=TRUE)
+SIR.threshold.bootstrap(Y,X,H=10,N.lambda=300,thresholding="hard",Nb.replications=100,k=1,graphic=TRUE,output=TRUE)
 
 # Apply SIR with soft thresholding
-SIR.threshold.bootstrap(Y,X,H=10,N.lambda=300,thresholding="soft",Nb.replications=200,k=1,graphic=TRUE,output=TRUE)
+SIR.threshold.bootstrap(Y,X,H=10,N.lambda=300,thresholding="soft",Nb.replications=100,k=1,graphic=TRUE,output=TRUE)
 }

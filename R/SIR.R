@@ -107,7 +107,7 @@ SIR <- function(Y, X, H = 10) {
     }
     # On a donc b.est l'estimation de la direction de Beta
 
-    res = list(beta = b.est, M1 = M1, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p)
+    res = list(beta = b.est, M1 = M1, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p,H=H)
     class(res) = "SIR"
 
     return(res)

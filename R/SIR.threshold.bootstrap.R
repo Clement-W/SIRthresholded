@@ -41,8 +41,6 @@
 #' @export
 SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard", Nb.replications = 200, graphic = TRUE, output = TRUE, N.lambda = 50, k = 1) {
     
-    
-    
     # Sparse SIR avec N.lambda sur tout l'échantillon
     res.SparseSIR <- SIR.threshold.opt(Y, X, H = H, thresholding = thresholding, graph = FALSE, output = FALSE, N.lambda = N.lambda)
     
