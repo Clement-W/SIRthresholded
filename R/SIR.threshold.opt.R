@@ -34,6 +34,8 @@
 #' @export
 SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard", graphic = TRUE, output = TRUE) {
 
+    cl <- match.call()
+    
     n <- nrow(X)
     p <- ncol(X)
 
@@ -150,7 +152,7 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
 
     res = list(b.opt = b.opt, lambdas = lambdas, lambda.opt = lambda.opt, mat.b.th = mat.b.th,
                N.lambda = N.lambda, vect.nb.zeros = vect.nb.zeros,fit_bp=fit_bp,indice.0=indice.0,vect.cosca=vect.cosca,
-               list.relevant.variables = list.relevant.var,n=n,p=p,H=H,M1=M1,thresholding=thresholding)
+               list.relevant.variables = list.relevant.var,n=n,p=p,H=H,M1=M1,thresholding=thresholding,call=cl)
 
     class(res) = "SIR.threshold.opt"
     

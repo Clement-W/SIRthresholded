@@ -35,6 +35,8 @@
 #' @export
 SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard", Nb.replications = 200, graphic = TRUE, output = TRUE, N.lambda = 50, k = 1) {
     
+    cl <- match.call()
+    
     # Sparse SIR avec N.lambda sur tout l'échantillon
     res.SparseSIR <- SIR.threshold.opt(Y, X, H = H, thresholding = thresholding, graph = FALSE, output = FALSE, N.lambda = N.lambda)
     
@@ -118,7 +120,7 @@ SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard", Nb.repl
     
     lambda.optim = res.SparseSIR$lambdas[min(which(res.SparseSIR$vect.nb.zeros == Nb.zeros.opt))]
     
-    res = list(b.opt = b.opt.final, lambda.opt = lambda.optim,Nb.var.selec=Nb.var.selec,effectif.var=effectif.var,
+    res = list(b.opt = b.opt.final, lambda.opt = lambda.optim,Nb.var.selec=Nb.var.selec,effectif.var=effectif.var,call=cl,
                Nb.var.selec.opt = Nb.var.selec.opt,list.relevant.variables = list.relevant.variables,n=n,p=p,H=H,Nb.replications =Nb.replications,thresholding=thresholding)
     class(res) = "SIR.threshold.bootstrap"
     
