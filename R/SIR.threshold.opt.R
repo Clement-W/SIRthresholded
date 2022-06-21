@@ -155,9 +155,7 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
 
         list.relevant.var <- colnames(X)
 
-        if (output == TRUE) {
-            affichageResultat(sparseSIR = FALSE, b.opt = b.opt, p = p)
-        }
+
     }
     else {
         # Cas où on trouve bien un lambda optimal parmi les N.lambda
@@ -175,23 +173,18 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
                        # où la valeur est différente de zero
             list.relevant.var <- colnames(b.opt)[-which(b.opt == 0)]
 
-            if (output == TRUE) {
-                affichageResultat(b.opt = b.opt, list.relevant.var = list.relevant.var, p = p)
-            }
+     
         }
         # Cas où la méthode Sparse SIR avec seuillage n'a pas permis de réaliser de la sélection de variable
         else {
             b.opt <- SIR(Y, X, H = 10)
-            if (output == TRUE) {
-                affichageResultat(sparseSIR = FALSE, b.opt = b.opt, p = p)
-            }
         }
     }
 
     res = list(b.opt = b.opt, lambdas = lambdas, lambda.opt = lambda.opt, mat.b.th = mat.b.th,
                N.lambda = N.lambda, vect.nb.zeros = vect.nb.zeros,
-               list.relevant.variables = list.relevant.var)
+               list.relevant.variables = list.relevant.var,n=n,p=p,H=H,M1=M1)
 
-    class(res) = "SIR.thresholding.opt"
+    class(res) = "SIR.threshold.opt"
     return(res)
 }

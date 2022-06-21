@@ -21,4 +21,3 @@ print.SIR = function(x, ...){
     cat("\n")
     
 }
-# Ça fonctionne bien mais le fait que la fonction soit pas load dans le global environement ça ne marche pas

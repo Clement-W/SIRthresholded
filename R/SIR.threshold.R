@@ -82,7 +82,7 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
         list.relevant.variables <- colnames(b.estim)[-which(b.estim == 0)]
     }
 
-    res = list(beta = b.estim, M1_th = M1_th, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p,H=H, nb.zeros = nb.zeros, list.relevant.variables = list.relevant.variables, cos.squared = cos.squared)
+    res = list(beta = b.estim, M1_th = M1_th, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p,H=H, nb.zeros = nb.zeros, list.relevant.variables = list.relevant.variables, cos.squared = cos.squared,lambda=lambda)
     class(res) = "SIR.threshold"
 
     return(res)
