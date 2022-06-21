@@ -1,9 +1,3 @@
-
-#=========== Méthode sparse SIR sur N réplications =========
-# Effectue la méthode sparse SIR avec thrésholding sur N réplications
-
-#k = facteur de multiplication de la taille de l'échantillon bootstrapé
-
 #' SIR optimally thresholded on bootstraped replications
 #'
 #' Apply a single-index SIR (Sliced Inverse Regression) on N bootstraped replications of (X,Y) with H slices, with thresholding of the matrix of interest by the *optimal* lambda parameter.
@@ -78,7 +72,7 @@ SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard", Nb.repl
         
         liste[[replic]] <- res.boot$list.relevant.variables # stockage des variables sélectionnées
         
-        if(replic%%10==0){
+        if(output && replic%%10==0){
             print(paste("Replication n°",replic,"/",Nb.replications))
         }
     }
@@ -133,12 +127,8 @@ SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard", Nb.repl
     
     lambda.optim = res.SparseSIR$lambdas[min(which(res.SparseSIR$vect.nb.zeros == Nb.zeros.opt))]
     
-    if(output){
-        affichageResultat(b.opt = b.opt.final, list.relevant.var = list.relevant.variables, p = p)
-    }
-    
-    res = list(b.opt = b.opt.final, lamba.opt = lambda.optim,
-               Nb.var.selec.opt = Nb.var.selec.opt,list.relevant.variables = list.relevant.variables)
+    res = list(b.opt = b.opt.final, lambda.opt = lambda.optim,
+               Nb.var.selec.opt = Nb.var.selec.opt,list.relevant.variables = list.relevant.variables,n=n,p=p,H=H,Nb.replications =Nb.replications)
     class(res) = "SIR.threshold.bootstrap"
     
     return(res)

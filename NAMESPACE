@@ -2,6 +2,7 @@
 
 S3method(print,SIR)
 S3method(print,SIR.threshold)
+S3method(print,SIR.threshold.bootstrap)
 S3method(print,SIR.threshold.opt)
 export(SIR)
 export(SIR.bootstrap)

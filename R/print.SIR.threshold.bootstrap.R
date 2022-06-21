@@ -1,19 +1,19 @@
 #' @export
 #' @keywords internal
-print.SIR.threshold.opt = function(x, ...){
-    if(!inherits(x,"SIR.threshold.opt")) stop("Only use with \"SIR.threshold.opt\" obects")
+print.SIR.threshold.bootstrap = function(x, ...){
+    if(!inherits(x,"SIR.threshold.bootstrap")) stop("Only use with \"SIR.threshold.bootstrap\" obects")
     
-    cat("\n===== Perform Optimally Thresholded Sliced Inverse Regression =====","\n")
+    cat("\n===== Perform Optimally Thresholded Sliced Inverse Regression on bootstrapped replications =====","\n")
     
     cat("\n")
     cat(paste("Number of observations:",x$n),"\n")
     cat(paste("Number of variables in X:",x$p),"\n")
     cat(paste("Number of slices:",x$H),"\n")
-    cat(paste("Testing:",x$N.lambda,"lambda between 0 and",max(abs(x$M1))),"\n")
+    cat(paste("Number of bootstraped samples:",x$Nb.replications,"\n"))
     cat(paste("Optimal thresholding parameter lambda :",x$lambda.opt),"\n")
     cat("\n")
     
-    cat(paste("Number of selected variables = ", length(x$list.relevant.variables), " over the ", x$p, " available variables"), fill = TRUE)
+    cat(paste("Number of selected variables = ", x$Nb.var.selec.opt, " over the ", x$p, " available variables"), fill = TRUE)
     cat(paste("List of relevant variables:", paste(x$list.relevant.variables, collapse = ",")),"\n")
     cat("\n")
     
