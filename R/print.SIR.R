@@ -3,15 +3,8 @@
 print.SIR = function(x, ...){
     if(!inherits(x,"SIR")) stop("Only use with \"SIR\" obects")
     
-    cat("\n===== Perform Sliced Inverse Regression =====","\n")
-    
-    cat("\n")
-    cat(paste("Number of observations:",x$n),"\n")
-    cat(paste("Number of variables in X:",x$p),"\n")
-    cat(paste("Number of slices:",x$H),"\n")
-    cat("\n")
-    
-    cat("Results of EDR directions estimation:\n")
+    cat("\nCall:\n", deparse(x$call), "\n", sep = "")
+
     res = matrix(x$beta,ncol=1)
     rownames(res) = 1:x$p
     colnames(res) = "Estimated direction"
@@ -19,5 +12,4 @@ print.SIR = function(x, ...){
     cat("\n")
     prmatrix(signif(res,3))
     cat("\n")
-    
 }

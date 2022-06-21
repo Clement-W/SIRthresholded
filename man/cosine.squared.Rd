@@ -12,7 +12,7 @@ cosine.squared(b1, b2)
 \item{b2}{Second vector}
 }
 \value{
-The cosine squared of the two vecotrs
+The cosine squared of the two vectors
 }
 \description{
 Calculates the quality of the correlation between two vectors (real beta and estimated beta)

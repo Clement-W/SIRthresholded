@@ -24,6 +24,8 @@
 #' SIR(Y,X,H=10)
 #' @export
 SIR <- function(Y, X, H = 10) {
+    
+    cl <- match.call()
 
     # Pour gérer le cas ou X ne contient qu'une variable
     if (is.null(dim(X)) || length(dim(X)) == 1) {
@@ -107,7 +109,7 @@ SIR <- function(Y, X, H = 10) {
     }
     # On a donc b.est l'estimation de la direction de Beta
 
-    res = list(beta = b.est, M1 = M1, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p,H=H)
+    res = list(beta = b.est, M1 = M1, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p,H=H, call=cl)
     class(res) = "SIR"
 
     return(res)

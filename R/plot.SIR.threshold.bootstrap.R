@@ -4,7 +4,6 @@ plot.SIR.threshold.bootstrap = function(x,...){
     
     if(!inherits(x,"SIR.threshold.bootstrap")) stop("Only use with \"SIR.threshold.bootstrap\" obects")
     
-    
     # Histogramme du nombre de variables sélectionnées par le modèle
     par(mfrow = (c(1, 2)))
     barplot((table(x$Nb.var.selec)/x$Nb.replications)*100, ylab = "percent", xlab = "Number of variables selected")
