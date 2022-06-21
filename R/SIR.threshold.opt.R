@@ -117,39 +117,6 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
     # On récupère le lambda qui correspond à cet indice
     lambda.opt <- lambdas[indice.opt]
 
-    # Affichage de la sélection du lambda
-    if (graphic == TRUE) {
-
-        if (length(which(vect.nb.zeros == fit_bp$breakpoints)) > 0) {
-            par(mfrow = c(1, 2), mar = c(2, 2, 2, 2))
-            # affichage des indices triés
-            plot(sort(indice.0, decreasing = FALSE), xlab = "variable i", ylab = expression("Indices of" ~ lambda))
-            # ligne verticale pour montrer la rupture
-            abline(v = fit_bp$breakpoints + 0.5, col = 6, lwd = 3)
-            title(paste("Choix de l'indice du lambda optimal parmi les", N.lambda, "testés"))
-        }
-        else {
-            par(mfrow = c(1, 2), mar = c(2, 2, 2, 2))
-            # affichage des indices triés
-            plot(sort(indice.0, decreasing = FALSE), xlab = "variable p_i", ylab = "Indice du lambda à partir duquel la variable est inutile")
-            # ligne verticale pour montrer la rupture
-            abline(v = fit_bp$breakpoints + 1.5, col = 7, lwd = 3)
-            title(paste("Choix de l'indice du lambda optimal parmi les ", N.lambda, " testés"))
-        }
-
-        # Affichage du pourcentage de variable utiles en fonction des lambdas
-        plot(lambdas, 1 - vect.nb.zeros / p, ylim = c(0, 1.3), xlim = c(0, max(lambdas)), xlab = expression(lambda), col = 3, type = "l", ylab = "", lwd = 3)
-
-        # Affichage de l'évolution du cos carré entre SIR et SParseSIR en fonction des valeurs de lambda
-        points(lambdas, vect.cosca, type = "l", ylab = "", xlab = "lambda", lwd = 3, col = "black")
-        title(paste("Evolution of cos^2 as a function of lambda (with", thresholding, "thresholding)"))
-
-        # Ligne verticale au lambda optimal
-        abline(v = lambda.opt, col = 6, lwd = 3)
-
-        legend("topright", legend = c("% of relevant variables", expression("optimal" ~ lambda), expression(cos ^ 2 ~ (hat(b)[thresholding] ~ "," ~ hat(b)[SIR]))), col = c(3, 6, "black"), lty = c(1, 1, 1), lwd = c(3, 3, 3), cex = 1)
-    }
-
     if (is.na(lambda.opt) == TRUE) {
         b.opt <- SIR(Y, X, H = 10)$beta
 
@@ -182,9 +149,15 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
     }
 
     res = list(b.opt = b.opt, lambdas = lambdas, lambda.opt = lambda.opt, mat.b.th = mat.b.th,
-               N.lambda = N.lambda, vect.nb.zeros = vect.nb.zeros,
-               list.relevant.variables = list.relevant.var,n=n,p=p,H=H,M1=M1)
+               N.lambda = N.lambda, vect.nb.zeros = vect.nb.zeros,fit_bp=fit_bp,indice.0=indice.0,vect.cosca=vect.cosca,
+               list.relevant.variables = list.relevant.var,n=n,p=p,H=H,M1=M1,thresholding=thresholding)
 
     class(res) = "SIR.threshold.opt"
+    
+    # Affichage de la sélection du lambda
+    if (graphic == TRUE) {
+        plot.SIR.threshold.opt.R(res)
+    }
+    
     return(res)
 }

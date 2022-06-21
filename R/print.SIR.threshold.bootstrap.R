@@ -11,6 +11,7 @@ print.SIR.threshold.bootstrap = function(x, ...){
     cat(paste("Number of slices:",x$H),"\n")
     cat(paste("Number of bootstraped samples:",x$Nb.replications,"\n"))
     cat(paste("Optimal thresholding parameter lambda :",x$lambda.opt),"\n")
+    cat(paste("Thresholding method:",x$thresholding))
     cat("\n")
     
     cat(paste("Number of selected variables = ", x$Nb.var.selec.opt, " over the ", x$p, " available variables"), fill = TRUE)
