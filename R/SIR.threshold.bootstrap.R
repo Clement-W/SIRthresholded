@@ -89,15 +89,6 @@ SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard", Nb.repl
         }
     }
     
-    #TODO: ajouter grpahiques de graphiques.R
-    if (graphic == TRUE) {
-        # Histogramme du nombre de variables sélectionnées par le modèle
-        par(mfrow = (c(1, 2)))
-        barplot(table(Nb.var.selec), ylab = "Number of replication", xlab = "Number of variables selected ")
-        
-        # Histogramme du nombre de fois ou chaque variable a été sélectionnée 
-        barplot(effectif.var, names.arg = colnames(X), ylab = "Number of replication where the variable has been selected", xlab = "variable name")
-    }
     
     # Nombre de variable sélectionnée optimale (la variable qui a été la plus sélectionnée au total 
     # sur toutes les réplications effectuées)
@@ -127,9 +118,13 @@ SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard", Nb.repl
     
     lambda.optim = res.SparseSIR$lambdas[min(which(res.SparseSIR$vect.nb.zeros == Nb.zeros.opt))]
     
-    res = list(b.opt = b.opt.final, lambda.opt = lambda.optim,
+    res = list(b.opt = b.opt.final, lambda.opt = lambda.optim,Nb.var.selec=Nb.var.selec,effectif.var=effectif.var,
                Nb.var.selec.opt = Nb.var.selec.opt,list.relevant.variables = list.relevant.variables,n=n,p=p,H=H,Nb.replications =Nb.replications,thresholding=thresholding)
     class(res) = "SIR.threshold.bootstrap"
+    
+    if (graphic == TRUE) {
+        plot.SIR.threshold.bootstrap(res)
+    }
     
     return(res)
 }
