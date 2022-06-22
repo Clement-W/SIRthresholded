@@ -15,7 +15,8 @@ SIR(Y, X, H = 10)
 }
 \value{
 An object of class SIR, with attributes:
-\item{beta}{This is an estimated EDR direction, which is the principal eigenvector of the interest matrix.}
+\item{beta}{This is an estimated EDR direction, which is the principal 
+eigenvector of the interest matrix.}
 \item{M1}{The interest matrix.}
 \item{eig.val}{The eigenvalues of the interest matrix.}
 \item{eig.vect}{A matrix corresponding to the eigenvectors of the interest matrix.}

@@ -21,7 +21,8 @@ SIR.threshold.opt(
 
 \item{H}{The chosen number of slices.}
 
-\item{N.lambda}{The number of lambda to test. The N.lambda tested lambdas are between 0 and the maximum value of the interest matrix.}
+\item{N.lambda}{The number of lambda to test. The N.lambda tested lambdas are 
+between 0 and the maximum value of the interest matrix.}
 
 \item{thresholding}{The thresholding method (choose between hard, soft)}
 
@@ -31,16 +32,20 @@ SIR.threshold.opt(
 }
 \value{
 An object of class SIR.threshold.opt, with attributes:
-\item{b.opt}{This is the optimal estimated EDR direction, which is the principal eigenvector of the interest matrix.}
+\item{b.opt}{This is the optimal estimated EDR direction, which is the principal 
+eigenvector of the interest matrix.}
 \item{lambdas}{A vector that contains the tested lambdas}
 \item{lambda.opt}{The optimal lambda}
-\item{mat.b.th}{A matrix of size p*N.lambda that contains an estimation of beta in the columns for each lambda}
+\item{mat.b.th}{A matrix of size p*N.lambda that contains an estimation of beta 
+in the columns for each lambda}
 \item{N.lambda}{The number of lambda tested}
 \item{vect.nb.zeros}{The number of 0 in the estimation of the vector beta}
-\item{list.relevant.variables}{A list that contains the variables selected by the model}
+\item{list.relevant.variables}{A list that contains the variables selected by 
+the model}
 }
 \description{
-Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, with thresholding of the matrix of interest by the *optimal* lambda parameter.
+Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, 
+with thresholding of the matrix of interest by the *optimal* lambda parameter.
 }
 \examples{
 

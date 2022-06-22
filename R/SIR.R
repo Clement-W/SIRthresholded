@@ -5,7 +5,8 @@
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
 #' @return An object of class SIR, with attributes:
-#' \item{beta}{This is an estimated EDR direction, which is the principal eigenvector of the interest matrix.}
+#' \item{beta}{This is an estimated EDR direction, which is the principal 
+#' eigenvector of the interest matrix.}
 #' \item{M1}{The interest matrix.}
 #' \item{eig.val}{The eigenvalues of the interest matrix.}
 #' \item{eig.vect}{A matrix corresponding to the eigenvectors of the interest matrix.}
@@ -47,8 +48,8 @@ SIR <- function(Y, X, H = 10) {
     # le vecteur nH contient le nombre d'observation pour chaque tranche H
     vect.nh <- rep(n %/% H, H) # %/% = integer division
 
-    # si le nombre d'observations total est plus grand que le nb d'observation dans vect.nh
-    # pour prendre le reste de la division de n %/% H 
+    # si le nombre d'observations total est plus grand que le nb d'observation 
+    # dans vect.nh pour prendre le reste de la division de n %/% H 
     if ((n - sum(vect.nh)) > 0) {
         # pour chaque observation non présente dans vect.nh
         for (i in 1:(n - sum(vect.nh))) {
@@ -80,19 +81,20 @@ SIR <- function(Y, X, H = 10) {
     }
 
     # Estimation de la matrice de covariances des moyennes par tranche
-    moy.X.etendue <- moy.X %*% matrix(rep(1, H), ncol = H) # Pour broadcaster l'opération - entre mat.mh et moy.X
+    # (moy.X.etendue pour broadcaster l'opération - entre mat.mh et moy.X)
+    moy.X.etendue <- moy.X %*% matrix(rep(1, H), ncol = H)
     M <- (mat.mh - moy.X.etendue) %*% diag(vect.ph) %*% t(mat.mh - moy.X.etendue)
 
     # Matrice d'intérêt : inverse de la matrice de covariance de X multipliée par la
     # matrice de covariance des moyennes par tranche :(pxp) %*% (pxp)
-    #  matrice d'intérêt =  Sigma^-1 * Cov(Moyenne par tranche)
+    # matrice d'intérêt =  Sigma^-1 * Cov(Moyenne par tranche)
     SigmaInv <- solve(Sigma)
     M1 <- SigmaInv %*% M
 
-    # eigen(M1)$vectors donne une matrice pxp qui contient les p vecteurs propres de x dans chaque colonne
-    # Les vecteurs propres sont retournés dans l'ordre décroissant de leur valeur propre associée.
-    # Donc ici on récupère le vecteur propre associé à la plus grande valeur propre pour avoir b.est
-    # donc la première colonne
+    # eigen(M1)$vectors donne une matrice pxp qui contient les p vecteurs propres de x 
+    # dans chaque colonne. Les vecteurs propres sont retournés dans l'ordre décroissant
+    # de leur valeur propre associée. Donc ici on récupère le vecteur propre associé 
+    # à la plus grande valeur propre pour avoir b.est donc la première colonne
     rSIR <- eigen(M1)
     eig.values <- Re(rSIR$values)
     eig.vectors <- Re(rSIR$vectors)
@@ -110,7 +112,8 @@ SIR <- function(Y, X, H = 10) {
     # On a donc b.est l'estimation de la direction de Beta
 
 
-    res <- list(beta = b.est, M1 = M1, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p, H = H, call = cl)
+    res <- list(beta = b.est, M1 = M1, eig.val = eig.values, eig.vect = eig.vectors,
+        n = n, p = p, H = H, call = cl)
     class(res) <- "SIR"
 
     return(res)

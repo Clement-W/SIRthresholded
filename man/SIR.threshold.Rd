@@ -19,18 +19,21 @@ SIR.threshold(Y, X, H = 10, lambda = 0, thresholding = "hard")
 }
 \value{
 An object of class SIR.threshold, with attributes:
-\item{beta}{This is an estimated EDR direction, which is the principal eigenvector of the interest matrix.}
+\item{beta}{This is an estimated EDR direction, which is the principal eigenvector 
+of the interest matrix.}
 \item{M1_th}{The interest matrix thresholded.}
 \item{eig.val}{The eigenvalues of the interest matrix thresholded.}
 \item{eig.vect}{A matrix corresponding to the eigenvectors of the interest matrix.}
 \item{n}{Sample size.}
 \item{p}{The number of variables in X.}
 \item{nb.zeros}{The number of 0 in the estimation of the vector beta}
-\item{list.relevant.variables}{A list that contains the variables selected by the model}
+\item{list.relevant.variables}{A list that contains the variables selected by the
+model}
 \item{cos.squared}{The cosine squared between vanilla SIR and SIR thresholded}
 }
 \description{
-Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, with thresholding of the matrix of interest by the lambda parameter.
+Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, with 
+thresholding of the matrix of interest by the lambda parameter.
 }
 \examples{
 

@@ -1,16 +1,19 @@
 #'  Bootstrap SIR
 #'
-#' Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped sample of (X,Y) with H slices.
+#' Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped sample of 
+# (X,Y) with H slices.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
 #' @param B The number of bootstrapped sample to draw
 #' @return An object of class SIR.bootstrap, with attributes:
-#' \item{beta}{This is an estimated EDR direction, which is the principal eigenvector of the interest matrix.}
-#' \item{mat.b.est}{A matrix of size p*B that contains an estimation of beta in the columns for each bootstrapped sample}
+#' \item{beta}{This is an estimated EDR direction, which is the principal eigenvector
+#' of the interest matrix.}
+#' \item{mat.b.est}{A matrix of size p*B that contains an estimation of beta in 
+#' the columns for each bootstrapped sample}
 #' \item{n}{Sample size.}
 #' \item{p}{The number of variables in X.}
-#' @examples 
+#' @examples
 #' # Generate Data
 #' set.seed(10)
 #' n <- 500
@@ -31,8 +34,8 @@ SIR.bootstrap <- function(Y, X, H = 10, B = 10) {
     # les colonnes de la matrice
     mat.b.est <- matrix(0, ncol = B, nrow = p)
     for (r in 1:B) {
-        # indice des éléments à prendre dans X : on tire avec remise les indices des éléments de X
-        # et on créé une liste qui contient ces indices (Bootstrap)
+        # indice des éléments à prendre dans X : on tire avec remise les indices
+        # des éléments de X et on créé une liste qui contient ces indices (Bootstrap)
         indice <- sample(1:n, replace = TRUE)
         # on stock chaque estimation b dans les colonnes de la matrice d'estimation
         mat.b.est[, r] <- SIR(Y[indice], X[indice,], H = H)$beta

@@ -58,10 +58,10 @@ simulation <- function(N.simu = 30, nn = 1000, pp = 50, pp1 = 10, RRATIO = 0.15,
         beta.final[which(colnames(beta.final) %in% colnames(res.final$beta))] = res.final$beta
 
         # Remplissage de la matrice de cos^2 pour évaluer l'estimation de beta
-        mat.cos2.clas.hard.soft[s, 1] <- cosine.squared(res.SIR$beta, don$beta)
-        mat.cos2.clas.hard.soft[s, 2] <- cosine.squared(res.hard$b.opt, don$beta)
-        mat.cos2.clas.hard.soft[s, 3] <- cosine.squared(res.soft$b.opt, don$beta)
-        mat.cos2.clas.hard.soft[s, 4] <- cosine.squared(beta.final, don$beta)
+        mat.cos2.clas.hard.soft[s, 1] <- cosine_squared(res.SIR$beta, don$beta)
+        mat.cos2.clas.hard.soft[s, 2] <- cosine_squared(res.hard$b.opt, don$beta)
+        mat.cos2.clas.hard.soft[s, 3] <- cosine_squared(res.soft$b.opt, don$beta)
+        mat.cos2.clas.hard.soft[s, 4] <- cosine_squared(beta.final, don$beta)
 
         # Remplissage de la liste des variables sélectionnées pour les 2 types de seuillage
         liste.var.select.hard[[s]] <- res.hard$list.relevant.variables

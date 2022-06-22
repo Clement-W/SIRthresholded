@@ -1,7 +1,8 @@
 #' @export
 #' @keywords internal
 summary.SIR.threshold.opt = function(x, ...) {
-    if (!inherits(x, "SIR.threshold.opt")) stop("Only use with \"SIR.threshold.opt\" obects")
+    if (!inherits(x, "SIR.threshold.opt"))
+        stop("Only use with \"SIR.threshold.opt\" obects")
 
     cat("\nCall:\n", deparse(x$call), "\n", sep = "")
 
@@ -16,8 +17,10 @@ summary.SIR.threshold.opt = function(x, ...) {
     cat(paste("Thresholding method:", x$thresholding, "\n"))
     cat("\n")
 
-    cat(paste("Number of selected variables = ", length(x$list.relevant.variables), " over the ", x$p, " available variables"), fill = TRUE)
-    cat(paste("List of relevant variables:", paste(x$list.relevant.variables, collapse = ",")), "\n")
+    cat(paste("Number of selected variables = ", length(x$list.relevant.variables),
+        " over the ", x$p, " available variables"), fill = TRUE)
+    cat(paste("List of relevant variables:", paste(x$list.relevant.variables,
+        collapse = ",")), "\n")
     cat("\n")
 
     cat("Results of EDR directions estimation:\n")

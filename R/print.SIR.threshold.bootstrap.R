@@ -1,7 +1,8 @@
 #' @export
 #' @keywords internal
-print.SIR.threshold.bootstrap = function(x, ...) {
-    if (!inherits(x, "SIR.threshold.bootstrap")) stop("Only use with \"SIR.threshold.bootstrap\" obects")
+print.SIR.threshold.bootstrap <- function(x, ...) {
+    if (!inherits(x, "SIR.threshold.bootstrap"))
+        stop("Only use with \"SIR.threshold.bootstrap\" obects")
 
     cat("\nCall:\n", deparse(x$call), "\n", sep = "")
 

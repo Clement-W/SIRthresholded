@@ -32,10 +32,10 @@ beta.final = matrix(rep(0, p), nrow = 1)
 colnames(beta.final) <- colnames(don$X)
 beta.final[which(colnames(beta.final) %in% colnames(res.final$b))] = res.final$beta
 
-cosca.SIR.Classique = cosine.squared(res.SIR$b, don$beta)
-cosca.Sparse.SIR = cosine.squared(res$b.opt, don$beta)
-cosca.SIR.auto = cosine.squared(res2$b.opt, don$beta)
-cosca.SIR.final = cosine.squared(beta.final, don$beta)
+cosca.SIR.Classique = cosine_squared(res.SIR$b, don$beta)
+cosca.Sparse.SIR = cosine_squared(res$b.opt, don$beta)
+cosca.SIR.auto = cosine_squared(res2$b.opt, don$beta)
+cosca.SIR.final = cosine_squared(beta.final, don$beta)
 
 # Comparaison des directions estimees
 cat("Cos^2 of estimated directions with target beta :", fill = TRUE)
