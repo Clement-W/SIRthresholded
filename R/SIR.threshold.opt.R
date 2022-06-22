@@ -32,15 +32,16 @@
 #' # Apply SIR with soft thresholding
 #' SIR.threshold.opt(Y,X,H=10,N.lambda=300,thresholding="soft",graphic=TRUE,output=TRUE)
 #' @export
+#' @importFrom strucchange breakpoints
 SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard", graphic = TRUE, output = TRUE) {
 
     cl <- match.call()
-    
+
     n <- nrow(X)
     p <- ncol(X)
 
     if (is.null(colnames(X))) {
-        colnames(X) = paste("X", 1:p, sep = "")
+        colnames(X) <- paste("X", 1:p, sep = "")
     }
 
     # Estimation de la direction des beta et de la matrice d'intérêt  M1 = Sigma^-1 * Cov(Moyenne par tranche)
@@ -95,12 +96,11 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
     # est associé l'indice du lambda à partir duquel la variable devient inutile. 
     # Cet indice correspond donc également au nombre de lambda pour lesquels la variable
     # est utile.
-    indice.0 = colSums(mat.b.th / mat.b.th, na.rm = TRUE)
+    indice.0 <- colSums(mat.b.th / mat.b.th, na.rm = TRUE)
 
     # On recherche ensuite un point de rupture dans la liste indice.0 ordonnée. Ce point de rupture 
     # fixe le nombre de variables à ne pas sélectionner, soit le nombre de variable 
     # où l'estimation de beta donne zero pour un lambda donné.
-    require(strucchange)
     fit_bp <- breakpoints(sort(indice.0, decreasing = FALSE) ~ 1, breaks = 1, h = 2 / p)
 
     # Si le nombre de coeficients de l'estimation de beta égaux à 0 et qui sont égaux au point
@@ -139,10 +139,10 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
             # Renommage des colonnes
             colnames(b.opt) <- colnames(X)
             # Récupération des variables utiles qui sont les colonnes du b.opt
-                       # où la valeur est différente de zero
+            # où la valeur est différente de zero
             list.relevant.var <- colnames(b.opt)[-which(b.opt == 0)]
 
-     
+
         }
         # Cas où la méthode Sparse SIR avec seuillage n'a pas permis de réaliser de la sélection de variable
         else {
@@ -150,16 +150,16 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
         }
     }
 
-    res = list(b.opt = b.opt, lambdas = lambdas, lambda.opt = lambda.opt, mat.b.th = mat.b.th,
-               N.lambda = N.lambda, vect.nb.zeros = vect.nb.zeros,fit_bp=fit_bp,indice.0=indice.0,vect.cosca=vect.cosca,
-               list.relevant.variables = list.relevant.var,n=n,p=p,H=H,M1=M1,thresholding=thresholding,call=cl)
+    res <- list(b.opt = b.opt, lambdas = lambdas, lambda.opt = lambda.opt, mat.b.th = mat.b.th,
+               N.lambda = N.lambda, vect.nb.zeros = vect.nb.zeros, fit_bp = fit_bp, indice.0 = indice.0, vect.cosca = vect.cosca,
+               list.relevant.variables = list.relevant.var, n = n, p = p, H = H, M1 = M1, thresholding = thresholding, call = cl)
 
-    class(res) = "SIR.threshold.opt"
-    
+    class(res) <- "SIR.threshold.opt"
+
     # Affichage de la sélection du lambda
     if (graphic == TRUE) {
         plot.SIR.threshold.opt.R(res)
     }
-    
+
     return(res)
 }

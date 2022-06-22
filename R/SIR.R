@@ -11,7 +11,7 @@
 #' \item{eig.vect}{A matrix corresponding to the eigenvectors of the interest matrix.}
 #' \item{n}{Sample size.}
 #' \item{p}{The number of variables in X.}
-#' @examples 
+#' @examples
 #' # Generate Data
 #' set.seed(10)
 #' n <- 500
@@ -24,12 +24,12 @@
 #' SIR(Y,X,H=10)
 #' @export
 SIR <- function(Y, X, H = 10) {
-    
+
     cl <- match.call()
 
     # Pour gérer le cas ou X ne contient qu'une variable
     if (is.null(dim(X)) || length(dim(X)) == 1) {
-        X = matrix(X, ncol = 1)
+        X <- matrix(X, ncol = 1)
     }
 
     n <- nrow(X)
@@ -72,15 +72,15 @@ SIR <- function(Y, X, H = 10) {
     # Pout chaque tranche
     for (h in 1:H) {
         # récupération des indices pour la tranche h
-        indicesTrancheH = which(vect.h == h)
+        indicesTrancheH <- which(vect.h == h)
         # récupération des x appartenant à la tranche h
-        xDansTrancheH = X.ord[indicesTrancheH,, drop = FALSE]
+        xDansTrancheH <- X.ord[indicesTrancheH,, drop = FALSE]
         # applique la moyenne aux échantillons de chaque feature de la tranche h
         mat.mh[, h] <- apply(xDansTrancheH, 2, mean)
     }
 
     # Estimation de la matrice de covariances des moyennes par tranche
-    moy.X.etendue = moy.X %*% matrix(rep(1, H), ncol = H) # Pour broadcaster l'opération - entre mat.mh et moy.X
+    moy.X.etendue <- moy.X %*% matrix(rep(1, H), ncol = H) # Pour broadcaster l'opération - entre mat.mh et moy.X
     M <- (mat.mh - moy.X.etendue) %*% diag(vect.ph) %*% t(mat.mh - moy.X.etendue)
 
     # Matrice d'intérêt : inverse de la matrice de covariance de X multipliée par la
@@ -93,9 +93,9 @@ SIR <- function(Y, X, H = 10) {
     # Les vecteurs propres sont retournés dans l'ordre décroissant de leur valeur propre associée.
     # Donc ici on récupère le vecteur propre associé à la plus grande valeur propre pour avoir b.est
     # donc la première colonne
-    rSIR = eigen(M1)
-    eig.values = Re(rSIR$values)
-    eig.vectors = Re(rSIR$vectors)
+    rSIR <- eigen(M1)
+    eig.values <- Re(rSIR$values)
+    eig.vectors <- Re(rSIR$vectors)
     b.est <- eig.vectors[, 1]
 
     # conversion en matrice à une ligne et p colonnes
@@ -109,8 +109,9 @@ SIR <- function(Y, X, H = 10) {
     }
     # On a donc b.est l'estimation de la direction de Beta
 
-    res = list(beta = b.est, M1 = M1, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p,H=H, call=cl)
-    class(res) = "SIR"
+
+    res <- list(beta = b.est, M1 = M1, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p, H = H, call = cl)
+    class(res) <- "SIR"
 
     return(res)
 }

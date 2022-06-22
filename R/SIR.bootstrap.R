@@ -48,11 +48,11 @@ SIR.bootstrap <- function(Y, X, H = 10, B = 10) {
     if (!is.null(colnames(X))) {
         colnames(b.boot) <- colnames(X)
     } else {
-        colnames(b.boot) = paste("X", 1:p, sep = "")
+        colnames(b.boot) <- paste("X", 1:p, sep = "")
     }
 
-    res = list(beta = b.boot, mat.b.est = mat.b.est, n = n, p = p)
-    class(res) = "SIR.bootstrap"
+    res <- list(beta = b.boot, mat.b.est = mat.b.est, n = n, p = p)
+    class(res) <- "SIR.bootstrap"
 
     return(res)
 }

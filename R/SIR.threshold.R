@@ -33,12 +33,12 @@
 #' SIR.threshold(Y,X,H=10,lambda=0.2,thresholding="soft")
 #' @export
 SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
-    
+
     cl <- match.call()
-    
+
     n <- nrow(X)
     p <- ncol(X)
-    
+
     if (is.null(colnames(X))) {
         colnames(X) <- paste("X", 1:p, sep = "")
     }
@@ -57,9 +57,9 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
         M1_th <- do_hard_thresholding(M1, lambda = lambda)
     }
 
-    res.eig = eigen(M1_th)
-    eig.values = Re(res.eig$values)
-    eig.vectors = Re(res.eig$vectors)
+    res.eig <- eigen(M1_th)
+    eig.values <- Re(res.eig$values)
+    eig.vectors <- Re(res.eig$vectors)
 
     # Récupération du vecteur propre associé à la plus grande valeur propre
     # de la matrice d'intérêt seuillée
@@ -75,18 +75,18 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
     # Conversion en matrice en une ligne
     b.estim <- matrix(b.estim, nrow = 1)
 
-    colnames(b.estim) = colnames(X)
+    colnames(b.estim) <- colnames(X)
 
     # Liste des variables utiles qui sont les colonnes de l'estimation de b
     # qui sont différentes de 0
     if (nb.zeros == 0) {
-        list.relevant.variables = colnames(X)
+        list.relevant.variables <- colnames(X)
     } else {
         list.relevant.variables <- colnames(b.estim)[-which(b.estim == 0)]
     }
 
-    res = list(beta = b.estim, M1_th = M1_th, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p,H=H, nb.zeros = nb.zeros, list.relevant.variables = list.relevant.variables, cos.squared = cos.squared,lambda=lambda,thresholding=thresholding,call=cl)
-    class(res) = "SIR.threshold"
+    res <- list(beta = b.estim, M1_th = M1_th, eig.val = eig.values, eig.vect = eig.vectors, n = n, p = p, H = H, nb.zeros = nb.zeros, list.relevant.variables = list.relevant.variables, cos.squared = cos.squared, lambda = lambda, thresholding = thresholding, call = cl)
+    class(res) <- "SIR.threshold"
 
     return(res)
 

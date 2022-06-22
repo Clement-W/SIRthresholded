@@ -4,7 +4,7 @@
 #' @param b1 First vector
 #' @param b2 Second vector
 #' @return The cosine squared of the two vectors
-#' @examples 
+#' @examples
 #' b1 = c(-0.22,-0.31,-0.27)
 #' b2 = c(1,1,1)
 #' cosine.squared(b1,b2)
