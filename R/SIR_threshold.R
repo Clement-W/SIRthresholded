@@ -88,10 +88,12 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
         list_relevant_variables <- colnames(b)[-which(b == 0)]
     }
 
+    X_reduced <- X[, list_relevant_variables, drop = FALSE]
+
     res <- list(b = b, M1_th = M1_th, eig_val = eig_values,
         eig_vect = eig_vectors, n = n, p = p, H = H, nb_zeros = nb_zeros,
         list_relevant_variables = list_relevant_variables, cos_squared = cos_squared,
-        lambda = lambda, thresholding = thresholding, call = cl)
+        lambda = lambda, thresholding = thresholding, call = cl, X_reduced = X_reduced)
     class(res) <- "SIR_threshold"
 
     return(res)

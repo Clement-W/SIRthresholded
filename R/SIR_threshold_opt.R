@@ -158,11 +158,14 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
         }
     }
 
+    X_reduced <- X[, list_relevant_var, drop = FALSE]
+
     res <- list(b = b, lambdas = lambdas, lambda_opt = lambda_opt,
         mat_b = mat_b, n_lambda = n_lambda, vect_nb_zeros = vect_nb_zeros,
         fit_bp = fit_bp, indices_useless_var = indices_useless_var,
         vect_cosca = vect_cosca, list_relevant_variables = list_relevant_var,
-        n = n, p = p, H = H, M1 = M1, thresholding = thresholding, call = cl)
+        n = n, p = p, H = H, M1 = M1, thresholding = thresholding, call = cl,
+        X_reduced = X_reduced)
 
     class(res) <- "SIR_threshold_opt"
 

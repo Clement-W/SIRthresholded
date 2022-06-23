@@ -130,6 +130,8 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         }
     }
 
+    X_reduced <- X[, list_relevant_variables, drop = FALSE]
+
     lambda_optim <-
         res_SIR_th$lambdas[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt))]
 
@@ -137,7 +139,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         nb_var_selec = nb_var_selec, effectif_var = effectif_var, call = cl,
         nb_var_selec_opt = nb_var_selec_opt, list_relevant_variables =
         list_relevant_variables, n = n, p = p, H = H, n_replications =
-        n_replications, thresholding = thresholding)
+        n_replications, thresholding = thresholding, X_reduced = X_reduced)
 
     class(res) <- "SIR_threshold_bootstrap"
 

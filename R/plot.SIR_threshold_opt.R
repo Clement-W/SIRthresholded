@@ -7,30 +7,31 @@ plot.SIR_threshold_opt.R <- function(x, ...) {
 
 
     if (length(which(x$vect_nb_zeros == x$fit_bp$breakpoints)) > 0) {
-        par(mfrow = c(1, 2))
+        dev.new()
         # affichage des indices triés
-        # plot(sort(x$indices_useless_var, decreasing = FALSE), xlab = "variable i",
-        #         ylab = expression("Indices of" ~ lambda ~
-        #         "from which the variable i is not selected"))
-        # 
-        # # ligne verticale pour montrer la rupture
-        # abline(v = x$fit_bp$breakpoints + 0.5, col = 6, lwd = 3)
-        # title(paste("Choosing the optimal lambda (with", x$n_lambda, "lambdas)"))
+        plot(sort(((x$indices_useless_var)/x$n_lambda)*100, decreasing = FALSE), xlab = "variable i",
+                ylab = expression("Proportion of" ~ lambda ~
+                "that select the variable i (percent)"))
 
-        matplot(x$lambdas, x$mat_b, type = "l", lty = 1, main = "Regularization path", xlab = expression(lambda))
+        # ligne verticale pour montrer la rupture
+        abline(v = x$fit_bp$breakpoints + 0.5, col = 6, lwd = 3)
+        title(paste("Choosing the optimal lambda (with", x$n_lambda, "lambdas)"))
+
+        #matplot(x$lambdas, x$mat_b, type = "l", lty = 1, main = "Regularization path", xlab = expression(lambda))
 
 
     } else {
-        par(mfrow = c(1, 2))
+        dev.new()
         # affichage des indices triés
-        plot(sort(x$indice_useless_var, decreasing = FALSE), xlab = "variable i",
-            ylab = expression("Indices of" ~ lambda ~
-            "from which the variable i is not selected"))
+        plot(sort(((x$indices_useless_var)/x$n_lambda)*100, decreasing = FALSE), xlab = "variable i",
+             ylab = expression("Proportion of" ~ lambda ~
+             "that select the variable i (percent)"))
         # ligne verticale pour montrer la rupture
         abline(v = x$fit_bp$breakpoints + 1.5, col = 7, lwd = 3)
         title(paste("Choosing the optimal lambda (with", x$n_lambda, "lambdas)"))
     }
-
+    
+    dev.new()
     # Affichage du pourcentage de variable utiles en fonction des lambdas
     plot(x$lambdas, 1 - x$vect_nb_zeros / x$p, ylim = c(0, 1.3),
         xlim = c(0, max(x$lambdas)), xlab = expression(lambda), col = 3, type = "l",
