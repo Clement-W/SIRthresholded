@@ -7,7 +7,11 @@ print.SIR_threshold_bootstrap <- function(x, ...) {
     cat("\nCall:\n", deparse(x$call), "\n", sep = "")
 
     res <- matrix(x$b, ncol = 1)
-    rownames(res) <- 1:x$p
+    if (!is.null(colnames(x$b))) {
+        rownames(res) <- colnames(x$b)
+    } else {
+        rownames(res) <- paste("X", 1:x$p, sep = "")
+    }
     colnames(res) <- "Estimated direction"
 
     cat("\n")

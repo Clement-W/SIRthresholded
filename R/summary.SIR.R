@@ -16,8 +16,13 @@ summary.SIR <- function(x, ...) {
 
     cat("Results of EDR directions estimation:\n")
     res <- matrix(x$b, ncol = 1)
-    rownames(res) <- 1:x$p
     colnames(res) <- "Estimated direction"
+
+    if (!is.null(colnames(x$b))) {
+        rownames(res) <- colnames(x$b)
+    } else {
+        rownames(res) <- paste("X", 1:x$p, sep = "")
+    }
 
     cat("\n")
     prmatrix(signif(res, 3))
