@@ -35,69 +35,69 @@
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR.threshold.bootstrap(Y,X,H=10,N.lambda=300,thresholding="hard", Nb.replications=100,k=1,graphic=TRUE,output=TRUE)
+#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=100,k=1,graphic=TRUE,output=TRUE)
 #' 
 #' # Apply SIR with soft thresholding
-#' SIR.threshold.bootstrap(Y,X,H=10,N.lambda=300,thresholding="soft",Nb.replications=100,k=1,graphic=TRUE,output=TRUE)
+#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=100,k=1,graphic=TRUE,output=TRUE)
 #' @export
-SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard",
-    Nb.replications = 100, graphic = TRUE, output = TRUE, N.lambda = 100, k = 1) {
+SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
+    n_replications = 100, graphic = TRUE, output = TRUE, n_lambda = 100, k = 1) {
 
     cl <- match.call()
 
     # Sparse SIR avec N.lambda sur tout l'échantillon
-    res.SparseSIR <- SIR.threshold.opt(Y, X, H = H, thresholding = thresholding,
-        graph = FALSE, output = FALSE, N.lambda = N.lambda)
+    res_SIR_th <- SIR_threshold_opt(Y, X, H = H, thresholding = thresholding,
+        graph = FALSE, output = FALSE, n_lambda = n_lambda)
 
     p <- ncol(X)
     n <- nrow(X)
 
     if (is.null(colnames(X))) {
-        colnames(X) = paste("X", 1:p, sep = "")
+        colnames(X) <- paste("X", 1:p, sep = "")
     }
 
     # Stockage du nombre de variable sélectionnée pour chaque réplication
-    Nb.var.selec <- rep(NA, Nb.replications)
+    nb_var_selec <- rep(NA, n_replications)
     # vecteur des noms de variables de X
-    list.relevant.variables <- colnames(X)
+    list_relevant_variables <- colnames(X)
 
     # Tableau permettant de stocker les variables sélectionnées pour chaque réplication
     liste <- list()
 
     # Vecteur qui contient le nombre de fois ou la variable à l'indice j a été retenue
     # dans une réplication
-    effectif.var <- rep(0, p)
+    effectif_var <- rep(0, p)
 
     # Pour chaque réplication
-    for (replic in 1:Nb.replications) {
+    for (replic in 1:n_replications) {
         # bootstrap 
-        indice.boot <- sample(1:n, size = k * n, replace = TRUE)
+        indice_bootstrap <- sample(1:n, size = k * n, replace = TRUE)
         # On récupère les X et Y avec les indices pris par bootstrap
-        X.boot <- X[indice.boot,]
-        Y.boot <- Y[indice.boot]
+        X_boot <- X[indice_bootstrap,]
+        Y_boot <- Y[indice_bootstrap]
 
         # Sparse.SIR sur l'echantillon créé par boostrap
-        res.boot <- SIR.threshold.opt(Y.boot, X.boot, H = H, thresholding = thresholding,
-            graph = FALSE, output = FALSE, N.lambda = N.lambda)
+        res_boot <- SIR_threshold_opt(Y_boot, X_boot, H = H, thresholding = thresholding,
+            graph = FALSE, output = FALSE, n_lambda = n_lambda)
         # Stockage du nombre de variable sélectionnée (utiles) pour cette réplication
-        Nb.var.selec[replic] <- length(res.boot$list.relevant.variables)
+        nb_var_selec[replic] <- length(res_boot$list_relevant_variables)
 
         # stockage des variables sélectionnées
-        liste[[replic]] <- res.boot$list.relevant.variables
+        liste[[replic]] <- res_boot$list_relevant_variables
 
         if (output && replic %% 10 == 0) {
-            print(paste("Replication n°", replic, "/", Nb.replications))
+            print(paste("Replication n°", replic, "/", n_replications))
         }
     }
 
     # Pour chaque réplication
-    for (i in 1:Nb.replications) {
+    for (i in 1:n_replications) {
         # Pour chaque variable
         for (j in 1:p) {
             # Si la variable à l'indice j a été retenue pour la ième réplication
             if ((sum(liste[[i]] == colnames(X)[j])) == 1) {
                 # On incrémente le compteur d'occurrence de la variable j
-                effectif.var[j] <- effectif.var[j] + 1
+                effectif_var[j] <- effectif_var[j] + 1
             }
         }
     }
@@ -105,44 +105,44 @@ SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard",
 
     # Nombre de variable sélectionné optimale (le nombre de variable sélectionné 
     # qui est revenu le plus souvent parmi les réplications effectuées)
-    Nb.var.selec.opt <-
-        as.numeric(names(which(table(Nb.var.selec) == max(table(Nb.var.selec)))))
+    nb_var_selec_opt <-
+        as.numeric(names(which(table(nb_var_selec) == max(table(nb_var_selec)))))
 
     # Nombre de zero optimal
-    Nb.zeros.opt <- p - Nb.var.selec.opt
+    nb_zeros_opt <- p - nb_var_selec_opt
 
     # estimation du beta final en prenant le beta estimé sur tout l'échantillon par la
     # méthode SIR, au lambda à partir duquel le nombre de zero optimal apparaît
-    b <- res.SparseSIR$mat.b.th[min(which(res.SparseSIR$vect.nb.zeros == Nb.zeros.opt)),]
+    b <- res_SIR_th$mat_b[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt)),]
     # Conversion du beta en matrice à une ligne p colonnes
     b <- matrix(b, nrow = 1)
     # Renommage des colonnes
     colnames(b) <- colnames(X)
 
     # Si on a bien réduit le nombre de variables
-    if (Nb.zeros.opt > 0) {
+    if (nb_zeros_opt > 0) {
         # mise à jour des variables utiles 
-        list.relevant.variables <- colnames(X)[-which(b == 0)]
+        list_relevant_variables <- colnames(X)[-which(b == 0)]
         # Si le nombre de zéros dans le b.opt final est à 0
         if (length(which(b == 0)) == 0) {
             # la liste de variables utile contient toutes les variables
-            list.relevant.variables <- colnames(X)
+            list_relevant_variables <- colnames(X)
         }
     }
 
-    lambda.optim <-
-        res.SparseSIR$lambdas[min(which(res.SparseSIR$vect.nb.zeros == Nb.zeros.opt))]
+    lambda_optim <-
+        res_SIR_th$lambdas[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt))]
 
-    res <- list(b = b, lambda.opt = lambda.optim,
-        Nb.var.selec = Nb.var.selec, effectif.var = effectif.var, call = cl,
-        Nb.var.selec.opt = Nb.var.selec.opt, list.relevant.variables =
-        list.relevant.variables, n = n, p = p, H = H, Nb.replications =
-        Nb.replications, thresholding = thresholding)
+    res <- list(b = b, lambda_opt = lambda_optim,
+        nb_var_selec = nb_var_selec, effectif_var = effectif_var, call = cl,
+        nb_var_selec_opt = nb_var_selec_opt, list_relevant_variables =
+        list_relevant_variables, n = n, p = p, H = H, n_replications =
+        n_replications, thresholding = thresholding)
 
-    class(res) <- "SIR.threshold.bootstrap"
+    class(res) <- "SIR_threshold_bootstrap"
 
     if (graphic == TRUE) {
-        plot.SIR.threshold.bootstrap(res)
+        plot.SIR_threshold_bootstrap(res)
     }
 
     return(res)
