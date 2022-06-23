@@ -46,8 +46,8 @@ eps <- rnorm(n)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply SIR with hard thresholding
-SIR.threshold(Y,X,H=10,lambda=0.2,thresholding="hard")
+SIR_threshold(Y,X,H=10,lambda=0.2,thresholding="hard")
 
 # Apply SIR with soft thresholding
-SIR.threshold(Y,X,H=10,lambda=0.2,thresholding="soft")
+SIR_threshold(Y,X,H=10,lambda=0.2,thresholding="soft")
 }
