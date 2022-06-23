@@ -32,10 +32,10 @@ Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped sample of
 set.seed(10)
 n <- 500
 beta <- c(1,1,rep(0,8))
-X <- rmvnorm(n,sigma=diag(1,10))
+X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
 eps <- rnorm(n)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply bootstrap SIR
-SIR.bootstrap(Y,X,H=10,B=10)
+SIR_bootstrap(Y,X,H=10,B=10)
 }

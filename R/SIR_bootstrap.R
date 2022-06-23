@@ -18,14 +18,17 @@
 #' set.seed(10)
 #' n <- 500
 #' beta <- c(1,1,rep(0,8))
-#' X <- rmvnorm(n,sigma=diag(1,10))
+#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
 #' eps <- rnorm(n)
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply bootstrap SIR
-#' SIR.bootstrap(Y,X,H=10,B=10)
+#' SIR_bootstrap(Y,X,H=10,B=10)
 #' @export
 SIR_bootstrap <- function(Y, X, H = 10, B = 10) {
+
+    cl <- match.call()
+
     p <- ncol(X)
     n <- nrow(X)
 
@@ -54,8 +57,8 @@ SIR_bootstrap <- function(Y, X, H = 10, B = 10) {
         colnames(b) <- paste("X", 1:p, sep = "")
     }
 
-    res <- list(b = b, mat_b = mat_b, n = n, p = p)
-    class(res) <- "SIR.bootstrap"
+    res <- list(b = b, mat_b = mat_b, n = n, p = p, H = H, call = cl)
+    class(res) <- "SIR_bootstrap"
 
     return(res)
 }
