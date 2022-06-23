@@ -41,7 +41,7 @@
 #' SIR.threshold.bootstrap(Y,X,H=10,N.lambda=300,thresholding="soft",Nb.replications=100,k=1,graphic=TRUE,output=TRUE)
 #' @export
 SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard",
-    Nb.replications = 200, graphic = TRUE, output = TRUE, N.lambda = 50, k = 1) {
+    Nb.replications = 100, graphic = TRUE, output = TRUE, N.lambda = 100, k = 1) {
 
     cl <- match.call()
 
@@ -103,8 +103,8 @@ SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     }
 
 
-    # Nombre de variable sélectionnée optimale (la variable qui a été la plus
-    # sélectionnée au total sur toutes les réplications effectuées)
+    # Nombre de variable sélectionné optimale (le nombre de variable sélectionné 
+    # qui est revenu le plus souvent parmi les réplications effectuées)
     Nb.var.selec.opt <-
         as.numeric(names(which(table(Nb.var.selec) == max(table(Nb.var.selec)))))
 
@@ -113,19 +113,18 @@ SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard",
 
     # estimation du beta final en prenant le beta estimé sur tout l'échantillon par la
     # méthode SIR, au lambda à partir duquel le nombre de zero optimal apparaît
-    b.opt.final <-
-        res.SparseSIR$mat.b.th[min(which(res.SparseSIR$vect.nb.zeros == Nb.zeros.opt)),]
+    b <- res.SparseSIR$mat.b.th[min(which(res.SparseSIR$vect.nb.zeros == Nb.zeros.opt)),]
     # Conversion du beta en matrice à une ligne p colonnes
-    b.opt.final <- matrix(b.opt.final, nrow = 1)
+    b <- matrix(b, nrow = 1)
     # Renommage des colonnes
-    colnames(b.opt.final) <- colnames(X)
+    colnames(b) <- colnames(X)
 
     # Si on a bien réduit le nombre de variables
     if (Nb.zeros.opt > 0) {
         # mise à jour des variables utiles 
-        list.relevant.variables <- colnames(X)[-which(b.opt.final == 0)]
+        list.relevant.variables <- colnames(X)[-which(b == 0)]
         # Si le nombre de zéros dans le b.opt final est à 0
-        if (length(which(b.opt.final == 0)) == 0) {
+        if (length(which(b == 0)) == 0) {
             # la liste de variables utile contient toutes les variables
             list.relevant.variables <- colnames(X)
         }
@@ -134,7 +133,7 @@ SIR.threshold.bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     lambda.optim <-
         res.SparseSIR$lambdas[min(which(res.SparseSIR$vect.nb.zeros == Nb.zeros.opt))]
 
-    res <- list(b.opt = b.opt.final, lambda.opt = lambda.optim,
+    res <- list(b = b, lambda.opt = lambda.optim,
         Nb.var.selec = Nb.var.selec, effectif.var = effectif.var, call = cl,
         Nb.var.selec.opt = Nb.var.selec.opt, list.relevant.variables =
         list.relevant.variables, n = n, p = p, H = H, Nb.replications =

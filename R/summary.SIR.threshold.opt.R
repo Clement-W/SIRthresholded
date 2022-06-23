@@ -24,7 +24,7 @@ summary.SIR.threshold.opt = function(x, ...) {
     cat("\n")
 
     cat("Results of EDR directions estimation:\n")
-    res <- matrix(x$b.opt, ncol = 1)
+    res <- matrix(x$b, ncol = 1)
     rownames(res) <- 1:x$p
     colnames(res) <- "Estimated direction"
 

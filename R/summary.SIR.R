@@ -15,7 +15,7 @@ summary.SIR <- function(x, ...) {
     cat("\n")
 
     cat("Results of EDR directions estimation:\n")
-    res <- matrix(x$beta, ncol = 1)
+    res <- matrix(x$b, ncol = 1)
     rownames(res) <- 1:x$p
     colnames(res) <- "Estimated direction"
 

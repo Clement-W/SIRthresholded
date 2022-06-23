@@ -9,7 +9,6 @@
 #' b1 = c(-0.22,-0.31,-0.27)
 #' b2 = c(1,1,1)
 #' cosine_squared(b1,b2)
-#' @export
 cosine_squared <- function(b1, b2) {
     (matrix(b1, nrow = 1) %*% matrix(b2, ncol = 1)) ^ 2 / ((matrix(b1, nrow = 1)
     %*% matrix(b1, ncol = 1)) * (matrix(b2, nrow = 1) %*% matrix(b2, ncol = 1)))

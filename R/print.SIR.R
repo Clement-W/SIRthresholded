@@ -5,7 +5,7 @@ print.SIR <- function(x, ...) {
 
     cat("\nCall:\n", deparse(x$call), "\n", sep = "")
 
-    res <- matrix(x$beta, ncol = 1)
+    res <- matrix(x$b, ncol = 1)
     rownames(res) <- 1:x$p
     colnames(res) <- "Estimated direction"
 

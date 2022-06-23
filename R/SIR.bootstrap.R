@@ -38,23 +38,23 @@ SIR.bootstrap <- function(Y, X, H = 10, B = 10) {
         # des éléments de X et on créé une liste qui contient ces indices (Bootstrap)
         indice <- sample(1:n, replace = TRUE)
         # on stock chaque estimation b dans les colonnes de la matrice d'estimation
-        mat.b.est[, r] <- SIR(Y[indice], X[indice,], H = H)$beta
+        mat.b.est[, r] <- SIR(Y[indice], X[indice,], H = H)$b
     }
 
     # on récupère le vecteur propre associé à la plus grande valeur propre
     # de la matrice d'estimations de beta_hat
-    b.boot <- eigen(mat.b.est %*% t(mat.b.est), symmetric = TRUE)$vectors[, 1]
+    b <- eigen(mat.b.est %*% t(mat.b.est), symmetric = TRUE)$vectors[, 1]
 
     # conversion en matrice à une ligne
-    b.boot <- matrix(b.boot, nrow = 1)
+    b <- matrix(b, nrow = 1)
 
     if (!is.null(colnames(X))) {
-        colnames(b.boot) <- colnames(X)
+        colnames(b) <- colnames(X)
     } else {
-        colnames(b.boot) <- paste("X", 1:p, sep = "")
+        colnames(b) <- paste("X", 1:p, sep = "")
     }
 
-    res <- list(beta = b.boot, mat.b.est = mat.b.est, n = n, p = p)
+    res <- list(b = b, mat.b.est = mat.b.est, n = n, p = p)
     class(res) <- "SIR.bootstrap"
 
     return(res)

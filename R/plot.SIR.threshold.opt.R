@@ -9,13 +9,16 @@ plot.SIR.threshold.opt.R <- function(x, ...) {
     if (length(which(x$vect.nb.zeros == x$fit_bp$breakpoints)) > 0) {
         par(mfrow = c(1, 2))
         # affichage des indices triés
-        plot(sort(x$indice.0, decreasing = FALSE), xlab = "variable i",
-                ylab = expression("Indices of" ~ lambda ~
-                "from which the variable is not selected"))
-
-        # ligne verticale pour montrer la rupture
-        abline(v = x$fit_bp$breakpoints + 0.5, col = 6, lwd = 3)
-        title(paste("Choosing the optimal lambda (with", x$N.lambda, "lambdas)"))
+        # plot(sort(x$indice.0, decreasing = FALSE), xlab = "variable i",
+        #         ylab = expression("Indices of" ~ lambda ~
+        #         "from which the variable is not selected"))
+        # 
+        # # ligne verticale pour montrer la rupture
+        # abline(v = x$fit_bp$breakpoints + 0.5, col = 6, lwd = 3)
+        # title(paste("Choosing the optimal lambda (with", x$N.lambda, "lambdas)"))
+        
+        matplot(x$lambdas,x$mat.b.th,type="l",lty=1,main="Regularization path",xlab=expression(lambda))
+        
 
     } else {
         par(mfrow = c(1, 2))

@@ -13,7 +13,7 @@ plot.SIR.threshold.bootstrap <- function(x, ...) {
 
     # Histogramme du nombre de fois ou chaque variable a été sélectionnée
     barplot((x$effectif.var / x$Nb.replications) * 100, names.arg =
-            colnames(x$b.opt), ylab = "percent", xlab = "variable name")
+            colnames(x$b), ylab = "percent", xlab = "variable name")
     title("Variables selected in the reduced models")
 
 }

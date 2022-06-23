@@ -53,7 +53,7 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
     # Estimation de la direction des beta et de la matrice d'intérêt 
     # M1 = Sigma^-1 * Cov(Moyenne par tranche) avec la méthode SIR classique :
     resSIR <- SIR(Y, X, H = 10)
-    b.clas <- resSIR$beta
+    b_sir <- resSIR$b
     M1 <- resSIR$M1
 
     # Création d'une liste de lambdas allant de 0 à la valeur absolue maximum 
@@ -84,7 +84,7 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
             thresholding = thresholding)
 
         # Stockage de l'estimation du vecteur beta dans la ligne i de la matrice
-        mat.b.th[i,] <- resSparseSIR$beta
+        mat.b.th[i,] <- resSparseSIR$b
 
         # Stockage du nombre de 0 dans l'estimation du vecteur beta après seuillage pour
         # cette valeur de lambda
@@ -128,7 +128,7 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
     lambda.opt <- lambdas[indice.opt]
 
     if (is.na(lambda.opt) == TRUE) {
-        b.opt <- SIR(Y, X, H = 10)$beta
+        b <- SIR(Y, X, H = 10)$b
 
         list.relevant.var <- colnames(X)
 
@@ -141,25 +141,25 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
 
             # Le beta optimal est la ligne de la matrice d'estimations de beta qui 
             # correspond à lambda.opt
-            b.opt <- mat.b.th[which(lambdas == lambda.opt),]
+            b <- mat.b.th[which(lambdas == lambda.opt),]
             # Conversion du beta en matrice à une ligne p colonnes
-            b.opt <- matrix(b.opt, nrow = 1)
+            b <- matrix(b, nrow = 1)
             # Renommage des colonnes
-            colnames(b.opt) <- colnames(X)
+            colnames(b) <- colnames(X)
             # Récupération des variables utiles qui sont les colonnes du b.opt
             # où la valeur est différente de zero
-            list.relevant.var <- colnames(b.opt)[-which(b.opt == 0)]
+            list.relevant.var <- colnames(b)[-which(b == 0)]
 
 
         }
         # Cas où la méthode Sparse SIR avec seuillage n'a pas permis de réaliser de la
         # sélection de variable
         else {
-            b.opt <- SIR(Y, X, H = 10)
+            b <- SIR(Y, X, H = 10)
         }
     }
 
-    res <- list(b.opt = b.opt, lambdas = lambdas, lambda.opt = lambda.opt,
+    res <- list(b = b, lambdas = lambdas, lambda.opt = lambda.opt,
         mat.b.th = mat.b.th, N.lambda = N.lambda, vect.nb.zeros = vect.nb.zeros,
         fit_bp = fit_bp, indice.0 = indice.0, vect.cosca = vect.cosca,
         list.relevant.variables = list.relevant.var, n = n, p = p, H = H, M1 = M1,

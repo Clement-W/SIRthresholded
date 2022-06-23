@@ -49,7 +49,7 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
     # Estimation de la direction des beta et de la matrice d'intérêt 
     # Sigma^-1 * Cov(Moyenne par tranche) avec la méthode SIR classique :
     res.clas <- SIR(Y, X, H = H)
-    b.clas <- res.clas$beta
+    b_sir <- res.clas$b
     M1 <- res.clas$M1
 
     # Seuillage de la matrice d'intérêt avec la méthode indiquée en paramètre
@@ -66,29 +66,29 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
 
     # Récupération du vecteur propre associé à la plus grande valeur propre
     # de la matrice d'intérêt seuillée
-    b.estim <- eig.vectors[, 1]
+    b <- eig.vectors[, 1]
 
     # nombre de zéros présents dans l'estimation du b
-    nb.zeros <- length(which(b.estim == 0))
+    nb.zeros <- length(which(b == 0))
 
     # Calcul de la qualité de la corrélation entre les b estimés par la méthode classqiue
     # et par le sir thresholding
-    cos.squared <- cosine_squared(b.clas, b.estim)
+    cos.squared <- cosine_squared(b_sir, b)
 
     # Conversion en matrice en une ligne
-    b.estim <- matrix(b.estim, nrow = 1)
+    b <- matrix(b, nrow = 1)
 
-    colnames(b.estim) <- colnames(X)
+    colnames(b) <- colnames(X)
 
     # Liste des variables utiles qui sont les colonnes de l'estimation de b
     # qui sont différentes de 0
     if (nb.zeros == 0) {
         list.relevant.variables <- colnames(X)
     } else {
-        list.relevant.variables <- colnames(b.estim)[-which(b.estim == 0)]
+        list.relevant.variables <- colnames(b)[-which(b == 0)]
     }
 
-    res <- list(beta = b.estim, M1_th = M1_th, eig.val = eig.values,
+    res <- list(b = b, M1_th = M1_th, eig.val = eig.values,
         eig.vect = eig.vectors, n = n, p = p, H = H, nb.zeros = nb.zeros,
         list.relevant.variables = list.relevant.variables, cos.squared = cos.squared,
         lambda = lambda, thresholding = thresholding, call = cl)

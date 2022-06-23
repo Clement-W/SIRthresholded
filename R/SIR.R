@@ -98,21 +98,21 @@ SIR <- function(Y, X, H = 10) {
     rSIR <- eigen(M1)
     eig.values <- Re(rSIR$values)
     eig.vectors <- Re(rSIR$vectors)
-    b.est <- eig.vectors[, 1]
+    b <- eig.vectors[, 1]
 
     # conversion en matrice à une ligne et p colonnes
-    b.est <- matrix(b.est, nrow = 1)
+    b <- matrix(b, nrow = 1)
 
     # Ajout des noms de colonnes
     if (!is.null(colnames(X))) {
-        colnames(b.est) <- colnames(X)
+        colnames(b) <- colnames(X)
     } else {
-        colnames(b.est) = paste("X", 1:p, sep = "")
+        colnames(b) <- paste("X", 1:p, sep = "")
     }
     # On a donc b.est l'estimation de la direction de Beta
 
 
-    res <- list(beta = b.est, M1 = M1, eig.val = eig.values, eig.vect = eig.vectors,
+    res <- list(b = b, M1 = M1, eig.val = eig.values,
         n = n, p = p, H = H, call = cl)
     class(res) <- "SIR"
 
