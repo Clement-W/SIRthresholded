@@ -12,8 +12,8 @@ summary.SIR_threshold_bootstrap <- function(x, ...) {
     cat(paste("Number of observations:", x$n), "\n")
     cat(paste("Number of variables in X:", x$p), "\n")
     cat(paste("Number of slices:", x$H), "\n")
-    cat(paste("Number of bootstraped replications:", x$nb_replications, "\n"))
-    cat(paste("Optimal thresholding parameter lambda :", x$lambda_opt), "\n")
+    cat(paste("Number of bootstraped replications:", x$n_replications, "\n"))
+    cat(paste("Optimal thresholding parameter lambda :", signif(x$lambda_opt, 3)), "\n")
     cat(paste("Thresholding method:", x$thresholding))
     cat("\n\n")
 

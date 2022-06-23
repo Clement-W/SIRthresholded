@@ -12,7 +12,7 @@ summary.SIR_threshold = function(x, ...) {
     cat(paste("Number of observations:", x$n), "\n")
     cat(paste("Number of variables in X:", x$p), "\n")
     cat(paste("Number of slices:", x$H), "\n")
-    cat(paste("Thresholding parameter lambda:", x$lambda), "\n")
+    cat(paste("Thresholding parameter lambda:", signif(x$lambda, 3)), "\n")
     cat(paste("Thresholding method:", x$thresholding))
     cat("\n")
 
