@@ -9,10 +9,10 @@ SIR.threshold.bootstrap(
   X,
   H = 10,
   thresholding = "hard",
-  Nb.replications = 200,
+  Nb.replications = 100,
   graphic = TRUE,
   output = TRUE,
-  N.lambda = 50,
+  N.lambda = 100,
   k = 1
 )
 }

@@ -118,4 +118,3 @@ SIR <- function(Y, X, H = 10) {
 
     return(res)
 }
-

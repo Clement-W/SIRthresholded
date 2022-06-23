@@ -1,8 +1,8 @@
 #' @export
 #' @keywords internal
-print.SIR.threshold <- function(x, ...) {
-    if (!inherits(x, "SIR.threshold"))
-        stop("Only use with \"SIR.threshold\" obects")
+print.SIR_threshold <- function(x, ...) {
+    if (!inherits(x, "SIR_threshold"))
+        stop("Only use with \"SIR_threshold\" obects")
 
     cat("\nCall:\n", deparse(x$call), "\n", sep = "")
 

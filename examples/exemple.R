@@ -12,7 +12,7 @@ don <- generationDonneesAvecRatio(n = 200, p = p, p1 = p1, graphic = TRUE, RATIO
 
 res.SIR <- SIR.classique(don$Y, don$X, H = 10)
 
-b.SIR.bootstrap = SIR.bootstrap(don$Y, don$X, H = 10, B = 10)
+b.SIR.bootstrap = SIR_bootstrap(don$Y, don$X, H = 10, B = 10)
 res <- Sparse.SIR(don$Y, don$X, N.lambda = 200, graphic = TRUE, thresholding = "hard", beta.th = don$beta)
 
 

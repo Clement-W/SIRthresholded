@@ -30,12 +30,12 @@
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR.threshold(Y,X,H=10,lambda=0.2,thresholding="hard")
+#' SIR_threshold(Y,X,H=10,lambda=0.2,thresholding="hard")
 #' 
 #' # Apply SIR with soft thresholding
-#' SIR.threshold(Y,X,H=10,lambda=0.2,thresholding="soft")
+#' SIR_threshold(Y,X,H=10,lambda=0.2,thresholding="soft")
 #' @export
-SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
+SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
 
     cl <- match.call()
 
@@ -48,9 +48,9 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
 
     # Estimation de la direction des beta et de la matrice d'intérêt 
     # Sigma^-1 * Cov(Moyenne par tranche) avec la méthode SIR classique :
-    res.clas <- SIR(Y, X, H = H)
-    b_sir <- res.clas$b
-    M1 <- res.clas$M1
+    res_SIR <- SIR(Y, X, H = H)
+    b_sir <- res_SIR$b
+    M1 <- res_SIR$M1
 
     # Seuillage de la matrice d'intérêt avec la méthode indiquée en paramètre
     if (thresholding == "soft") {
@@ -60,20 +60,20 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
         M1_th <- do_hard_thresholding(M1, lambda = lambda)
     }
 
-    res.eig <- eigen(M1_th)
-    eig.values <- Re(res.eig$values)
-    eig.vectors <- Re(res.eig$vectors)
+    res_eig <- eigen(M1_th)
+    eig_values <- Re(res_eig$values)
+    eig_vectors <- Re(res_eig$vectors)
 
     # Récupération du vecteur propre associé à la plus grande valeur propre
     # de la matrice d'intérêt seuillée
-    b <- eig.vectors[, 1]
+    b <- eig_vectors[, 1]
 
     # nombre de zéros présents dans l'estimation du b
-    nb.zeros <- length(which(b == 0))
+    nb_zeros <- length(which(b == 0))
 
     # Calcul de la qualité de la corrélation entre les b estimés par la méthode classqiue
     # et par le sir thresholding
-    cos.squared <- cosine_squared(b_sir, b)
+    cos_squared <- cosine_squared(b_sir, b)
 
     # Conversion en matrice en une ligne
     b <- matrix(b, nrow = 1)
@@ -82,17 +82,17 @@ SIR.threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
 
     # Liste des variables utiles qui sont les colonnes de l'estimation de b
     # qui sont différentes de 0
-    if (nb.zeros == 0) {
-        list.relevant.variables <- colnames(X)
+    if (nb_zeros == 0) {
+        list_relevant_variables <- colnames(X)
     } else {
-        list.relevant.variables <- colnames(b)[-which(b == 0)]
+        list_relevant_variables <- colnames(b)[-which(b == 0)]
     }
 
-    res <- list(b = b, M1_th = M1_th, eig.val = eig.values,
-        eig.vect = eig.vectors, n = n, p = p, H = H, nb.zeros = nb.zeros,
-        list.relevant.variables = list.relevant.variables, cos.squared = cos.squared,
+    res <- list(b = b, M1_th = M1_th, eig_val = eig_values,
+        eig_vect = eig_vectors, n = n, p = p, H = H, nb_zeros = nb_zeros,
+        list_relevant_variables = list_relevant_variables, cos_squared = cos_squared,
         lambda = lambda, thresholding = thresholding, call = cl)
-    class(res) <- "SIR.threshold"
+    class(res) <- "SIR_threshold"
 
     return(res)
 

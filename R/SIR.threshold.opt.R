@@ -80,7 +80,7 @@ SIR.threshold.opt <- function(Y, X, H = 10, N.lambda = 100, thresholding = "hard
     for (i in 1:N.lambda) {
 
         # Récupération du résultat après application de la méthode SIR avec le lambda_i
-        resSparseSIR <- SIR.threshold(Y, X, H = H, lambda = lambdas[i],
+        resSparseSIR <- SIR_threshold(Y, X, H = H, lambda = lambdas[i],
             thresholding = thresholding)
 
         # Stockage de l'estimation du vecteur beta dans la ligne i de la matrice
