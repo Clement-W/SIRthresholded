@@ -4,7 +4,7 @@
 \alias{SIR_threshold}
 \title{SIR thresholded}
 \usage{
-SIR_threshold(Y, X, H = 10, lambda = 0, thresholding = "hard")
+SIR_threshold(Y, X, H = 10, lambda = 0, thresholding = "hard", graphic = TRUE)
 }
 \arguments{
 \item{Y}{A numeric vector representing the dependent variable (a response vector).}

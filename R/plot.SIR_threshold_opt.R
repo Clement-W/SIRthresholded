@@ -6,6 +6,10 @@ plot.SIR_threshold_opt.R <- function(x, ...) {
         stop("Only use with \"SIR_threshold_opt\" obects")
 
 
+    dev.new()
+    plot(x$index_pred, x$Y, xlab = "Estimated index", ylab = "y", pch = 4)
+
+
     if (length(which(x$vect_nb_zeros == x$fit_bp$breakpoints)) > 0) {
         dev.new()
         # affichage des indices triés
