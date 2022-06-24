@@ -24,7 +24,7 @@
 #' # Apply SIR
 #' SIR(Y,X,H=10)
 #' @export
-SIR <- function(Y, X, H = 10) {
+SIR <- function(Y, X, H = 10, graphic = TRUE) {
 
     cl <- match.call()
 
@@ -111,10 +111,16 @@ SIR <- function(Y, X, H = 10) {
     }
     # On a donc b.est l'estimation de la direction de Beta
 
+    index_pred <- X %*% t(b)
 
     res <- list(b = b, M1 = M1, eig_val = eig_values,
-        n = n, p = p, H = H, call = cl)
+        n = n, p = p, H = H, call = cl, index_pred = index_pred,
+        Y = Y)
     class(res) <- "SIR"
+
+    if (graphic) {
+        plot.SIR(res)
+    }
 
     return(res)
 }

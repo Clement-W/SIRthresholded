@@ -4,7 +4,7 @@
 \alias{SIR}
 \title{Vanilla SIR}
 \usage{
-SIR(Y, X, H = 10)
+SIR(Y, X, H = 10, graphic = TRUE)
 }
 \arguments{
 \item{Y}{A numeric vector representing the dependent variable (a response vector).}

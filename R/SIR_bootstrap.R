@@ -41,7 +41,7 @@ SIR_bootstrap <- function(Y, X, H = 10, B = 10) {
         # des éléments de X et on créé une liste qui contient ces indices (Bootstrap)
         indice <- sample(1:n, replace = TRUE)
         # on stock chaque estimation b dans les colonnes de la matrice d'estimation
-        mat_b[, r] <- SIR(Y[indice], X[indice,], H = H)$b
+        mat_b[, r] <- SIR(Y[indice], X[indice,], H = H, graphic = FALSE)$b
     }
 
     # on récupère le vecteur propre associé à la plus grande valeur propre

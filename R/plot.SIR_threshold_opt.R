@@ -9,26 +9,26 @@ plot.SIR_threshold_opt.R <- function(x, ...) {
     if (length(which(x$vect_nb_zeros == x$fit_bp$breakpoints)) > 0) {
         dev.new()
         # affichage des indices triés
-        plot(sort(((x$indices_useless_var)/x$n_lambda)*100, decreasing = FALSE), xlab = "variable i",
+        plot(sort(((x$indices_useless_var) / x$n_lambda) * 100, decreasing = FALSE), xlab = "variable i",
                 ylab = expression("Proportion of" ~ lambda ~
-                "that select the variable i (percent)"))
+                "that select the variable i (percent)"), pch = 16)
 
         # ligne verticale pour montrer la rupture
         abline(v = x$fit_bp$breakpoints + 0.5, col = 6, lwd = 3)
         title(paste("Choosing the optimal lambda (with", x$n_lambda, "lambdas)"))
 
-        
+
     } else {
         dev.new()
         # affichage des indices triés
-        plot(sort(((x$indices_useless_var)/x$n_lambda)*100, decreasing = FALSE), xlab = "variable i",
+        plot(sort(((x$indices_useless_var) / x$n_lambda) * 100, decreasing = FALSE), xlab = "variable i",
              ylab = expression("Proportion of" ~ lambda ~
              "that select the variable i (percent)"))
         # ligne verticale pour montrer la rupture
         abline(v = x$fit_bp$breakpoints + 1.5, col = 7, lwd = 3)
         title(paste("Choosing the optimal lambda (with", x$n_lambda, "lambdas)"))
     }
-    
+
     dev.new()
     # Affichage du pourcentage de variable utiles en fonction des lambdas
     plot(x$lambdas, 1 - x$vect_nb_zeros / x$p, ylim = c(0, 1.3),
@@ -47,29 +47,28 @@ plot.SIR_threshold_opt.R <- function(x, ...) {
         expression("optimal" ~ lambda), expression(cos ^ 2 ~ (hat(b)[thresholding] ~
         "," ~ hat(b)[SIR]))), col = c(3, 6, "black"), lty = c(1, 1, 1),
         lwd = c(3, 3, 3), cex = 1)
-    
-    
+
+
     dev.new()
     par(mar = c(5.1, 4.1, 6, 2.1))
     mat_b <- x$mat_b
     j0 <- which.max(abs(mat_b[1,]))
-    for(i in 1:nrow(mat_b))
-    {
-        mat_b[i,] = mat_b[i,]*sign(mat_b[i,j0])
+    for (i in 1:nrow(mat_b)) {
+        mat_b[i,] = mat_b[i,] * sign(mat_b[i, j0])
     }
-    
+
     interval = x$lambdas
-    vect_nb_zeros_padded = c(0,x$vect_nb_zeros)
-    id_ruptures = which(vect_nb_zeros_padded[-1] - vect_nb_zeros_padded[-length(vect_nb_zeros_padded)]!=0)
+    vect_nb_zeros_padded = c(0, x$vect_nb_zeros)
+    id_ruptures = which(vect_nb_zeros_padded[-1] - vect_nb_zeros_padded[-length(vect_nb_zeros_padded)] != 0)
     interval = interval[id_ruptures]
     lab = x$p - x$vect_nb_zeros[id_ruptures]
-    
-    matplot(x$lambdas, mat_b, type = "l", lty = 1,xlab = expression(lambda),xlim=c(-0.02,max(x$lambdas)),ylim=c(0,1.1))
-    title("Regularization path",line = 4)
-    text(rep(0,ncol(mat_b)),mat_b[1,],colnames(x$b),pos=2)
-    axis(side = 3,labels = lab,at=interval)
-    mtext("Number of variables selected", side=3,line=2.3)
-    
+
+    matplot(x$lambdas, mat_b, type = "l", lty = 1, xlab = expression(lambda), xlim = c(-0.02, max(x$lambdas)), ylim = c(0, 1.1))
+    title("Regularization path", line = 4)
+    text(rep(0, ncol(mat_b)), mat_b[1,], colnames(x$b), pos = 2)
+    axis(side = 3, labels = lab, at = interval)
+    mtext("Number of variables selected", side = 3, line = 2.3)
+
     abline(v = x$lambda_opt, col = 6, lwd = 3)
-    legend("topright", legend = expression("optimal" ~ lambda),col = 6, lty = 1, lwd = 3, cex = 1)
+    legend("topright", legend = expression("optimal" ~ lambda), col = 6, lty = 1, lwd = 3, cex = 1)
 }

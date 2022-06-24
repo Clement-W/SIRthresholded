@@ -52,7 +52,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
 
     # Estimation de la direction des beta et de la matrice d'intérêt 
     # M1 = Sigma^-1 * Cov(Moyenne par tranche) avec la méthode SIR classique :
-    res_SIR <- SIR(Y, X, H = 10)
+    res_SIR <- SIR(Y, X, H = 10, graphic = FALSE)
     b_sir <- res_SIR$b
     M1 <- res_SIR$M1
 
@@ -129,7 +129,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
     lambda_opt <- lambdas[indice_opt]
 
     if (is.na(lambda_opt) == TRUE) {
-        b <- SIR(Y, X, H = 10)$b
+        b <- SIR(Y, X, H = 10, graphic = FALSE)$b
         list_relevant_var <- colnames(X)
     }
     else {
@@ -153,7 +153,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
         # Cas où la méthode Sparse SIR avec seuillage n'a pas permis de réaliser de la
         # sélection de variable
         else {
-            b <- SIR(Y, X, H = 10)$b
+            b <- SIR(Y, X, H = 10, graphic = FALSE)$b
             list_relevant_var <- colnames(X)
         }
     }

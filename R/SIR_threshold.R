@@ -48,7 +48,7 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
 
     # Estimation de la direction des beta et de la matrice d'intérêt 
     # Sigma^-1 * Cov(Moyenne par tranche) avec la méthode SIR classique :
-    res_SIR <- SIR(Y, X, H = H)
+    res_SIR <- SIR(Y, X, H = H, graphic = FALSE)
     b_sir <- res_SIR$b
     M1 <- res_SIR$M1
 
@@ -90,8 +90,8 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard") {
 
     X_reduced <- X[, list_relevant_variables, drop = FALSE]
 
-    res <- list(b = b, M1_th = M1_th, eig_val = eig_values,
-        eig_vect = eig_vectors, n = n, p = p, H = H, nb_zeros = nb_zeros,
+    res <- list(b = b, M1 = M1_th, eig_val = eig_values,
+        n = n, p = p, H = H, nb_zeros = nb_zeros,
         list_relevant_variables = list_relevant_variables, cos_squared = cos_squared,
         lambda = lambda, thresholding = thresholding, call = cl, X_reduced = X_reduced)
     class(res) <- "SIR_threshold"
