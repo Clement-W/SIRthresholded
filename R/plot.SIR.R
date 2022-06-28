@@ -18,8 +18,8 @@ plot.SIR <- function(x, ...) {
     points(eig_vals, pch = 16)
 
     dev.new()
-
     plot(x$index_pred, x$Y, xlab = "Estimated index", ylab = "y", pch = 4)
+    title("Reconstructed index")
 
 
 

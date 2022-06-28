@@ -20,6 +20,7 @@ plot.SIR_threshold <- function(x, ...) {
     dev.new()
 
     plot(x$index_pred, x$Y, xlab = "Estimated index", ylab = "y", pch = 4)
+    title("Reconstructed index")
 
 
 

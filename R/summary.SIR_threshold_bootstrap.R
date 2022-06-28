@@ -22,6 +22,8 @@ summary.SIR_threshold_bootstrap <- function(x, ...) {
     cat(paste("List of relevant variables:", paste(x$list_relevant_jvariables,
         collapse = ",")), "\n")
     cat("\n")
+    
+    
 
     cat("Results of EDR directions estimation:\n")
     res <- matrix(x$b, ncol = 1)

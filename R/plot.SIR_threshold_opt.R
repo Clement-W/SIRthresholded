@@ -8,6 +8,7 @@ plot.SIR_threshold_opt.R <- function(x, ...) {
 
     dev.new()
     plot(x$index_pred, x$Y, xlab = "Estimated index", ylab = "y", pch = 4)
+    title("Reconstructed index")
 
 
     if (length(which(x$vect_nb_zeros == x$fit_bp$breakpoints)) > 0) {

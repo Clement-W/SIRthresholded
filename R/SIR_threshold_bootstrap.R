@@ -41,7 +41,7 @@
 #' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=100,k=1,graphic=TRUE,output=TRUE)
 #' @export
 SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
-    n_replications = 100, graphic = TRUE, output = TRUE, n_lambda = 100, k = 1) {
+    n_replications = 50, graphic = TRUE, output = TRUE, n_lambda = 300, k = 2) {
 
     cl <- match.call()
 
@@ -68,6 +68,9 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     # dans une réplication
     effectif_var <- rep(0, p)
 
+    mat_b <- matrix(0, ncol = p, nrow = n_replications)
+
+
     # Pour chaque réplication
     for (replic in 1:n_replications) {
         # bootstrap 
@@ -85,7 +88,9 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         # stockage des variables sélectionnées
         liste[[replic]] <- res_boot$list_relevant_variables
 
-        if (output && replic %% 10 == 0) {
+        mat_b[replic,] <- res_boot$b
+
+        if (output && replic %% 5 == 0) {
             print(paste("Replication n°", replic, "/", n_replications))
         }
     }
@@ -106,7 +111,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     # Nombre de variable sélectionné optimale (le nombre de variable sélectionné 
     # qui est revenu le plus souvent parmi les réplications effectuées)
     nb_var_selec_opt <-
-        as.numeric(names(which(table(nb_var_selec) == max(table(nb_var_selec)))))
+        as.numeric(names(which(table(nb_var_selec) == max(table(nb_var_selec)))))[1]
 
     # Nombre de zero optimal
     nb_zeros_opt <- p - nb_var_selec_opt
@@ -139,7 +144,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         nb_var_selec = nb_var_selec, effectif_var = effectif_var, call = cl,
         nb_var_selec_opt = nb_var_selec_opt, list_relevant_variables =
         list_relevant_variables, n = n, p = p, H = H, n_replications =
-        n_replications, thresholding = thresholding, X_reduced = X_reduced)
+        n_replications, thresholding = thresholding, X_reduced = X_reduced, mat_b = mat_b)
 
     class(res) <- "SIR_threshold_bootstrap"
 
