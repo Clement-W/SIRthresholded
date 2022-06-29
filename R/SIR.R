@@ -24,7 +24,7 @@
 #' # Apply SIR
 #' SIR(Y,X,H=10)
 #' @export
-SIR <- function(Y, X, H = 10, graphic = TRUE) {
+SIR <- function(Y, X, H = 10, graphic = TRUE,choice="") {
 
     cl <- match.call()
 
@@ -119,7 +119,7 @@ SIR <- function(Y, X, H = 10, graphic = TRUE) {
     class(res) <- "SIR"
 
     if (graphic) {
-        plot.SIR(res)
+        plot.SIR(res,choice=choice)
     }
 
     return(res)
