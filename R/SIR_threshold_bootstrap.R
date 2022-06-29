@@ -69,6 +69,8 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     effectif_var <- rep(0, p)
 
     mat_b <- matrix(0, ncol = p, nrow = n_replications)
+    
+    lambdas_opt_boot <- rep(0,n_replications)
 
 
     # Pour chaque réplication
@@ -89,6 +91,8 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         liste[[replic]] <- res_boot$list_relevant_variables
 
         mat_b[replic,] <- res_boot$b
+        
+        lambdas_opt_boot[replic] <- res_boot$lambda_opt
 
         if (output && replic %% 5 == 0) {
             print(paste("Replication n°", replic, "/", n_replications))
@@ -144,7 +148,8 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         nb_var_selec = nb_var_selec, effectif_var = effectif_var, call = cl,
         nb_var_selec_opt = nb_var_selec_opt, list_relevant_variables =
         list_relevant_variables, n = n, p = p, H = H, n_replications =
-        n_replications, thresholding = thresholding, X_reduced = X_reduced, mat_b = mat_b)
+        n_replications, thresholding = thresholding, X_reduced = X_reduced, mat_b = mat_b,
+        lambdas_opt_boot=lambdas_opt_boot)
 
     class(res) <- "SIR_threshold_bootstrap"
 
