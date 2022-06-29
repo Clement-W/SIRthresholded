@@ -39,7 +39,7 @@
 #' @export
 #' @importFrom strucchange breakpoints
 SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard",
-    graphic = TRUE, output = TRUE) {
+    graphic = TRUE, output = TRUE,choice="") {
 
     cl <- match.call()
 
@@ -177,7 +177,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
 
     # Affichage de la sélection du lambda
     if (graphic == TRUE) {
-        plot.SIR_threshold_opt.R(res)
+        plot.SIR_threshold_opt.R(res,choice=choice)
     }
 
     return(res)

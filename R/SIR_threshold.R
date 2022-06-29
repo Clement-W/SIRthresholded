@@ -35,7 +35,7 @@
 #' # Apply SIR with soft thresholding
 #' SIR_threshold(Y,X,H=10,lambda=0.2,thresholding="soft")
 #' @export
-SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graphic = TRUE) {
+SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graphic = TRUE,choice="") {
 
     cl <- match.call()
 
@@ -99,7 +99,7 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph
     class(res) <- "SIR_threshold"
 
     if (graphic) {
-        plot.SIR_threshold(res)
+        plot.SIR_threshold(res,choice=choice)
     }
 
     return(res)

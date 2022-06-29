@@ -41,7 +41,7 @@
 #' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=100,k=1,graphic=TRUE,output=TRUE)
 #' @export
 SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
-    n_replications = 50, graphic = TRUE, output = TRUE, n_lambda = 300, k = 2) {
+    n_replications = 50, graphic = TRUE, output = TRUE, n_lambda = 300, k = 2,choice="") {
 
     cl <- match.call()
 
@@ -154,7 +154,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     class(res) <- "SIR_threshold_bootstrap"
 
     if (graphic == TRUE) {
-        plot.SIR_threshold_bootstrap(res)
+        plot.SIR_threshold_bootstrap(res,choice=choice)
     }
 
     return(res)
