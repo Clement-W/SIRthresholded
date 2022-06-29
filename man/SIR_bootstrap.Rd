@@ -4,7 +4,7 @@
 \alias{SIR_bootstrap}
 \title{Bootstrap SIR}
 \usage{
-SIR_bootstrap(Y, X, H = 10, B = 10)
+SIR_bootstrap(Y, X, H = 10, B = 10, graphic = TRUE, choice = "")
 }
 \arguments{
 \item{Y}{A numeric vector representing the dependent variable (a response vector).}

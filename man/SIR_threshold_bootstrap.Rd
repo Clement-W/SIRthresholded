@@ -9,11 +9,11 @@ SIR_threshold_bootstrap(
   X,
   H = 10,
   thresholding = "hard",
-  n_replications = 100,
+  n_replications = 50,
   graphic = TRUE,
   output = TRUE,
-  n_lambda = 100,
-  k = 1
+  n_lambda = 300,
+  k = 2
 )
 }
 \arguments{

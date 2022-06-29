@@ -25,7 +25,7 @@
 #' # Apply bootstrap SIR
 #' SIR_bootstrap(Y,X,H=10,B=10)
 #' @export
-SIR_bootstrap <- function(Y, X, H = 10, B = 10) {
+SIR_bootstrap <- function(Y, X, H = 10, B = 10,graphic = TRUE,choice="") {
 
     cl <- match.call()
 
@@ -46,7 +46,9 @@ SIR_bootstrap <- function(Y, X, H = 10, B = 10) {
 
     # on récupère le vecteur propre associé à la plus grande valeur propre
     # de la matrice d'estimations de beta_hat
-    b <- eigen(mat_b %*% t(mat_b), symmetric = TRUE)$vectors[, 1]
+    e = eigen(mat_b %*% t(mat_b), symmetric = TRUE)
+    b <- e$vectors[, 1]
+    eig_values = Re(e$values)
 
     # conversion en matrice à une ligne
     b <- matrix(b, nrow = 1)
@@ -56,9 +58,15 @@ SIR_bootstrap <- function(Y, X, H = 10, B = 10) {
     } else {
         colnames(b) <- paste("X", 1:p, sep = "")
     }
+    
+    index_pred <- X %*% t(b)
 
-    res <- list(b = b, mat_b = mat_b, n = n, p = p, H = H, call = cl)
+    res <- list(b = b, mat_b = mat_b, n = n, p = p, H = H, call = cl,index_pred = index_pred,eig_values=eig_values,Y=Y)
     class(res) <- "SIR_bootstrap"
+    
+    if (graphic) {
+        plot.SIR_bootstrap(res,choice=choice)
+    }
 
     return(res)
 }
