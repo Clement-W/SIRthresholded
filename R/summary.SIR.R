@@ -18,8 +18,6 @@ summary.SIR <- function(x, ...) {
     res <- matrix(x$b, ncol = 1)
     colnames(res) <- "Estimated direction"
 
-
-
     cat("\n")
     prmatrix(signif(res, 3))
     cat("\n")

@@ -4,35 +4,33 @@ plot.SIR_threshold_opt.R <- function(x, ...) {
 
     if (!inherits(x, "SIR_threshold_opt"))
         stop("Only use with \"SIR_threshold_opt\" obects")
-
-
+    
     dev.new()
-    plot(x$index_pred, x$Y, xlab = "Estimated index", ylab = "y", pch = 4)
+
+    plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)
     title("Reconstructed index")
 
-
-    if (length(which(x$vect_nb_zeros == x$fit_bp$breakpoints)) > 0) {
-        dev.new()
-        # affichage des indices triés
-        plot(sort(((x$indices_useless_var) / x$n_lambda) * 100, decreasing = FALSE), xlab = "variable i",
+    dev.new()
+    par(las=2)
+    # affichage des indices triés
+    
+    plot(sort(((x$indices_useless_var) / x$n_lambda) * 100, decreasing = FALSE), xlab = "variables",
                 ylab = expression("Proportion of" ~ lambda ~
-                "that select the variable i (percent)"), pch = 16)
+                "that select the variables (percent)"), pch = 16,axes=FALSE)
+    axis(1, labels = names(sort(x$indices_useless_var)), at =1:length(x$indices_useless_var))
+    axis(2)
+    box()
 
-        # ligne verticale pour montrer la rupture
+    
+    # ligne verticale pour montrer la rupture 
+    if (length(which(x$vect_nb_zeros == x$fit_bp$breakpoints)) > 0) {
         abline(v = x$fit_bp$breakpoints + 0.5, col = 6, lwd = 3)
-        title(paste("Choosing the optimal lambda (with", x$n_lambda, "lambdas)"))
-
-
     } else {
-        dev.new()
-        # affichage des indices triés
-        plot(sort(((x$indices_useless_var) / x$n_lambda) * 100, decreasing = FALSE), xlab = "variable i",
-             ylab = expression("Proportion of" ~ lambda ~
-             "that select the variable i (percent)"))
-        # ligne verticale pour montrer la rupture
         abline(v = x$fit_bp$breakpoints + 1.5, col = 7, lwd = 3)
-        title(paste("Choosing the optimal lambda (with", x$n_lambda, "lambdas)"))
     }
+
+    title(paste("Choosing the optimal lambda (with", x$n_lambda, "lambdas)"))
+
 
     dev.new()
     # Affichage du pourcentage de variable utiles en fonction des lambdas
@@ -68,7 +66,7 @@ plot.SIR_threshold_opt.R <- function(x, ...) {
     interval = interval[id_ruptures]
     lab = x$p - x$vect_nb_zeros[id_ruptures]
 
-    matplot(x$lambdas, mat_b, type = "l", lty = 1, xlab = expression(lambda), xlim = c(-0.02, max(x$lambdas)), ylim = c(0, 1.1))
+    matplot(x$lambdas, mat_b, type = "l", lty = 1, xlab = expression(lambda), xlim = c(-0.02, max(x$lambdas)), ylim = c(min(mat_b), 1.1 * max(mat_b)))
     title("Regularization path", line = 4)
     text(rep(0, ncol(mat_b)), mat_b[1,], colnames(x$b), pos = 2)
     axis(side = 3, labels = lab, at = interval)

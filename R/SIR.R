@@ -109,7 +109,7 @@ SIR <- function(Y, X, H = 10, graphic = TRUE) {
     } else {
         colnames(b) <- paste("X", 1:p, sep = "")
     }
-    # On a donc b.est l'estimation de la direction de Beta
+    # On a donc b.est l'estimation de la direction de Bet?a
 
     index_pred <- X %*% t(b)
 

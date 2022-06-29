@@ -104,6 +104,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
     # Cet indice correspond donc également au nombre de lambda pour lesquels la variable
     # est utile.
     indices_useless_var <- colSums(mat_b / mat_b, na.rm = TRUE)
+    names(indices_useless_var) = colnames(X)
 
     # On recherche ensuite un point de rupture dans la liste indice_useless_var ordonnée. 
     # Ce point de rupture fixe le nombre de variables à ne pas sélectionner, soit 
