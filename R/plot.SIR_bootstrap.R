@@ -6,6 +6,7 @@
 #' @param choice the graph to plot: 
 #' \item{eigvals}{Plot the eigen values of the matrix of interest}
 #' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
+#' \item{""}{Plot every graphs}
 #' @examples
 #' # Generate Data
 #' set.seed(10)
@@ -36,14 +37,14 @@ plot.SIR_bootstrap <- function(x, choice = "", ...) {
         dev.new()
 
         eig_vals <- x$eig_val
-        title = "Eigenvalues"
+        title <- "Eigenvalues"
         # Take only the 10 first eigen values
         if (length(eig_vals) >= 10) {
             eig_vals <- eig_vals[1:10]
-            title = "10 first eigenvalues"
+            title <- "10 first eigenvalues"
         }
 
-        a = barplot(eig_vals, ylab = "eigenvalues", xlab = "dimensions", main = title)
+        a <- barplot(eig_vals, ylab = "eigenvalues", xlab = "dimensions", main = title)
         axis(1, at = a, labels = seq(1, length(eig_vals)))
     }
 

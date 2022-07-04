@@ -7,20 +7,34 @@
 #' @param H The chosen number of slices.
 #' @param lambda The thresholding parameter
 #' @param thresholding The thresholding method (choose between hard, soft)
+#' @param graphic A boolean that must be set to true to display graphics
+#' @param choice the graph to plot: 
+#' \item{eigvals}{Plot the eigen values of the matrix of interest}
+#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
+#' \item{""}{Plot every graphs}
+
 #' @return An object of class SIR.threshold, with attributes:
-#' \item{beta}{This is an estimated EDR direction, which is the principal eigenvector 
+#' \item{b}{This is an estimated EDR direction, which is the principal eigenvector 
 #' of the interest matrix.}
-#' \item{M1_th}{The interest matrix thresholded.}
-#' \item{eig.val}{The eigenvalues of the interest matrix thresholded.}
-#' \item{eig.vect}{A matrix corresponding to the eigenvectors of the interest matrix.}
+#' \item{M1}{The interest matrix thresholded.}
+#' \item{eig_val}{The eigenvalues of the interest matrix thresholded.}
+#' \item{eig_vect}{A matrix corresponding to the eigenvectors of the interest matrix.}
+#' \item{Y}{The response vector.}
 #' \item{n}{Sample size.}
 #' \item{p}{The number of variables in X.}
-#' \item{nb.zeros}{The number of 0 in the estimation of the vector beta}
+#' \item{H}{The chosen number of slices.}
+#' \item{nb.zeros}{The number of 0 in the estimation of the vector beta.}
+#' \item{index_pred}{The index b'X estimated by SIR}
 #' \item{list.relevant.variables}{A list that contains the variables selected by the
 #' model}
 #' \item{cos.squared}{The cosine squared between vanilla SIR and SIR thresholded}
+#' \item{lambda}{The thresholding parameter used}
+#' \item{thresholding}{The thresholding method used}
+#' \item{call}{Unevaluated call to the function.}
+#' \item{X_reduced}{The X data restricted to the variables selected by the model.
+#' It is now possible to estimate a new SIR model on the relevant variables to improve
+#' the estimation of b}
 #' @examples 
-#' 
 #' # Generate Data
 #' set.seed(10)
 #' n <- 500
@@ -30,12 +44,12 @@
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR_threshold(Y,X,H=10,lambda=0.2,thresholding="hard")
+#' SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
 #' 
 #' # Apply SIR with soft thresholding
-#' SIR_threshold(Y,X,H=10,lambda=0.2,thresholding="soft")
+#' SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "soft")
 #' @export
-SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graphic = TRUE,choice="") {
+SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graphic = TRUE, choice = "") {
 
     cl <- match.call()
 
@@ -46,13 +60,12 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph
         colnames(X) <- paste("X", 1:p, sep = "")
     }
 
-    # Estimation de la direction des beta et de la matrice d'intérêt 
-    # Sigma^-1 * Cov(Moyenne par tranche) avec la méthode SIR classique :
+    # Estimation of b and the interest matrix with the classic SIR method
     res_SIR <- SIR(Y, X, H = H, graphic = FALSE)
     b_sir <- res_SIR$b
     M1 <- res_SIR$M1
 
-    # Seuillage de la matrice d'intérêt avec la méthode indiquée en paramètre
+    # Thresholding of the interest matrix
     if (thresholding == "soft") {
         M1_th <- do_soft_thresholding(M1, lambda = lambda)
     }
@@ -60,34 +73,34 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph
         M1_th <- do_hard_thresholding(M1, lambda = lambda)
     }
 
+    # Compute eigenvalues and eigenvectors of the thresholded interest matrix
     res_eig <- eigen(M1_th)
     eig_values <- Re(res_eig$values)
     eig_vectors <- Re(res_eig$vectors)
 
-    # Récupération du vecteur propre associé à la plus grande valeur propre
-    # de la matrice d'intérêt seuillée
+
+    # Get the eigenvector associated to the greatest eigevalue of the 
+    # thresholded interest matrix
     b <- eig_vectors[, 1]
 
-    # nombre de zéros présents dans l'estimation du b
+    # Number of zeros in b (number of useless variables)
     nb_zeros <- length(which(b == 0))
 
-    # Calcul de la qualité de la corrélation entre les b estimés par la méthode classqiue
-    # et par le sir thresholding
+    # Compute the quality of the correlation between b_sir and b_thresholded_sir
     cos_squared <- cosine_squared(b_sir, b)
 
-    # Conversion en matrice en une ligne
+    # Convert b into a one-line matrix
     b <- matrix(b, nrow = 1)
-
     colnames(b) <- colnames(X)
 
-    # Liste des variables utiles qui sont les colonnes de l'estimation de b
-    # qui sont différentes de 0
+    # The list of relevant variables are the columns of b that are different to 0
     if (nb_zeros == 0) {
         list_relevant_variables <- colnames(X)
     } else {
         list_relevant_variables <- colnames(b)[-which(b == 0)]
     }
 
+    # Create the X reduced variable by restricting X to the relevant variables.
     X_reduced <- X[, list_relevant_variables, drop = FALSE]
 
     index_pred <- X %*% t(b)
@@ -99,7 +112,7 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph
     class(res) <- "SIR_threshold"
 
     if (graphic) {
-        plot.SIR_threshold(res,choice=choice)
+        plot.SIR_threshold(res, choice = choice)
     }
 
     return(res)

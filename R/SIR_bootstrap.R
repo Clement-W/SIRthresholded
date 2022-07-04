@@ -7,7 +7,10 @@
 #' @param H The chosen number of slices.
 #' @param B The number of bootstrapped sample to draw
 #' @param graphic A boolean that must be set to true to display graphics
-#' @param choice To specify the desired graphic (choose between eigvals and estim_ind)
+#' @param choice the graph to plot: 
+#' \item{eigvals}{Plot the eigen values of the matrix of interest}
+#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
+#' \item{""}{Plot every graphs}
 #' @return An object of class SIR.bootstrap, with attributes:
 #' \item{b}{This is an estimated EDR direction, which is the principal eigenvector
 #' of the interest matrix.}

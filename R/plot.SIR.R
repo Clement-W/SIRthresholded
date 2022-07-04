@@ -5,6 +5,7 @@
 #' @param choice the graph to plot: 
 #' \item{eigvals}{Plot the eigen values of the matrix of interest}
 #' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
+#' \item{""}{Plot every graphs}
 #' @examples
 #' # Generate Data
 #' set.seed(10)
