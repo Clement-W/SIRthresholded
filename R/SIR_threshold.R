@@ -12,8 +12,7 @@
 #' \item{eigvals}{Plot the eigen values of the matrix of interest}
 #' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
 #' \item{""}{Plot every graphs}
-
-#' @return An object of class SIR.threshold, with attributes:
+#' @return An object of class SIR_threshold, with attributes:
 #' \item{b}{This is an estimated EDR direction, which is the principal eigenvector 
 #' of the interest matrix.}
 #' \item{M1}{The interest matrix thresholded.}
@@ -27,12 +26,12 @@
 #' \item{index_pred}{The index b'X estimated by SIR}
 #' \item{list.relevant.variables}{A list that contains the variables selected by the
 #' model}
-#' \item{cos.squared}{The cosine squared between vanilla SIR and SIR thresholded}
+#' \item{cos_squared}{The cosine squared between vanilla SIR and SIR thresholded}
 #' \item{lambda}{The thresholding parameter used}
 #' \item{thresholding}{The thresholding method used}
 #' \item{call}{Unevaluated call to the function.}
 #' \item{X_reduced}{The X data restricted to the variables selected by the model.
-#' It is now possible to estimate a new SIR model on the relevant variables to improve
+#' It can be used to estimate a new SIR model on the relevant variables to improve
 #' the estimation of b}
 #' @examples 
 #' # Generate Data

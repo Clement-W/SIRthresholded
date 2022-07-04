@@ -11,7 +11,7 @@
 #' \item{eigvals}{Plot the eigen values of the matrix of interest}
 #' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
 #' \item{""}{Plot every graphs}
-#' @return An object of class SIR.bootstrap, with attributes:
+#' @return An object of class SIR_bootstrap, with attributes:
 #' \item{b}{This is an estimated EDR direction, which is the principal eigenvector
 #' of the interest matrix.}
 #' \item{mat_b}{A matrix of size p*B that contains an estimation of beta in 

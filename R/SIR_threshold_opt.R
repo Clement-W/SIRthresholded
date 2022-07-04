@@ -1,28 +1,56 @@
 #' SIR optimally thresholded
 #'
 #' Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, 
-#' with thresholding of the matrix of interest by the *optimal* lambda parameter.
+#' thresholded by an optimal lambda parameter. The optimal lambda is found among n_lambda 
+#' that threshold the interest matrix. Then, for each variable in X, we store how many
+#' lambda selects this variable in a vector of size p. Thus, we find a breakpoint in 
+# this sorted vector, which indicates the optimal lambda.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
-#' @param N.lambda The number of lambda to test. The N.lambda tested lambdas are 
+#' @param n_lambda The number of lambda to test. The N.lambda tested lambdas are 
 #' between 0 and the maximum value of the interest matrix.
 #' @param thresholding The thresholding method (choose between hard, soft)
 #' @param graphic A boolean, set to TRUE to plot graphs 
 #' @param output A boolean, set to TRUE to print informations
-#' @return An object of class SIR.threshold.opt, with attributes:
-#' \item{b.opt}{This is the optimal estimated EDR direction, which is the principal 
+#' @param choice the graph to plot: 
+#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
+#' \item{opt_lambda}{Plot the choice of the optimal lambda}
+#' \item{cos2_selec}{Plot the evolution of cos^2 and variable selection according to 
+#' lambda}
+#' \item{regul_path}{Plot the regularization path of b}
+#' \item{""}{Plot every graphs}
+#' @return An object of class SIR_threshold_opt, with attributes:
+#' \item{b}{This is the optimal estimated EDR direction, which is the principal 
 #' eigenvector of the interest matrix.}
 #' \item{lambdas}{A vector that contains the tested lambdas}
-#' \item{lambda.opt}{The optimal lambda}
-#' \item{mat.b.th}{A matrix of size p*N.lambda that contains an estimation of beta 
+#' \item{lambda_opt}{The optimal lambda}
+#' \item{mat_b}{A matrix of size p*n_lambda that contains an estimation of beta 
 #' in the columns for each lambda}
-#' \item{N.lambda}{The number of lambda tested}
-#' \item{vect.nb.zeros}{The number of 0 in the estimation of the vector beta}
-#' \item{list.relevant.variables}{A list that contains the variables selected by 
+#' \item{n_lambda}{The number of lambda tested}
+#' \item{vect_nb_zeros}{The number of 0 in b for each lambda}
+#' \item{list_relevant_variables}{A list that contains the variables selected by 
 #' the model}
+#' \item{fit_bp}{An object of class breakpoints from the strucchange package,
+#' that contains informations about the breakpoint which allows to deduce the
+#' optimal lambda.}
+#' \item{indices_useless_var}{A vector that contains p values: each variable is 
+#' associated with the number of lambda that selects this variable.}
+#' \item{vect_nb_zeros}{The number of 0 in b for each lambda}
+#' \item{vect_cos_squared}{A vector that contains for each lambda,
+#' the cosine squared between vanilla SIR and SIR thresholded}
+#' \item{Y}{The response vector.}
+#' \item{n}{Sample size.}
+#' \item{p}{The number of variables in X.}
+#' \item{H}{The chosen number of slices.}
+#' \item{M1}{The interest matrix thresholded with the optimal lambda.}
+#' \item{thresholding}{The thresholding method used}
+#' \item{call}{Unevaluated call to the function.}
+#' \item{X_reduced}{The X data restricted to the variables selected by the model.
+#' It can be used to estimate a new SIR model on the relevant variables to improve
+#' the estimation of b.}
+#' \item{index_pred}{The index b'X estimated by SIR}
 #' @examples 
-#' 
 #' # Generate Data
 #' set.seed(10)
 #' n <- 200
@@ -32,14 +60,14 @@
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="hard",graphic=TRUE,output=TRUE)
+#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="hard")
 #' 
 #' # Apply SIR with soft thresholding
-#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft",graphic=TRUE,output=TRUE)
+#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
 #' @export
 #' @importFrom strucchange breakpoints
 SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard",
-    graphic = TRUE, output = TRUE,choice="") {
+    graphic = TRUE, output = TRUE, choice = "") {
 
     cl <- match.call()
 
@@ -50,134 +78,138 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
         colnames(X) <- paste("X", 1:p, sep = "")
     }
 
-    # Estimation de la direction des beta et de la matrice d'intérêt 
-    # M1 = Sigma^-1 * Cov(Moyenne par tranche) avec la méthode SIR classique :
+    # Estimation of b and the interest matrix with the classic SIR method
     res_SIR <- SIR(Y, X, H = 10, graphic = FALSE)
     b_sir <- res_SIR$b
     M1 <- res_SIR$M1
 
-    # Création d'une liste de lambdas allant de 0 à la valeur absolue maximum 
-    # de M1, avec un total de 100 valeurs.
+    # Creation of a list of lambdas going from 0 to the maximum absolute value 
+    # of M1, with a total of 100 values.
     lambdas <- seq(0, max(abs(M1)), length.out = n_lambda + 1)[-(n_lambda + 1)]
 
-    # Initialisation d'une matrice de 0 de taille N.lambda*p
-    # pour reccueillir les estimations du vecteur b pour chacun des lambdas
+    # Initialization of a matrix of size n_lambda*p that will contain the estimation 
+    # of b for each the lambda
     mat_b <- matrix(0, ncol = p, nrow = n_lambda)
 
-    # Initialisation d'un vecteur de N.lambda NA pour receuillir le nombre de 
-    # 0 après seuillage pour chaque valeur de lambda dans l'estimation du vecteur beta
+    # Initialization of a vector of size n_lambda to receive the number of 
+    # 0 found in b for each lambda 
     vect_nb_zeros <- rep(NA, n_lambda)
 
-    # Initialisation d'un vecteur de N.lambda NA pour recueillir les cos carrés 
-    # entre b_sir et b_seuillage pour chaque valeur de lambda
-    vect_cosca <- rep(NA, n_lambda)
+    # Initialization of a vector of size n_lambda to receive the cos^2
+    # between b_sir and b_threshold_sir
+    vect_cos_squared <- rep(NA, n_lambda)
 
-    # Initialisation de la liste des variables utiles
+    # Initialization of the list of useful variables
     list_relevant_variables <- list()
 
-    # Application de la méthode SIR avec seuillage, avec les N.lambda valeurs
-    # de lambdas
+    # Application of the SIR method with thresholding, with the n_lambda values
+    # of lambdas
     for (i in 1:n_lambda) {
 
-        # Récupération du résultat après application de la méthode SIR avec le lambda_i
+        # Get the result of SIR thresholded with lambda_i
         res_SIR_th <- SIR_threshold(Y, X, H = H, lambda = lambdas[i],
             thresholding = thresholding, graphic = FALSE)
 
-        # Stockage de l'estimation du vecteur beta dans la ligne i de la matrice
+        # Store the corresponding b in row i of the matrix
         mat_b[i,] <- res_SIR_th$b
 
-        # Stockage du nombre de 0 dans l'estimation du vecteur beta après seuillage pour
-        # cette valeur de lambda
+        # Store the number of 0 found in the corresponding b for this lambda value
         vect_nb_zeros[i] <- res_SIR_th$nb_zeros
 
-        # Stockage du cos carré entre b et b_seuillage pour cette valeur de lambda
-        vect_cosca[i] <- res_SIR_th$cos_squared
+        # Store the cos^2 between this b and b_sir
+        vect_cos_squared[i] <- res_SIR_th$cos_squared
 
-        # Stocage des variables utiles pour cette valeur de lambda à l'indice i de 
-        # la liste des variables utiles
+        # Store useful variables for this lambda value at index i of 
+        # the list of useful variables
         list_relevant_variables[[i]] <- res_SIR_th$list_relevant_variables
     }
 
 
-    # Création d'un vecteur qui contient p valeurs : pour chaque variable x_i
-    # est associé l'indice du lambda à partir duquel la variable devient inutile. 
-    # Cet indice correspond donc également au nombre de lambda pour lesquels la variable
-    # est utile.
+    # Creation of a vector which contains p values: each variable is associated 
+    # with the index of the lambda from which the variable becomes useless. 
+    # This index also corresponds to the number of lambda for which the variable
+    # is useful.
     indices_useless_var <- colSums(mat_b / mat_b, na.rm = TRUE)
-    names(indices_useless_var) = colnames(X)
+    names(indices_useless_var) <- colnames(X)
 
-    # On recherche ensuite un point de rupture dans la liste indice_useless_var ordonnée. 
-    # Ce point de rupture fixe le nombre de variables à ne pas sélectionner, soit 
-    # le nombre de variable où l'estimation de beta donne zero pour un lambda donné.
+    # We then look for a breakpoint in the ordered index_useless_var vector. This
+    # breakpoints corresponds to the number of useless variables. From this breakpoints,
+    # the variables are more difficult to toggle to 0 with a threshold.
     fit_bp <- breakpoints(sort(indices_useless_var, decreasing = FALSE) ~ 1,
         breaks = 1, h = 2 / p)
 
-    # Si le nombre de coeficients de l'estimation de beta égaux à 0 et qui sont égaux
-    # au point de rupture, donc au nombre de variable à ne pas sélectionner : 
+    # If the number of useless variables associated to a lambda 
+    # corresponds to the breakpoint :   
     if (length(which(vect_nb_zeros == fit_bp$breakpoints)) > 0) {
-        # l'indice optimal de lambda est l'indice minimum où le nombre de 0 
-        # apparaissant pour une valeur de lambda est égal au nombre de valeurs 
-        # inutiles au point de rupture
+
+        # The index of the optimal lambda is the first lambda where the corresponding
+        # number of zero in b is equal to the breakpoint, i.e the number of 
+        # useless variables
         indice_opt <- min(which(vect_nb_zeros == fit_bp$breakpoints))
     } else {
-        # Sinon, on somme le nombre de fois où le nombre de 0 qui apparait dans 
-        # l'estimation de b pour chaque lambda est inférieur au nombre de valeurs 
-        # inutiles au point de rupture + 1
+
+        # Else, we sum the number of times where the number of 0 in b is less than
+        # the number of useless variables. Then, the index of the optimal lambda
+        # corresponds to this sum+1
         indice_opt <- sum(vect_nb_zeros < fit_bp$breakpoints) + 1
     }
 
-    # On récupère le lambda qui correspond à cet indice
+
+    # Get the optimal lambda
     lambda_opt <- lambdas[indice_opt]
 
+    # If the optimal lambda is NA, keep the result of vanilla SIR
     if (is.na(lambda_opt) == TRUE) {
-        b <- SIR(Y, X, H = 10, graphic = FALSE)$b
+        b <- b_sir
         list_relevant_var <- colnames(X)
+        M1_th = M1
+
     }
     else {
-        # Cas où on trouve bien un lambda optimal parmi les N.lambda
-        # Si le nombre de variables inutiles est inférieur au nombre de variable total-1
+
+        # If the optimal lambda is found and the number of useless variable is
+        # less than the number of total variables-1
         if (fit_bp$breakpoints < (p - 1)) {
 
-            # Le beta optimal est la ligne de la matrice d'estimations de beta qui 
-            # correspond à lambda.opt
+            # The optimal beta is the row of mat_b that corresponds to lambda.opt
             b <- mat_b[which(lambdas == lambda_opt),]
-            # Conversion du beta en matrice à une ligne p colonnes
+            # Convert b into a one-line matrix
             b <- matrix(b, nrow = 1)
-            # Renommage des colonnes
+            # Rename columns
             colnames(b) <- colnames(X)
-            # Récupération des variables utiles qui sont les colonnes du b.opt
-            # où la valeur est différente de zero
+            # Get the relevant variables (the columns of b where the value is not 0)
             list_relevant_var <- colnames(b)[-which(b == 0)]
-
-
+            M1_th = SIR_threshold(Y, X, H = H, lambda = lambda_opt,
+            thresholding = thresholding, graphic = FALSE)$M1
         }
-        # Cas où la méthode Sparse SIR avec seuillage n'a pas permis de réaliser de la
-        # sélection de variable
+
+        # If thresholded SIR could not make variable selection, keep the result of
+        # vanilla SIR
         else {
-            b <- SIR(Y, X, H = 10, graphic = FALSE)$b
+            b <- b_sir
             list_relevant_var <- colnames(X)
+            M1_th = M1
         }
     }
 
+    # Create the X reduced variable by restricting X to the relevant variables.
     X_reduced <- X[, list_relevant_var, drop = FALSE]
 
+    # Estimated index
     index_pred <- X %*% t(b)
 
 
     res <- list(b = b, lambdas = lambdas, lambda_opt = lambda_opt,
         mat_b = mat_b, n_lambda = n_lambda, vect_nb_zeros = vect_nb_zeros,
         fit_bp = fit_bp, indices_useless_var = indices_useless_var,
-        vect_cosca = vect_cosca, list_relevant_variables = list_relevant_var,
-        n = n, p = p, H = H, M1 = M1, thresholding = thresholding, call = cl,
+        vect_cos_squared = vect_cos_squared, list_relevant_variables = list_relevant_var,
+        n = n, p = p, H = H, M1 = M1_th, thresholding = thresholding, call = cl,
         X_reduced = X_reduced, index_pred = index_pred, Y = Y)
 
     class(res) <- "SIR_threshold_opt"
 
-
-
-    # Affichage de la sélection du lambda
     if (graphic == TRUE) {
-        plot.SIR_threshold_opt.R(res,choice=choice)
+        plot.SIR_threshold_opt.R(res, choice = choice)
     }
 
     return(res)

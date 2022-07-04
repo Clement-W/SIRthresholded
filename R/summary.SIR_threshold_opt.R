@@ -12,7 +12,8 @@ summary.SIR_threshold_opt <- function(x, ...) {
     cat(paste("Number of observations:", x$n), "\n")
     cat(paste("Number of variables in X:", x$p), "\n")
     cat(paste("Number of slices:", x$H), "\n")
-    cat(paste("Testing:", x$n_lambda, "lambda between 0 and", signif(max(abs(x$M1)), 3)), "\n")
+    cat(paste("Testing:", x$n_lambda, "lambda between 0 and",
+        signif(max(abs(x$M1)), 3)), "\n")
     cat(paste("Optimal thresholding parameter lambda :", signif(x$lambda_opt, 3)), "\n")
     cat(paste("Thresholding method:", x$thresholding, "\n"))
     cat("\n")
