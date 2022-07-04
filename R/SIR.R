@@ -4,14 +4,19 @@
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
+#' @param graphic A boolean that must be set to true to display graphics
+#' @param choice To specify the desired graphic (choose between eigvals and estim_ind)
 #' @return An object of class SIR, with attributes:
-#' \item{beta}{This is an estimated EDR direction, which is the principal 
+#' \item{b}{This is an estimated EDR direction, which is the principal 
 #' eigenvector of the interest matrix.}
 #' \item{M1}{The interest matrix.}
-#' \item{eig.val}{The eigenvalues of the interest matrix.}
-#' \item{eig.vect}{A matrix corresponding to the eigenvectors of the interest matrix.}
+#' \item{eig_val}{The eigenvalues of the interest matrix.}
 #' \item{n}{Sample size.}
 #' \item{p}{The number of variables in X.}
+#' \item{H}{The chosen number of slices.}
+#' \item{call}{Unevaluated call to the function}
+#' \item{index_pred}{The index b'X estimated by SIR}
+#' \item{Y}{The response vector}
 #' @examples
 #' # Generate Data
 #' set.seed(10)
@@ -22,13 +27,13 @@
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR
-#' SIR(Y,X,H=10)
+#' SIR(Y, X, H = 10)
 #' @export
-SIR <- function(Y, X, H = 10, graphic = TRUE,choice="") {
+SIR <- function(Y, X, H = 10, graphic = TRUE, choice = "") {
 
     cl <- match.call()
 
-    # Pour gérer le cas ou X ne contient qu'une variable
+    # To deal with the case where X contains only one variable
     if (is.null(dim(X)) || length(dim(X)) == 1) {
         X <- matrix(X, ncol = 1)
     }
@@ -36,81 +41,83 @@ SIR <- function(Y, X, H = 10, graphic = TRUE,choice="") {
     n <- nrow(X)
     p <- ncol(X)
 
-    # Moyenne des échantillons pour chaque variable de X
+    # Mean of each variables of the samples X
     moy_X <- matrix(apply(X, 2, mean), ncol = 1)
 
-    # Calcul de la matrice de covariance de X
+    # Compute the covariance matrix of X
     sigma <- var(X) * (n - 1) / n
 
-    # Ordonne les données de X à partir des indices triés dans l'ordre croissant de Y
+    # Order the data of X from the indices sorted in ascending order of Y
     X_ord <- X[order(Y),, drop = FALSE]
 
-    # le vecteur nH contient le nombre d'observation pour chaque tranche H
+    # the vector nH contains the number of observations for each slice H
     vect_nh <- rep(n %/% H, H) # %/% = integer division
 
-    # si le nombre d'observations total est plus grand que le nb d'observation 
-    # dans vect.nh pour prendre le reste de la division de n %/% H 
+    # Take into account the reste of the integer division:
     if ((n - sum(vect_nh)) > 0) {
-        # pour chaque observation non présente dans vect.nh
+        # For each sample not in vect_nh
         for (i in 1:(n - sum(vect_nh))) {
-            # on prend une tranche au hasard
+            # take a random slice
             h <- sample(1:H, 1)
-            # on ajoute 1 observation dans cette tranche
+            # add a sample in this slice
             vect_nh[h] <- vect_nh[h] + 1
         }
     }
 
-    # vect.ph = proportion des yi tombant dans chaque tranche
+    # vect_ph = ratio of y_i falling in each slice
     vect_ph <- vect_nh / n
 
-    # séparation des n échantillons en H tranche
-    # (on assigne un indice h à chaque échantillon)
-    vect_h <- rep(1:H, times = vect_nh)
 
-    # Matrice des moyennes par tranche des xi (matrice p*H)
+    # Separate the n samples in H slices by assigning an index h to each sample
+    vect_h <- rep(1:H, times = vect_nh)
+    # vect_h = 1 1 1 1 1 .... 1 2 2 2 2 ....... 10 10 10 10 10 10 if H=10
+
+    #  matrix of size p*H that will contains the mean of the x_i by slice
     mat_mh <- matrix(0, ncol = H, nrow = p)
 
-    # Pout chaque tranche
+    # For each slice, compute the mean of the x_i
     for (h in 1:H) {
-        # récupération des indices pour la tranche h
+        # Get the indices in the slice h
         index_slice_h <- which(vect_h == h)
-        # récupération des x appartenant à la tranche h
+        # Get the x belonging to the slice h
         x_in_slice_h <- X_ord[index_slice_h,, drop = FALSE]
-        # applique la moyenne aux échantillons de chaque feature de la tranche h
+        # Compute the mean for each feature of x in the slice h
         mat_mh[, h] <- apply(x_in_slice_h, 2, mean)
     }
 
-    # Estimation de la matrice de covariances des moyennes par tranche
-    # (moy.X.etendue pour broadcaster l'opération - entre mat.mh et moy.X)
+    # Estimation of the covariance matrix of the means per slice
+    # (moy_X_extended is created to broadcast the operation - beween mat_mh and moy_X)
     moy_X_extended <- moy_X %*% matrix(rep(1, H), ncol = H)
     M <- (mat_mh - moy_X_extended) %*% diag(vect_ph) %*% t(mat_mh - moy_X_extended)
 
-    # Matrice d'intérêt : inverse de la matrice de covariance de X multipliée par la
-    # matrice de covariance des moyennes par tranche :(pxp) %*% (pxp)
-    # matrice d'intérêt =  Sigma^-1 * Cov(Moyenne par tranche)
+
+    # Interest matrix : inverse of the covariance matrix of X multiplied by the
+    # covariance matrix of slice means : (pxp) %*% (pxp)
+    # Interest matrix = Sigma^-1 * Cov(Slice mean)
     sigma_inv <- solve(sigma)
     M1 <- sigma_inv %*% M
 
-    # eigen(M1)$vectors donne une matrice pxp qui contient les p vecteurs propres de x 
-    # dans chaque colonne. Les vecteurs propres sont retournés dans l'ordre décroissant
-    # de leur valeur propre associée. Donc ici on récupère le vecteur propre associé 
-    # à la plus grande valeur propre pour avoir b.est donc la première colonne
+    # eigen(M1)$vectors gives a matrix pxp which contains the p eigenvectors of x 
+    # in each column. The eigenvectors are returned in the decreasing order
+    # of their associated eigenvalue. So here we get the eigenvector associated with 
+    # to the largest eigenvalue to have b thus the first column
+
     res_SIR <- eigen(M1)
     eig_values <- Re(res_SIR$values)
     eig_vectors <- Re(res_SIR$vectors)
     b <- eig_vectors[, 1]
 
-    # conversion en matrice à une ligne et p colonnes
+    # convert into a one line and p columns matrix
     b <- matrix(b, nrow = 1)
 
-    # Ajout des noms de colonnes
+    # Add column names 
     if (!is.null(colnames(X))) {
         colnames(b) <- colnames(X)
     } else {
         colnames(b) <- paste("X", 1:p, sep = "")
     }
-    # On a donc b.est l'estimation de la direction de Bet?a
 
+    # Compute the index Xb'
     index_pred <- X %*% t(b)
 
     res <- list(b = b, M1 = M1, eig_val = eig_values,
@@ -119,7 +126,7 @@ SIR <- function(Y, X, H = 10, graphic = TRUE,choice="") {
     class(res) <- "SIR"
 
     if (graphic) {
-        plot.SIR(res,choice=choice)
+        plot.SIR(res, choice = choice)
     }
 
     return(res)

@@ -32,3 +32,5 @@ do_hard_thresholding <- function(M, lambda) {
     M.hard[which(M_th < 0)] <- 0
     return(M.hard)
 }
+
+#TODO: Add SCAD thresholding
