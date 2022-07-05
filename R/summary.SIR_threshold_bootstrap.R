@@ -20,11 +20,9 @@ summary.SIR_threshold_bootstrap <- function(x, ...) {
 
     cat(paste("Number of selected variables = ", x$nb_var_selec_opt, " over the ",
         x$p, " available variables"), fill = TRUE)
-    cat(paste("List of relevant variables:", paste(x$list_relevant_jvariables,
+    cat(paste("List of relevant variables:", paste(x$list_relevant_variables,
         collapse = ",")), "\n")
     cat("\n")
-
-
 
     cat("Results of EDR directions estimation:\n")
     res <- matrix(x$b, ncol = 1)
@@ -38,4 +36,8 @@ summary.SIR_threshold_bootstrap <- function(x, ...) {
     cat("\n")
     prmatrix(signif(res, 3))
     cat("\n")
+    
+    cat("Estimate a new SIR model on the relevant variables with :\n")
+    varname = deparse(substitute(x))
+    cat(paste("\t SIR(Y=",varname,"$Y, X=",varname,"$X_reduced, H=",varname,"$H)\n",sep = ""))
 }

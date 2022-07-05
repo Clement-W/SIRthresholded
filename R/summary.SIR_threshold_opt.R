@@ -36,4 +36,8 @@ summary.SIR_threshold_opt <- function(x, ...) {
     cat("\n")
     prmatrix(signif(res, 3))
     cat("\n")
+    
+    cat("Estimate a new SIR model on the relevant variables with :\n")
+    varname = deparse(substitute(x))
+    cat(paste("\t SIR(Y=",varname,"$Y, X=",varname,"$X_reduced, H=",varname,"$H)\n",sep = ""))
 }
