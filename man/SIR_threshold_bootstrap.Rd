@@ -13,7 +13,8 @@ SIR_threshold_bootstrap(
   graphic = TRUE,
   output = TRUE,
   n_lambda = 300,
-  k = 2
+  k = 2,
+  choice = ""
 )
 }
 \arguments{
@@ -25,48 +26,79 @@ SIR_threshold_bootstrap(
 
 \item{thresholding}{The thresholding method (choose between hard, soft)}
 
+\item{n_replications}{The number of bootstraped replications of (X,Y) done to
+estimate the model.}
+
 \item{graphic}{A boolean, set to TRUE to plot graphs}
 
 \item{output}{A boolean, set to TRUE to print information}
 
+\item{n_lambda}{The number of lambda to test. The n_lambda tested lambdas are
+between 0 and the maximum value of the interest matrix.}
+
 \item{k}{Multiplication factor of the bootstrapped sample size
 (default is 1 = keep the same size as original data)}
 
-\item{N.lambda}{The number of lambda to test. The N.lambda tested lambdas are
-between 0 and the maximum value of the interest matrix.}
-
-\item{Nb.replications}{The number of bootstraped replications of (X,Y) done to
-estimate the model.}
+\item{choice}{the graph to plot: 
+\itemize{
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y
+  \item "size" Plot the size of the models across the replications
+  \item "selec_var" Plot the occurrence of the selected variables across the replications
+  \item "coefs_b" Plot the value of b across the replications
+  \item "lambdas_replic" Plot the optimal lambdas across the replications
+  \item "" Plot every graphs
+}}
 }
 \value{
-An object of class SIR.threshold.opt, with attributes:
-\item{b.opt}{This is the optimal estimated EDR direction, which is the principal
+An object of class SIR_threshold_bootstrap, with attributes:
+\item{b}{This is the optimal estimated EDR direction, which is the principal 
 eigenvector of the interest matrix.}
-\item{lambdas}{A vector that contains the tested lambdas}
-\item{lambda.opt}{The optimal lambda}
-\item{Nb.var.selec.opt}{The optimal number of variables selected}
-\item{list.relevant.variables}{A list that contains the variables selected
-by the model}
+\item{lambda_opt}{The optimal lambda}
+\item{vec_nb_var_selec}{Vector that contains the number of selected variables 
+for each replications}
+\item{occurrences_var}{Vector that contains at index i the number of times the 
+i_th variable has been selected in a replication}
+\item{call}{Unevaluated call to the function.}
+\item{nb_var_selec_opt}{Optimal number of selected variables which is the number 
+of selected variables that came back most often among the replications performed}
+\item{list_relevant_variables}{A list that contains the variables selected by 
+the model}
+\item{n}{Sample size.}
+\item{p}{The number of variables in X.}
+\item{H}{The chosen number of slices.}
+\item{n_replications}{The number of bootstraped replications of (X,Y) done to
+estimate the model.}
+\item{thresholding}{The thresholding method used}
+\item{X_reduced}{The X data restricted to the variables selected by the model.
+It can be used to estimate a new SIR model on the relevant variables to improve
+the estimation of b.}
+\item{mat_b}{Contains the estimation b at each bootstraped replications}
+\item{lambdas_opt_boot}{Contains the optimal lambda found by SIR_threshold_opt at 
+each replication }
+\item{index_pred}{The index Xb' estimated by SIR}
+\item{Y}{The response vector}
+\item{M1}{The interest matrix thresholded with the optimal lambda.}
 }
 \description{
-Apply a single-index SIR (Sliced Inverse Regression) on N bootstraped replications
-of (X,Y) with H slices, with thresholding of the matrix of interest by the
-*optimal* lambda parameter.
-TODO: improve description
+Apply a single-index optimally thresholded SIR (Sliced Inverse Regression) 
+on N bootstraped replications of (X,Y) with H slices.The optimal number of 
+selected variables is the number of selected variables that came back most often 
+among the replications performed. Then, we can get the beta and optimal lambda 
+which corresponds to this number of selected variables in SIR_threshold_opt.
 }
 \examples{
 
 # Generate Data
-set.seed(10)
- n <-  200
-beta <- c(1,1,rep(0,18))
+set.seed(8)
+n <-  170
+beta <- c(1,1,1,1,1,rep(0,15))
 X <- mvtnorm::rmvnorm(n,sigma=diag(1,20))
-eps <- rnorm(n)
+eps <- rnorm(n,sd=8)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply SIR with hard thresholding
-SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=100,k=1,graphic=TRUE,output=TRUE)
+SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
 
 # Apply SIR with soft thresholding
-SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=100,k=1,graphic=TRUE,output=TRUE)
+SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=30,k=2)
 }

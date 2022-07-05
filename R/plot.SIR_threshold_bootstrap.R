@@ -5,12 +5,14 @@
 #' found across the replications.
 #' @param x A SIR_threshold_bootstrap object
 #' @param choice the graph to plot: 
-#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
-#' \item{size}{Plot the size of the models across the replications}
-#' \item{selec_var}{Plot the occurrence of the selected variables across the replications}
-#' \item{coefs_b}{Plot the value of b across the replications}
-#' \item{lambdas_replic}{Plot the optimal lambdas across the replications}
-#' \item{""}{Plot every graphs}
+#' \itemize{
+#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
+#'   \item "size" Plot the size of the models across the replications
+#'   \item "selec_var" Plot the occurrence of the selected variables across the replications
+#'   \item "coefs_b" Plot the value of b across the replications
+#'   \item "lambdas_replic" Plot the optimal lambdas across the replications
+#'   \item "" Plot every graphs
+#' }
 #' @examples
 #' # Generate Data
 #' set.seed(10)

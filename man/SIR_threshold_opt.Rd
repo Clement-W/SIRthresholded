@@ -11,7 +11,8 @@ SIR_threshold_opt(
   n_lambda = 100,
   thresholding = "hard",
   graphic = TRUE,
-  output = TRUE
+  output = TRUE,
+  choice = ""
 )
 }
 \arguments{
@@ -21,36 +22,66 @@ SIR_threshold_opt(
 
 \item{H}{The chosen number of slices.}
 
+\item{n_lambda}{The number of lambda to test. The N.lambda tested lambdas are 
+between 0 and the maximum value of the interest matrix.}
+
 \item{thresholding}{The thresholding method (choose between hard, soft)}
 
 \item{graphic}{A boolean, set to TRUE to plot graphs}
 
 \item{output}{A boolean, set to TRUE to print informations}
 
-\item{N.lambda}{The number of lambda to test. The N.lambda tested lambdas are 
-between 0 and the maximum value of the interest matrix.}
+\item{choice}{the graph to plot: 
+\itemize{
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y
+  \item "opt_lambda" Plot the choice of the optimal lambda
+  \item "cos2_selec" Plot the evolution of cos^2 and variable selection according to 
+  lambda
+  \item "regul_path" Plot the regularization path of b
+  \item "" Plot every graphs
+}}
 }
 \value{
-An object of class SIR.threshold.opt, with attributes:
-\item{b.opt}{This is the optimal estimated EDR direction, which is the principal 
+An object of class SIR_threshold_opt, with attributes:
+\item{b}{This is the optimal estimated EDR direction, which is the principal 
 eigenvector of the interest matrix.}
 \item{lambdas}{A vector that contains the tested lambdas}
-\item{lambda.opt}{The optimal lambda}
-\item{mat.b.th}{A matrix of size p*N.lambda that contains an estimation of beta 
+\item{lambda_opt}{The optimal lambda}
+\item{mat_b}{A matrix of size p*n_lambda that contains an estimation of beta 
 in the columns for each lambda}
-\item{N.lambda}{The number of lambda tested}
-\item{vect.nb.zeros}{The number of 0 in the estimation of the vector beta}
-\item{list.relevant.variables}{A list that contains the variables selected by 
+\item{n_lambda}{The number of lambda tested}
+\item{vect_nb_zeros}{The number of 0 in b for each lambda}
+\item{list_relevant_variables}{A list that contains the variables selected by 
 the model}
+\item{fit_bp}{An object of class breakpoints from the strucchange package,
+that contains informations about the breakpoint which allows to deduce the
+optimal lambda.}
+\item{indices_useless_var}{A vector that contains p items: each variable is 
+associated with the number of lambda that selects this variable.}
+\item{vect_cos_squared}{A vector that contains for each lambda,
+the cosine squared between vanilla SIR and SIR thresholded}
+\item{Y}{The response vector.}
+\item{n}{Sample size.}
+\item{p}{The number of variables in X.}
+\item{H}{The chosen number of slices.}
+\item{M1}{The interest matrix thresholded with the optimal lambda.}
+\item{thresholding}{The thresholding method used}
+\item{call}{Unevaluated call to the function.}
+\item{X_reduced}{The X data restricted to the variables selected by the model.
+It can be used to estimate a new SIR model on the relevant variables to improve
+the estimation of b.}
+\item{index_pred}{The index Xb' estimated by SIR}
 }
 \description{
 Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, 
-with thresholding of the matrix of interest by the *optimal* lambda parameter.
+thresholded by an optimal lambda parameter. The optimal lambda is found among n_lambda 
+that threshold the interest matrix. Then, for each variable in X, we store how many
+lambda selects this variable in a vector of size p. Thus, we find a breakpoint in 
+this sorted vector, which indicates the optimal lambda.
 }
 \examples{
-
 # Generate Data
-set.seed(10)
+set.seed(2)
 n <- 200
 beta <- c(1,1,rep(0,8))
 X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
@@ -58,8 +89,8 @@ eps <- rnorm(n)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply SIR with hard thresholding
-SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="hard",graphic=TRUE,output=TRUE)
+SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="hard")
 
 # Apply SIR with soft thresholding
-SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft",graphic=TRUE,output=TRUE)
+SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
 }

@@ -4,7 +4,15 @@
 \alias{SIR_threshold}
 \title{SIR thresholded}
 \usage{
-SIR_threshold(Y, X, H = 10, lambda = 0, thresholding = "hard", graphic = TRUE)
+SIR_threshold(
+  Y,
+  X,
+  H = 10,
+  lambda = 0,
+  thresholding = "hard",
+  graphic = TRUE,
+  choice = ""
+)
 }
 \arguments{
 \item{Y}{A numeric vector representing the dependent variable (a response vector).}
@@ -16,27 +24,44 @@ SIR_threshold(Y, X, H = 10, lambda = 0, thresholding = "hard", graphic = TRUE)
 \item{lambda}{The thresholding parameter}
 
 \item{thresholding}{The thresholding method (choose between hard, soft)}
+
+\item{graphic}{A boolean that must be set to true to display graphics}
+
+\item{choice}{the graph to plot: 
+\itemize{
+  \item "eigvals" Plot the eigen values of the matrix of interest
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y
+  \item "" Plot every graphs
+}}
 }
 \value{
-An object of class SIR.threshold, with attributes:
-\item{beta}{This is an estimated EDR direction, which is the principal eigenvector 
+An object of class SIR_threshold, with attributes:
+\item{b}{This is an estimated EDR direction, which is the principal eigenvector 
 of the interest matrix.}
-\item{M1_th}{The interest matrix thresholded.}
-\item{eig.val}{The eigenvalues of the interest matrix thresholded.}
-\item{eig.vect}{A matrix corresponding to the eigenvectors of the interest matrix.}
+\item{M1}{The interest matrix thresholded.}
+\item{eig_val}{The eigenvalues of the interest matrix thresholded.}
+\item{eig_vect}{A matrix corresponding to the eigenvectors of the interest matrix.}
+\item{Y}{The response vector.}
 \item{n}{Sample size.}
 \item{p}{The number of variables in X.}
-\item{nb.zeros}{The number of 0 in the estimation of the vector beta}
+\item{H}{The chosen number of slices.}
+\item{nb.zeros}{The number of 0 in the estimation of the vector beta.}
+\item{index_pred}{The index Xb' estimated by SIR}
 \item{list.relevant.variables}{A list that contains the variables selected by the
 model}
-\item{cos.squared}{The cosine squared between vanilla SIR and SIR thresholded}
+\item{cos_squared}{The cosine squared between vanilla SIR and SIR thresholded}
+\item{lambda}{The thresholding parameter used}
+\item{thresholding}{The thresholding method used}
+\item{call}{Unevaluated call to the function.}
+\item{X_reduced}{The X data restricted to the variables selected by the model.
+It can be used to estimate a new SIR model on the relevant variables to improve
+the estimation of b}
 }
 \description{
 Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, with 
 thresholding of the matrix of interest by the lambda parameter.
 }
 \examples{
-
 # Generate Data
 set.seed(10)
 n <- 500
@@ -46,8 +71,8 @@ eps <- rnorm(n)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply SIR with hard thresholding
-SIR_threshold(Y,X,H=10,lambda=0.2,thresholding="hard")
+SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
 
 # Apply SIR with soft thresholding
-SIR_threshold(Y,X,H=10,lambda=0.2,thresholding="soft")
+SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "soft")
 }

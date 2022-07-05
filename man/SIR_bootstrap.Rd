@@ -14,18 +14,31 @@ SIR_bootstrap(Y, X, H = 10, B = 10, graphic = TRUE, choice = "")
 \item{H}{The chosen number of slices.}
 
 \item{B}{The number of bootstrapped sample to draw}
+
+\item{graphic}{A boolean that must be set to true to display graphics}
+
+\item{choice}{the graph to plot: 
+\itemize{
+  \item "eigvals" Plot the eigen values of the matrix of interest
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y
+  \item "" Plot every graphs
+}}
 }
 \value{
-An object of class SIR.bootstrap, with attributes:
-\item{beta}{This is an estimated EDR direction, which is the principal eigenvector
+An object of class SIR_bootstrap, with attributes:
+\item{b}{This is an estimated EDR direction, which is the principal eigenvector
 of the interest matrix.}
-\item{mat.b.est}{A matrix of size p*B that contains an estimation of beta in 
+\item{mat_b}{A matrix of size p*B that contains an estimation of beta in 
 the columns for each bootstrapped sample}
 \item{n}{Sample size.}
 \item{p}{The number of variables in X.}
+\item{H}{The chosen number of slices.}
+\item{call}{Unevaluated call to the function}
+\item{index_pred}{The index b'X estimated by SIR}
+\item{Y}{The response vector}
 }
 \description{
-Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped sample of
+Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped samples of
 }
 \examples{
 # Generate Data
@@ -37,5 +50,5 @@ eps <- rnorm(n)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply bootstrap SIR
-SIR_bootstrap(Y,X,H=10,B=10)
+SIR_bootstrap(Y, X, H = 10, B = 10)
 }

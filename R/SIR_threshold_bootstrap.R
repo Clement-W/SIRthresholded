@@ -18,12 +18,14 @@
 #' @param graphic A boolean, set to TRUE to plot graphs
 #' @param output A boolean, set to TRUE to print information
 #' @param choice the graph to plot: 
-#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
-#' \item{size}{Plot the size of the models across the replications}
-#' \item{selec_var}{Plot the occurrence of the selected variables across the replications}
-#' \item{coefs_b}{Plot the value of b across the replications}
-#' \item{lambdas_replic}{Plot the optimal lambdas across the replications}
-#' \item{""}{Plot every graphs}
+#' \itemize{
+#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
+#'   \item "size" Plot the size of the models across the replications
+#'   \item "selec_var" Plot the occurrence of the selected variables across the replications
+#'   \item "coefs_b" Plot the value of b across the replications
+#'   \item "lambdas_replic" Plot the optimal lambdas across the replications
+#'   \item "" Plot every graphs
+#' }
 #' @return An object of class SIR_threshold_bootstrap, with attributes:
 #' \item{b}{This is the optimal estimated EDR direction, which is the principal 
 #' eigenvector of the interest matrix.}
@@ -55,18 +57,18 @@
 #' @examples
 #'
 #' # Generate Data
-#' set.seed(10)
-#'  n <-  200
-#' beta <- c(1,1,rep(0,18))
+#' set.seed(8)
+#' n <-  170
+#' beta <- c(1,1,1,1,1,rep(0,15))
 #' X <- mvtnorm::rmvnorm(n,sigma=diag(1,20))
-#' eps <- rnorm(n)
+#' eps <- rnorm(n,sd=8)
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=100,k=1)
+#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
 #' 
 #' # Apply SIR with soft thresholding
-#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=100,k=1)
+#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=30,k=2)
 #' @export
 SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     n_replications = 50, graphic = TRUE, output = TRUE, n_lambda = 300, k = 2,

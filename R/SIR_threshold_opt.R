@@ -14,12 +14,14 @@
 #' @param graphic A boolean, set to TRUE to plot graphs 
 #' @param output A boolean, set to TRUE to print informations
 #' @param choice the graph to plot: 
-#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
-#' \item{opt_lambda}{Plot the choice of the optimal lambda}
-#' \item{cos2_selec}{Plot the evolution of cos^2 and variable selection according to 
-#' lambda}
-#' \item{regul_path}{Plot the regularization path of b}
-#' \item{""}{Plot every graphs}
+#' \itemize{
+#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
+#'   \item "opt_lambda" Plot the choice of the optimal lambda
+#'   \item "cos2_selec" Plot the evolution of cos^2 and variable selection according to 
+#'   lambda
+#'   \item "regul_path" Plot the regularization path of b
+#'   \item "" Plot every graphs
+#' }
 #' @return An object of class SIR_threshold_opt, with attributes:
 #' \item{b}{This is the optimal estimated EDR direction, which is the principal 
 #' eigenvector of the interest matrix.}
@@ -34,7 +36,7 @@
 #' \item{fit_bp}{An object of class breakpoints from the strucchange package,
 #' that contains informations about the breakpoint which allows to deduce the
 #' optimal lambda.}
-#' \item{indices_useless_var}{A vector that contains p values: each variable is 
+#' \item{indices_useless_var}{A vector that contains p items: each variable is 
 #' associated with the number of lambda that selects this variable.}
 #' \item{vect_cos_squared}{A vector that contains for each lambda,
 #' the cosine squared between vanilla SIR and SIR thresholded}
@@ -51,7 +53,7 @@
 #' \item{index_pred}{The index Xb' estimated by SIR}
 #' @examples 
 #' # Generate Data
-#' set.seed(10)
+#' set.seed(2)
 #' n <- 200
 #' beta <- c(1,1,rep(0,8))
 #' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
@@ -124,7 +126,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
     }
 
 
-    # Creation of a vector which contains p values: each variable is associated 
+    # Creation of a vector which contains p items: each variable is associated 
     # with the index of the lambda from which the variable becomes useless. 
     # This index also corresponds to the number of lambda for which the variable
     # is useful.

@@ -9,9 +9,11 @@
 #' @param thresholding The thresholding method (choose between hard, soft)
 #' @param graphic A boolean that must be set to true to display graphics
 #' @param choice the graph to plot: 
-#' \item{eigvals}{Plot the eigen values of the matrix of interest}
-#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
-#' \item{""}{Plot every graphs}
+#' \itemize{
+#'   \item "eigvals" Plot the eigen values of the matrix of interest
+#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
+#'   \item "" Plot every graphs
+#' }
 #' @return An object of class SIR_threshold, with attributes:
 #' \item{b}{This is an estimated EDR direction, which is the principal eigenvector 
 #' of the interest matrix.}

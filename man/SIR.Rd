@@ -12,16 +12,28 @@ SIR(Y, X, H = 10, graphic = TRUE, choice = "")
 \item{X}{A matrix representing the quantitative explanatory variables (bind by column).}
 
 \item{H}{The chosen number of slices.}
+
+\item{graphic}{A boolean that must be set to true to display graphics}
+
+\item{choice}{the graph to plot: 
+\itemize{
+  \item "eigvals" Plot the eigen values of the matrix of interest
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y
+  \item "" Plot every graphs
+}}
 }
 \value{
 An object of class SIR, with attributes:
-\item{beta}{This is an estimated EDR direction, which is the principal 
+\item{b}{This is an estimated EDR direction, which is the principal 
 eigenvector of the interest matrix.}
 \item{M1}{The interest matrix.}
-\item{eig.val}{The eigenvalues of the interest matrix.}
-\item{eig.vect}{A matrix corresponding to the eigenvectors of the interest matrix.}
+\item{eig_val}{The eigenvalues of the interest matrix.}
 \item{n}{Sample size.}
 \item{p}{The number of variables in X.}
+\item{H}{The chosen number of slices.}
+\item{call}{Unevaluated call to the function}
+\item{index_pred}{The index Xb' estimated by SIR}
+\item{Y}{The response vector}
 }
 \description{
 Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices.
@@ -36,5 +48,5 @@ eps <- rnorm(n)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply SIR
-SIR(Y,X,H=10)
+SIR(Y, X, H = 10)
 }

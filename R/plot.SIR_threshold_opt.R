@@ -5,12 +5,14 @@
 #' regularization path of b
 #' @param x A SIR_threshold_opt object
 #' @param choice the graph to plot: 
-#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
-#' \item{opt_lambda}{Plot the choice of the optimal lambda}
-#' \item{cos2_selec}{Plot the evolution of cos^2 and variable selection according to 
-#' lambda}
-#' \item{regul_path}{Plot the regularization path of b}
-#' \item{""}{Plot every graphs}
+#' \itemize{
+#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
+#'   \item "opt_lambda" Plot the choice of the optimal lambda
+#'   \item "cos2_selec" Plot the evolution of cos^2 and variable selection according to 
+#'   lambda
+#'   \item "regul_path" Plot the regularization path of b
+#'   \item "" Plot every graphs
+#' }
 #' @examples
 #' # Generate Data
 #' set.seed(10)

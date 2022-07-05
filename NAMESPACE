@@ -3,7 +3,6 @@
 S3method(plot,SIR)
 S3method(plot,SIR_bootstrap)
 S3method(plot,SIR_threshold)
-S3method(plot,SIR_threshold_bootstrap)
 S3method(plot,SIR_threshold_opt.R)
 S3method(print,SIR)
 S3method(print,SIR_bootstrap)
