@@ -1,3 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$	
 examples*
+^doc$
+^Meta$

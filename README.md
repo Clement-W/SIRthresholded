@@ -1,2 +1,3 @@
-# SIR-thresholded
+# SIRthresholded
+
 Sliced Inverse Regression with thresholding
