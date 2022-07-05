@@ -16,50 +16,66 @@ knitr::opts_chunk$set(
 )
 ```
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+présentation de SIR et SIR thresholded ? (de manière succinte comme dans l'abstract ou la conf JDS?)
 
--   Never uses retina figures
--   Has a smaller default figure size
--   Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+## Overview
 
-## Vignette Info
+This package offers an implementation of the SIR method, along with a thresholded version of SIR that allows variable selection. 
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+### SIR
 
-## Styles
+Apply a single-index $SIR$ on $(X,Y)$ with $H$ slices.
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+### SIR_bootstrap 
 
-    output:
-      rmarkdown::html_vignette:
-        css: mystyles.css
+Apply a single-index $SIR$ on $B$ bootstraped samples of $(X,Y)$ with $H$ slices.
 
-## Figures
+### SIR_threshold
 
-The figure sizes have been customised so that you can easily put two images side-by-side.
+Apply a single-index $SIR$ on $(X,Y)$ with $H$ slices, with a parameter $\lambda$ which threshold the interest matrix $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$.
+
+### SIR_threshold_opt
+
+Apply a single-index SIR on $(X,Y)$ with H slices, with a thresholding of the interest matrix $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$ by an optimal parameter $\lambda_{opt}$. The $\lambda_{opt}$ is found automatically among a vector of `n_lambda` $\lambda$, starting from 0 to the maximum value of $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$. For each features of $X$, the number of $\lambda$ which implies a selection of this feature is stored (in a vector of size $p$). 
+
+For $X \in R^{10}$ and 100 $\lambda$ values in the vector of lambdas, this sorted vector can look like this :
+
+| X10 | X3 | X8 | X5 | X7 | X9 | X4 | X6 | X2 | X1  |
+|-----|----|----|----|----|----|----|----|----|-----|
+| 2   | 3  | 3  | 4  | 4  | 4  | 6  | 10 | 95 | 100 |
+
+Then, thanks to `strucchange::breakpoints`, a breakpoint is found in this sorted vector. This breakpoint corresponds to the number of useless variables. In the last example, the breakpoint would be 8. From this breakpoint, the variables are more difficult to toggle to $0$ in $\hat{\beta}$. Then, the index of $\lambda_{opt}$ in the vector of lambdas is the first $\lambda$ whose associated $\hat{\beta}$ shows the same number of zeros as the breakpoint value.
+
+### SIR_threshold_bootstrap
+
+Apply a single-index optimally thresholded $SIR$ on `n_replications` bootstraped replications of $(X,Y)$ with $H$ slices. The optimal number of selected variables is the number of selected variables that came back most often among the replications performed. From this, we can get the corresponding $\hat{\beta}$ and $\lambda_{opt}$ that produce the same number of selected variables in the result of `SIR_threshold_opt`.
+
+## Example with simulated data
+
+```{r,fig.align='center'}
+set.seed(1)
+n <- 200
+p <- 30
+p_star <- 10
+X <- mvtnorm::rmvnorm(n,sigma=diag(p))
+dimnames(X) <- list(1:n, paste("X", 1:p, sep = ""))
+
+eps <- rnorm(n, sd = 15)
+
+beta <- matrix(c(rep(1,p_star),rep(0,p-p_star)),ncol=1)
+rownames(beta) <- colnames(X)
+
+Y <- (X %*% beta)**3 + eps
+
+plot(X %*% beta, Y, xlab = "true index")
+```
+
+## Example with ?????? dataset
 
 ```{r, fig.show='hold'}
 plot(1:10)
 plot(10:1)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-> ([via](https://twitter.com/hadleywickham/status/504368538874703872))
+You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables

@@ -1,7 +1,7 @@
-#' SIR thresholded
+#' SIR threshold
 #'
 #' Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, with 
-#' thresholding of the matrix of interest by the lambda parameter.
+#' a thresholding of the matrix of interest by the lambda parameter.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.

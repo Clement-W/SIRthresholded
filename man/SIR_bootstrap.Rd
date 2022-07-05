@@ -38,7 +38,8 @@ the columns for each bootstrapped sample}
 \item{Y}{The response vector}
 }
 \description{
-Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped samples of
+Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped samples of 
+(X,Y) with H slices.
 }
 \examples{
 # Generate Data

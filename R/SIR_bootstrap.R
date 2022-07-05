@@ -1,7 +1,7 @@
 #'  Bootstrap SIR
 #'
 #' Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped samples of 
-# (X,Y) with H slices.
+#' (X,Y) with H slices.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.

@@ -134,8 +134,8 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
     names(indices_useless_var) <- colnames(X)
 
     # We then look for a breakpoint in the ordered index_useless_var vector. This
-    # breakpoints corresponds to the number of useless variables. From this breakpoints,
-    # the variables are more difficult to toggle to 0 with a threshold.
+    # breakpoints corresponds to the number of useless variables. From this breakpoint,
+    # the variables are more difficult to toggle to 0.
     fit_bp <- breakpoints(sort(indices_useless_var, decreasing = FALSE) ~ 1,
         breaks = 1, h = 2 / p)
 
