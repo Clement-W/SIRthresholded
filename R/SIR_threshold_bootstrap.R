@@ -1,29 +1,57 @@
 #' SIR optimally thresholded on bootstraped replications
 #'
-#' Apply a single-index SIR (Sliced Inverse Regression) on N bootstraped replications
-#' of (X,Y) with H slices, with thresholding of the matrix of interest by the
-#' *optimal* lambda parameter.
-#' TODO: improve description
+#' Apply a single-index optimally thresholded SIR (Sliced Inverse Regression) 
+#' on N bootstraped replications of (X,Y) with H slices.The optimal number of 
+#' selected variables is the number of selected variables that came back most often 
+#' among the replications performed. Then, we can get the beta and optimal lambda 
+#' which corresponds to this number of selected variables in SIR_threshold_opt.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
-#' @param N.lambda The number of lambda to test. The N.lambda tested lambdas are
+#' @param n_lambda The number of lambda to test. The n_lambda tested lambdas are
 #' between 0 and the maximum value of the interest matrix.
 #' @param thresholding The thresholding method (choose between hard, soft)
-#' @param Nb.replications The number of bootstraped replications of (X,Y) done to
+#' @param n_replications The number of bootstraped replications of (X,Y) done to
 #' estimate the model.
 #' @param k Multiplication factor of the bootstrapped sample size
 #' (default is 1 = keep the same size as original data)
 #' @param graphic A boolean, set to TRUE to plot graphs
 #' @param output A boolean, set to TRUE to print information
-#' @return An object of class SIR.threshold.opt, with attributes:
-#' \item{b.opt}{This is the optimal estimated EDR direction, which is the principal
+#' @param choice the graph to plot: 
+#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
+#' \item{size}{Plot the size of the models across the replications}
+#' \item{selec_var}{Plot the occurrence of the selected variables across the replications}
+#' \item{coefs_b}{Plot the value of b across the replications}
+#' \item{lambdas_replic}{Plot the optimal lambdas across the replications}
+#' \item{""}{Plot every graphs}
+#' @return An object of class SIR_threshold_bootstrap, with attributes:
+#' \item{b}{This is the optimal estimated EDR direction, which is the principal 
 #' eigenvector of the interest matrix.}
-#' \item{lambdas}{A vector that contains the tested lambdas}
-#' \item{lambda.opt}{The optimal lambda}
-#' \item{Nb.var.selec.opt}{The optimal number of variables selected}
-#' \item{list.relevant.variables}{A list that contains the variables selected
-#' by the model}
+#' \item{lambda_opt}{The optimal lambda}
+#' \item{vec_nb_var_selec}{Vector that contains the number of selected variables 
+#' for each replications}
+#' \item{occurrences_var}{Vector that contains at index i the number of times the 
+#' i_th variable has been selected in a replication}
+#' \item{call}{Unevaluated call to the function.}
+#' \item{nb_var_selec_opt}{Optimal number of selected variables which is the number 
+#' of selected variables that came back most often among the replications performed}
+#' \item{list_relevant_variables}{A list that contains the variables selected by 
+#' the model}
+#' \item{n}{Sample size.}
+#' \item{p}{The number of variables in X.}
+#' \item{H}{The chosen number of slices.}
+#' \item{n_replications}{The number of bootstraped replications of (X,Y) done to
+#' estimate the model.}
+#' \item{thresholding}{The thresholding method used}
+#' \item{X_reduced}{The X data restricted to the variables selected by the model.
+#' It can be used to estimate a new SIR model on the relevant variables to improve
+#' the estimation of b.}
+#' \item{mat_b}{Contains the estimation b at each bootstraped replications}
+#' \item{lambdas_opt_boot}{Contains the optimal lambda found by SIR_threshold_opt at 
+#' each replication }
+#' \item{index_pred}{The index Xb' estimated by SIR}
+#' \item{Y}{The response vector}
+#' \item{M1}{The interest matrix thresholded with the optimal lambda.}
 #' @examples
 #'
 #' # Generate Data
@@ -35,17 +63,18 @@
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=100,k=1,graphic=TRUE,output=TRUE)
+#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=100,k=1)
 #' 
 #' # Apply SIR with soft thresholding
-#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=100,k=1,graphic=TRUE,output=TRUE)
+#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=100,k=1)
 #' @export
 SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
-    n_replications = 50, graphic = TRUE, output = TRUE, n_lambda = 300, k = 2,choice="") {
+    n_replications = 50, graphic = TRUE, output = TRUE, n_lambda = 300, k = 2,
+    choice = "") {
 
     cl <- match.call()
 
-    # Sparse SIR avec N.lambda sur tout l'échantillon
+    # SIR optimally thresholded
     res_SIR_th <- SIR_threshold_opt(Y, X, H = H, thresholding = thresholding,
         graph = FALSE, output = FALSE, n_lambda = n_lambda)
 
@@ -56,42 +85,48 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         colnames(X) <- paste("X", 1:p, sep = "")
     }
 
-    # Stockage du nombre de variable sélectionnée pour chaque réplication
-    nb_var_selec <- rep(NA, n_replications)
-    # vecteur des noms de variables de X
+    # Vector used to store the number of selected variables for each replications
+    vec_nb_var_selec <- rep(NA, n_replications)
+
+    # Initialize the list of relevant variables to every variables at first
     list_relevant_variables <- colnames(X)
 
-    # Tableau permettant de stocker les variables sélectionnées pour chaque réplication
-    liste <- list()
+    # List used to store the selected variables for each replications
+    liste_var_selec <- list()
 
-    # Vecteur qui contient le nombre de fois ou la variable à l'indice j a été retenue
-    # dans une réplication
-    effectif_var <- rep(0, p)
+    # Vector that contains the number of times the variable at index j has been selected
+    # in a replication
+    occurrences_var <- rep(0, p)
 
+    # To store the estimation b at each bootstraped replications
     mat_b <- matrix(0, ncol = p, nrow = n_replications)
-    
-    lambdas_opt_boot <- rep(0,n_replications)
+
+    # To store the optimal lambda at each replication 
+    lambdas_opt_boot <- rep(0, n_replications)
 
 
-    # Pour chaque réplication
+    # For each replication
     for (replic in 1:n_replications) {
         # bootstrap 
         indice_bootstrap <- sample(1:n, size = k * n, replace = TRUE)
-        # On récupère les X et Y avec les indices pris par bootstrap
+        # Get bootstraped X and Y
         X_boot <- X[indice_bootstrap,]
         Y_boot <- Y[indice_bootstrap]
 
-        # Sparse.SIR sur l'echantillon créé par boostrap
+        # SIR optimally thresholded on the bootstraped sample
         res_boot <- SIR_threshold_opt(Y_boot, X_boot, H = H, thresholding = thresholding,
             graph = FALSE, output = FALSE, n_lambda = n_lambda)
-        # Stockage du nombre de variable sélectionnée (utiles) pour cette réplication
-        nb_var_selec[replic] <- length(res_boot$list_relevant_variables)
 
-        # stockage des variables sélectionnées
-        liste[[replic]] <- res_boot$list_relevant_variables
+        # Store the number of selected variables 
+        vec_nb_var_selec[replic] <- length(res_boot$list_relevant_variables)
 
+        # Store the selected variables
+        liste_var_selec[[replic]] <- res_boot$list_relevant_variables
+
+        # Store the vector b 
         mat_b[replic,] <- res_boot$b
-        
+
+        # Store the optimal lambda
         lambdas_opt_boot[replic] <- res_boot$lambda_opt
 
         if (output && replic %% 5 == 0) {
@@ -99,62 +134,73 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         }
     }
 
-    # Pour chaque réplication
+    # For each replication
     for (i in 1:n_replications) {
-        # Pour chaque variable
+        # Pour eeach variable
         for (j in 1:p) {
-            # Si la variable à l'indice j a été retenue pour la ième réplication
-            if ((sum(liste[[i]] == colnames(X)[j])) == 1) {
-                # On incrémente le compteur d'occurrence de la variable j
-                effectif_var[j] <- effectif_var[j] + 1
+            # If the variable at index j was selected on the i_th replication
+            if ((sum(liste_var_selec[[i]] == colnames(X)[j])) == 1) {
+                # Increment the occurrence counter of the variable j
+                occurrences_var[j] <- occurrences_var[j] + 1
             }
         }
     }
 
 
-    # Nombre de variable sélectionné optimale (le nombre de variable sélectionné 
-    # qui est revenu le plus souvent parmi les réplications effectuées)
+    # Optimal number of selected variables = the number of selected variables 
+    # that came back most often among the replications performed
     nb_var_selec_opt <-
-        as.numeric(names(which(table(nb_var_selec) == max(table(nb_var_selec)))))[1]
+        as.numeric(names(which(table(vec_nb_var_selec) == max(table(vec_nb_var_selec)))))[1]
 
-    # Nombre de zero optimal
+    # Number of optimal zero
     nb_zeros_opt <- p - nb_var_selec_opt
 
-    # estimation du beta final en prenant le beta estimé sur tout l'échantillon par la
-    # méthode SIR, au lambda à partir duquel le nombre de zero optimal apparaît
+    # estimation of b by taking the beta estimated on the whole sample by the
+    # method, at the lambda from which the optimal number of zeros appears
     b <- res_SIR_th$mat_b[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt)),]
-    # Conversion du beta en matrice à une ligne p colonnes
+    # Convert it into a one-line matrix
     b <- matrix(b, nrow = 1)
-    # Renommage des colonnes
+    # Rename columns
     colnames(b) <- colnames(X)
 
-    # Si on a bien réduit le nombre de variables
+
+    # If variables have been removed
     if (nb_zeros_opt > 0) {
-        # mise à jour des variables utiles 
+        # Update the list of relevant variables
         list_relevant_variables <- colnames(X)[-which(b == 0)]
-        # Si le nombre de zéros dans le b.opt final est à 0
+
+        # If the number of zero in b is 0
         if (length(which(b == 0)) == 0) {
-            # la liste de variables utile contient toutes les variables
+            # The list of relevant variables contains every variables
             list_relevant_variables <- colnames(X)
         }
     }
 
+    # Create the X reduced variable by restricting X to the relevant variables.
     X_reduced <- X[, list_relevant_variables, drop = FALSE]
 
+    # Estimated index
+    index_pred <- X %*% t(b)
+
+    # Get the optimal lambda that corresponds to the optimal number of zero found earlier
     lambda_optim <-
         res_SIR_th$lambdas[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt))]
 
+    # Get the corresponding thresholded interest matrix
+    M1_th = SIR_threshold(Y, X, H = H, lambda = lambda_optim,
+            thresholding = thresholding, graphic = FALSE)$M1
+
     res <- list(b = b, lambda_opt = lambda_optim,
-        nb_var_selec = nb_var_selec, effectif_var = effectif_var, call = cl,
+        vec_nb_var_selec = vec_nb_var_selec, occurrences_var = occurrences_var, call = cl,
         nb_var_selec_opt = nb_var_selec_opt, list_relevant_variables =
         list_relevant_variables, n = n, p = p, H = H, n_replications =
         n_replications, thresholding = thresholding, X_reduced = X_reduced, mat_b = mat_b,
-        lambdas_opt_boot=lambdas_opt_boot)
+        lambdas_opt_boot = lambdas_opt_boot, index_pred = index_pred, Y = Y, M1 = M1_th)
 
     class(res) <- "SIR_threshold_bootstrap"
 
     if (graphic == TRUE) {
-        plot.SIR_threshold_bootstrap(res,choice=choice)
+        plot.SIR_threshold_bootstrap(res, choice = choice)
     }
 
     return(res)

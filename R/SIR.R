@@ -18,7 +18,7 @@
 #' \item{p}{The number of variables in X.}
 #' \item{H}{The chosen number of slices.}
 #' \item{call}{Unevaluated call to the function}
-#' \item{index_pred}{The index b'X estimated by SIR}
+#' \item{index_pred}{The index Xb' estimated by SIR}
 #' \item{Y}{The response vector}
 #' @examples
 #' # Generate Data

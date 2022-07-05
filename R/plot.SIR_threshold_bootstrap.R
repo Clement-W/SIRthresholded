@@ -1,41 +1,95 @@
-#' @export
-#' @keywords internal
-plot.SIR_threshold_bootstrap <- function(x, choice="",...) {
+#'  Graphical output of SIR_threshold_bootstrap
+#'
+#' Display the estimated index versus Y of the SIR model, the size of the models
+#' the occurrence of variable selection, the coefficients of b and the optimal lambda 
+#' found across the replications.
+#' @param x A SIR_threshold_bootstrap object
+#' @param choice the graph to plot: 
+#' \item{estim_ind}{Plot the estimated index by the SIR model versus Y}
+#' \item{size}{Plot the size of the models across the replications}
+#' \item{selec_var}{Plot the occurrence of the selected variables across the replications}
+#' \item{coefs_b}{Plot the value of b across the replications}
+#' \item{lambdas_replic}{Plot the optimal lambdas across the replications}
+#' \item{""}{Plot every graphs}
+#' @examples
+#' # Generate Data
+#' set.seed(10)
+#' n <- 200
+#' beta <- c(1,1,rep(0,8))
+#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+#' eps <- rnorm(n)
+#' Y <- (X%*%beta)**3+eps
+#'
+#' # Apply SIR with hard thresholding
+#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="hard")
+#' 
+#' # Apply SIR with soft thresholding
+#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
+#' 
+#' # Estimated index versus Y
+#' plot.SIR_threshold_bootstrap(res,choice="estim_ind")
+#' 
+#' # Model size
+#' plot.SIR_threshold_bootstrap(res,choice="size")
+#' 
+#' # Selected variables
+#' plot.SIR_threshold_bootstrap(res,choice="selec_var")
+#' 
+#' # Coefficients of b
+#' plot.SIR_threshold_bootstrap(res,choice="coefs_b")
+#'
+#' # Optimal lambdas
+#' plot.SIR_threshold_bootstrap(res,choice="lambdas_replic")
+plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
 
     if (!inherits(x, "SIR_threshold_bootstrap"))
         stop("Only use with \"SIR_threshold_bootstrap\" obects")
-    
-    if (!(choice %in% c("","size", "selec_var","coefs_b","lambdas_replic"))) 
-        stop("\"choice\" must be either \"size\",\"selec_var\",\"coefs_b\" or \"lambdas_replic\"",call. = FALSE)
 
-    if(choice=="" || choice=="size"){
-        # Histogramme du nombre de variables sélectionnées par le modèle
+    if (!(choice %in% c("", "estim_ind", "size", "selec_var", "coefs_b",
+        "lambdas_replic")))
+        stop("\"choice\" must be either \"estim_ind\",\"size\",\"selec_var\",
+            \"coefs_b\" or \"lambdas_replic\"", call. = FALSE)
+
+    if (choice == "" || choice == "estim_ind") {
         dev.new()
-        barplot((table(x$nb_var_selec) / x$n_replications) * 100, ylab = "percent",
+        plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)
+        title("Reconstructed index")
+    }
+
+    if (choice == "" || choice == "size") {
+        # Barplot of the number of selected variable by the model 
+        dev.new()
+        barplot((table(x$vec_nb_var_selec) / x$n_replications) * 100, ylab = "percent",
                 xlab = "Number of selected variables")
         title("Sizes of the reduced models")
     }
 
-    if(choice=="" || choice=="selec_var"){
+    if (choice == "" || choice == "selec_var") {
         dev.new()
-        # Histogramme du nombre de fois ou chaque variable a été sélectionnée
-        barplot((x$effectif_var / x$n_replications) * 100, names.arg =
+        # Barplot of the number of time where each variable has been selected
+        barplot((x$occurrences_var / x$n_replications) * 100, names.arg =
                 colnames(x$b), ylab = "percent", xlab = "variable name")
         title("Selected variables in the reduced models")
     }
-    
-    if(choice=="" || choice=="coefs_b"){
+
+    if (choice == "" || choice == "coefs_b") {
+        # Boxplot showing the distribution of the coefficients of b
         dev.new()
         mat_b <- x$mat_b
         j0 <- which.max(abs(mat_b[1,]))
         for (i in 1:nrow(mat_b)) {
             mat_b[i,] = mat_b[i,] * sign(mat_b[i, j0])
         }
-        boxplot(mat_b,xlab="coefficients of b",ylab="",main=paste("Value of b over",x$n_replications,"replications"),names=colnames(x$b))
+        boxplot(mat_b, xlab = "coefficients of b", ylab = "", main =
+            paste("Value of b over", x$n_replications, "replications"),
+            names = colnames(x$b))
     }
-    
-    if(choice=="" || choice=="lambdas_replic"){
+
+    if (choice == "" || choice == "lambdas_replic") {
+        # Boxplot showing the distribution of the optimal lambdas found
         dev.new()
-        boxplot(x$lambdas_opt_boot,xlab=expression(lambda),ylab="",main=paste("Value of optimal" ,expression(lambda), "over the",x$n_replications,"replications"))
+        boxplot(x$lambdas_opt_boot, xlab = expression(lambda), ylab = "",
+            main = paste("Value of optimal", expression(lambda), "over the",
+            x$n_replications, "replications"))
     }
 }

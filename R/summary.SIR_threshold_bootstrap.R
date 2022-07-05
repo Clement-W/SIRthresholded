@@ -6,7 +6,8 @@ summary.SIR_threshold_bootstrap <- function(x, ...) {
 
     cat("\nCall:\n", deparse(x$call), "\n", sep = "")
 
-    cat(paste("\n===== Optimally Thresholded Sliced Inverse Regression on", "bootstrapped replications =====", "\n"))
+    cat(paste("\n===== Optimally Thresholded Sliced Inverse Regression on",
+        "bootstrapped replications =====", "\n"))
 
     cat("\n")
     cat(paste("Number of observations:", x$n), "\n")
@@ -22,8 +23,8 @@ summary.SIR_threshold_bootstrap <- function(x, ...) {
     cat(paste("List of relevant variables:", paste(x$list_relevant_jvariables,
         collapse = ",")), "\n")
     cat("\n")
-    
-    
+
+
 
     cat("Results of EDR directions estimation:\n")
     res <- matrix(x$b, ncol = 1)

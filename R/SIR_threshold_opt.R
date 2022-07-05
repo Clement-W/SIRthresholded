@@ -4,7 +4,7 @@
 #' thresholded by an optimal lambda parameter. The optimal lambda is found among n_lambda 
 #' that threshold the interest matrix. Then, for each variable in X, we store how many
 #' lambda selects this variable in a vector of size p. Thus, we find a breakpoint in 
-# this sorted vector, which indicates the optimal lambda.
+#' this sorted vector, which indicates the optimal lambda.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
@@ -36,7 +36,6 @@
 #' optimal lambda.}
 #' \item{indices_useless_var}{A vector that contains p values: each variable is 
 #' associated with the number of lambda that selects this variable.}
-#' \item{vect_nb_zeros}{The number of 0 in b for each lambda}
 #' \item{vect_cos_squared}{A vector that contains for each lambda,
 #' the cosine squared between vanilla SIR and SIR thresholded}
 #' \item{Y}{The response vector.}
@@ -49,7 +48,7 @@
 #' \item{X_reduced}{The X data restricted to the variables selected by the model.
 #' It can be used to estimate a new SIR model on the relevant variables to improve
 #' the estimation of b.}
-#' \item{index_pred}{The index b'X estimated by SIR}
+#' \item{index_pred}{The index Xb' estimated by SIR}
 #' @examples 
 #' # Generate Data
 #' set.seed(10)
@@ -180,7 +179,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
             # Get the relevant variables (the columns of b where the value is not 0)
             list_relevant_var <- colnames(b)[-which(b == 0)]
             M1_th = SIR_threshold(Y, X, H = H, lambda = lambda_opt,
-            thresholding = thresholding, graphic = FALSE)$M1
+                thresholding = thresholding, graphic = FALSE)$M1
         }
 
         # If thresholded SIR could not make variable selection, keep the result of

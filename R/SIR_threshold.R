@@ -23,7 +23,7 @@
 #' \item{p}{The number of variables in X.}
 #' \item{H}{The chosen number of slices.}
 #' \item{nb.zeros}{The number of 0 in the estimation of the vector beta.}
-#' \item{index_pred}{The index b'X estimated by SIR}
+#' \item{index_pred}{The index Xb' estimated by SIR}
 #' \item{list.relevant.variables}{A list that contains the variables selected by the
 #' model}
 #' \item{cos_squared}{The cosine squared between vanilla SIR and SIR thresholded}
