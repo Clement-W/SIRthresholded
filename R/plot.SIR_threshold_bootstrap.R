@@ -63,7 +63,7 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
         dev.new()
         barplot((table(x$vec_nb_var_selec) / x$n_replications) * 100, ylab = "percent",
                 xlab = "Number of selected variables")
-        title("Sizes of the reduced models")
+        title(paste("Number of selected variables over the", x$n_replications, "bootstrap replications"))
     }
 
     if (choice == "" || choice == "selec_var") {
@@ -71,7 +71,7 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
         # Barplot of the number of time where each variable has been selected
         barplot((x$occurrences_var / x$n_replications) * 100, names.arg =
                 colnames(x$b), ylab = "percent", xlab = "variable name")
-        title("Selected variables in the reduced models")
+        title(paste("Selected variables over the", x$n_replications, "bootstrap replications"))
     }
 
     if (choice == "" || choice == "coefs_b") {
@@ -83,8 +83,11 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
             mat_b[i,] = mat_b[i,] * sign(mat_b[i, j0])
         }
         boxplot(mat_b, xlab = "coefficients of b", ylab = "", main =
-            paste("Value of b over", x$n_replications, "replications"),
+            paste("Value of b over the", x$n_replications, "bootstrap replications"),
             names = colnames(x$b))
+        points(matrix(x$b,ncol=1),pch=19,col=6,lwd=3)
+        legend("topright", legend = expression(hat(beta) ~ " associated to optimal" ~ lambda), col = 6,
+               pch = 19)
     }
 
     if (choice == "" || choice == "lambdas_replic") {
@@ -92,6 +95,9 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
         dev.new()
         boxplot(x$lambdas_opt_boot, xlab = expression(lambda), ylab = "",
             main = paste("Value of optimal", expression(lambda), "over the",
-            x$n_replications, "replications"))
+            x$n_replications, "bootstrap replications"))
+        abline(h = x$lambda_opt, col = 6, lwd = 3)
+        legend("topright", legend = expression("optimal" ~ lambda), col = 6,
+               lty = 1, lwd = 3, cex = 1)
     }
 }

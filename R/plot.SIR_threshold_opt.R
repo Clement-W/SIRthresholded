@@ -122,7 +122,7 @@ plot.SIR_threshold_opt.R <- function(x, choice = "", ...) {
         title("Regularization path", line = 4)
         text(rep(0, ncol(mat_b)), mat_b[1,], colnames(x$b), pos = 2)
         axis(side = 3, labels = lab, at = interval)
-        mtext("Number of variables selected", side = 3, line = 2.3)
+        mtext("Number of selected variables", side = 3, line = 2.3)
 
         abline(v = x$lambda_opt, col = 6, lwd = 3)
         legend("topright", legend = expression("optimal" ~ lambda), col = 6,
