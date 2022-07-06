@@ -36,39 +36,53 @@ Apply a single-index $SIR$ on $(X,Y)$ with $H$ slices, with a parameter $\lambda
 
 ### SIR_threshold_opt
 
-Apply a single-index SIR on $(X,Y)$ with H slices, with a thresholding of the interest matrix $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$ by an optimal parameter $\lambda_{opt}$. The $\lambda_{opt}$ is found automatically among a vector of `n_lambda` $\lambda$, starting from 0 to the maximum value of $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$. For each features of $X$, the number of $\lambda$ which implies a selection of this feature is stored (in a vector of size $p$). 
+Apply a single-index SIR on $(X,Y)$ with $H$ slices, with a thresholding of the interest matrix $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$ by an optimal parameter $\lambda_{opt}$. The $\lambda_{opt}$ is found automatically among a vector of `n_lambda` $\lambda$, starting from 0 to the maximum value of $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$. For each feature of $X$, the number of $\lambda$ associated with a selection of this feature is stored (in a vector of size $p$). This vector is sorted in a decreasing way. Then, thanks to `strucchange::breakpoints`, a breakpoint is found in this sorted vector. The coefficients of the variables at the left of the breakpoint, tend to be automatically toggled to 0 due to the thresholding operation based on $\lambda_{opt}$, and so should be removed (useless variables). Finally, $\lambda_{opt}$ corresponds to the first $\lambda$ such that the associated $\hat{\beta}$ provides the same number of zeros as the breakpoint's value.
 
-For $X \in R^{10}$ and 100 $\lambda$ values in the vector of lambdas, this sorted vector can look like this :
+For example, for $X \in \mathbb{R}^{10}$ and `n_lambda=100`, this sorted vector can look like this :
 
 | X10 | X3 | X8 | X5 | X7 | X9 | X4 | X6 | X2 | X1  |
 |-----|----|----|----|----|----|----|----|----|-----|
 | 2   | 3  | 3  | 4  | 4  | 4  | 6  | 10 | 95 | 100 |
 
-Then, thanks to `strucchange::breakpoints`, a breakpoint is found in this sorted vector. This breakpoint corresponds to the number of useless variables. In the last example, the breakpoint would be 8. From this breakpoint, the variables are more difficult to toggle to $0$ in $\hat{\beta}$. Then, the index of $\lambda_{opt}$ in the vector of lambdas is the first $\lambda$ whose associated $\hat{\beta}$ shows the same number of zeros as the breakpoint value.
+Here, the breakpoint would be 8.
 
-### SIR_threshold_bootstrap
+### `SIR_threshold_bootstrap` function
 
-Apply a single-index optimally thresholded $SIR$ on `n_replications` bootstraped replications of $(X,Y)$ with $H$ slices. The optimal number of selected variables is the number of selected variables that came back most often among the replications performed. From this, we can get the corresponding $\hat{\beta}$ and $\lambda_{opt}$ that produce the same number of selected variables in the result of `SIR_threshold_opt`.
+Apply a single-index optimally thresholded $SIR$ with $H$ slices on `n_replications` bootstraped replications of $(X,Y)$. The optimal number of selected variables is the number of selected variables that came back most often among the replications performed. From this, we can get the corresponding $\hat{\beta}$ and $\lambda_{opt}$ that produce the same number of selected variables in the result of `SIR_threshold_opt`. 
+
+This method allow to validate the robustness of the model.
 
 ## Example with simulated data
 
-```{r,fig.align='center'}
+Let's create $Y = (X\beta)^3 + \epsilon$ with:
+
+- $n=200$ (Sample size)
+- $X\in \mathbb{R}^p$ and $X\sim\mathcal{N}(0,\mathbb{I}_p)$
+- $p=30$ and $p^\star=10$ ($10$ relevant variables in $X$)
+- $\epsilon\sim\mathcal{N}(0,10)$ and $\epsilon \perp \!\!\! \perp X$.
+
+```{r,fig.align='center',fig.width=4,fig.asp=1}
 set.seed(1)
-n <- 200
-p <- 30
-p_star <- 10
-X <- mvtnorm::rmvnorm(n,sigma=diag(p))
-dimnames(X) <- list(1:n, paste("X", 1:p, sep = ""))
+n <- 200 # Sample size
+p <- 30 # Number of variables in X
+p_star <- 10 # Number of relevant variables in X
+X <- mvtnorm::rmvnorm(n,sigma=diag(p)) # X ~ N(0,I_p)
+dimnames(X) <- list(1:n, paste("X", 1:p, sep = "")) # Rename columns of X
 
-eps <- rnorm(n, sd = 15)
+eps <- rnorm(n, sd = 15) # Error
 
-beta <- matrix(c(rep(1,p_star),rep(0,p-p_star)),ncol=1)
-rownames(beta) <- colnames(X)
+beta <- matrix(c(rep(1,p_star),rep(0,p-p_star)),ncol=1) # Beta = Heaviside function
+rownames(beta) <- colnames(X) # Rename rows of X
 
-Y <- (X %*% beta)**3 + eps
+Y <- (X %*% beta)**3 + eps # The model
 
+par(mar=c(5,4,1,1)+0.1)
 plot(X %*% beta, Y, xlab = "true index")
 ```
+
+Then, we can easily create a SIR model on these data :
+
+
 
 ## Example with ?????? dataset
 

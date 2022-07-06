@@ -2,7 +2,7 @@
 % Please edit documentation in R/SIR_threshold.R
 \name{SIR_threshold}
 \alias{SIR_threshold}
-\title{SIR thresholded}
+\title{SIR threshold}
 \usage{
 SIR_threshold(
   Y,
@@ -59,7 +59,7 @@ the estimation of b}
 }
 \description{
 Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, with 
-thresholding of the matrix of interest by the lambda parameter.
+a thresholding of the matrix of interest by the lambda parameter.
 }
 \examples{
 # Generate Data
