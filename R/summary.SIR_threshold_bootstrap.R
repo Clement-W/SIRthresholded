@@ -32,7 +32,7 @@ summary.SIR_threshold_bootstrap <- function(x, ...) {
         rownames(res) <- paste("X", 1:x$p, sep = "")
     }
     colnames(res) <- "Estimated direction"
-
+    
     cat("\n")
     prmatrix(signif(res, 3))
     cat("\n")

@@ -14,6 +14,7 @@ print.SIR <- function(x, ...) {
     }
     colnames(res) <- "Estimated direction"
 
+    cat("\nResults of EDR directions estimation:\n")
     cat("\n")
     prmatrix(signif(res, 3))
     cat("\n")
