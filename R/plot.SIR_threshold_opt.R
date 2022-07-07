@@ -40,7 +40,7 @@
 #' # Regularization path
 #' plot.SIR_threshold_opt(res,choice="regul_path")
 #' @export
-plot.SIR_threshold_opt.R <- function(x, choice = "", ...) {
+plot.SIR_threshold_opt <- function(x, choice = "", ...) {
 
     if (!inherits(x, "SIR_threshold_opt"))
         stop("Only use with \"SIR_threshold_opt\" obects")

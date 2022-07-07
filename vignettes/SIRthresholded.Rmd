@@ -10,10 +10,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(echo=TRUE,eval=TRUE,comment="#>")
 ```
 
 This package offers an implementation of the $SIR$ (Sliced Inverse Regression) method, along with a thresholded version of $SIR$ that allows variable selection. The purpose of this vignettes is to explain the function implemented in the package, and how they are used. The first section is dedicated to the theoretical explaination of $SIR$, and its thresholded version. Reading this section is therefore optional, but can be useful to better understand how the package functions work.
