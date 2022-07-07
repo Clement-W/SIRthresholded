@@ -180,6 +180,12 @@ The object `res_SIR` is an object of class `SIR` and contains many numerical res
 summary(res_SIR)
 ```
 
+Here are the two graphical outputs obtained with the method `plot` of the objects of class `SIR`.
+```{r,fig.asp=1,fig.show='hold'}
+plot(res_SIR,choice="estim_ind")
+plot(res_SIR,choice="eigvals")
+```
+
 
 
 
@@ -187,13 +193,7 @@ summary(res_SIR)
 
 ## Example with ?????? dataset
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
 
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables
 
 ## References
 

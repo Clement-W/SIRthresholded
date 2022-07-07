@@ -50,13 +50,17 @@ plot.SIR_threshold_opt <- function(x, choice = "", ...) {
          \"regul_path\"", call. = FALSE)
 
     if (choice == "" || choice == "estim_ind") {
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)
         title("Reconstructed index")
     }
 
     if (choice == "" || choice == "opt_lambda") {
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         par(las = 2)
         # Display sorted lambda's indices
         plot(sort(((x$indices_useless_var) / x$n_lambda) * 100, decreasing = FALSE),
@@ -77,7 +81,9 @@ plot.SIR_threshold_opt <- function(x, choice = "", ...) {
     }
 
     if (choice == "" || choice == "cos2_selec") {
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         # Display the percentage of useful variables according to the lambdas
         plot(x$lambdas, 1 - x$vect_nb_zeros / x$p, ylim = c(0, 1.3),
             xlim = c(0, max(x$lambdas)), xlab = expression(lambda), col = 3, type = "l",
@@ -99,7 +105,9 @@ plot.SIR_threshold_opt <- function(x, choice = "", ...) {
     }
 
     if (choice == "" || choice == "regul_path") {
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         par(mar = c(5.1, 4.1, 6, 2.1))
 
         # Puts all the beta estimation in the same direction

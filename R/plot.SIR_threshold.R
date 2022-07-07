@@ -39,7 +39,9 @@ plot.SIR_threshold <- function(x, choice = "", ...) {
         stop("\"choice\" must be either \"eigvals\" or \"estim_ind\"", call. = FALSE)
 
     if (choice == "" || choice == "eigvals") {
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         # on prend au plus les 10 premières valeurs propres et on les affichent 
         # dans un screplot
         eig_vals <- x$eig_val
@@ -56,7 +58,9 @@ plot.SIR_threshold <- function(x, choice = "", ...) {
 
 
     if (choice == "" || choice == "estim_ind") {
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)
         title("Reconstructed index")
     }

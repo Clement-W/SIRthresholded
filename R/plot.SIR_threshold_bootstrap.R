@@ -53,21 +53,27 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
             \"coefs_b\" or \"lambdas_replic\"", call. = FALSE)
 
     if (choice == "" || choice == "estim_ind") {
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)
         title("Reconstructed index")
     }
 
     if (choice == "" || choice == "size") {
         # Barplot of the number of selected variable by the model 
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         barplot((table(x$vec_nb_var_selec) / x$n_replications) * 100, ylab = "percent",
                 xlab = "Number of selected variables")
         title(paste("Number of selected variables over the", x$n_replications, "bootstrap replications"))
     }
 
     if (choice == "" || choice == "selec_var") {
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         # Barplot of the number of time where each variable has been selected
         barplot((x$occurrences_var / x$n_replications) * 100, names.arg =
                 colnames(x$b), ylab = "percent", xlab = "variable name")
@@ -76,7 +82,9 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
 
     if (choice == "" || choice == "coefs_b") {
         # Boxplot showing the distribution of the coefficients of b
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         mat_b <- x$mat_b
         j0 <- which.max(abs(mat_b[1,]))
         for (i in 1:nrow(mat_b)) {
@@ -92,7 +100,9 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
 
     if (choice == "" || choice == "lambdas_replic") {
         # Boxplot showing the distribution of the optimal lambdas found
-        dev.new()
+        if(choice==""){
+            dev.new()
+        }
         boxplot(x$lambdas_opt_boot, xlab = expression(lambda), ylab = "",
             main = paste("Value of optimal", expression(lambda), "over the",
             x$n_replications, "bootstrap replications"))
