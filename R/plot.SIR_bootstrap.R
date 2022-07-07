@@ -43,7 +43,7 @@ plot.SIR_bootstrap <- function(x, choice = "", ...) {
         # Take only the 10 first eigen values
         if (length(eig_vals) >= 10) {
             eig_vals <- eig_vals[1:10]
-            title <- "10 first eigenvalues"
+            title <- "10 largest eigenvalues"
         }
 
         a <- barplot(eig_vals, ylab = "eigenvalues", xlab = "dimensions", main = title)

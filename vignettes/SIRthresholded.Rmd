@@ -143,7 +143,7 @@ Let's create $Y = (X\beta)^3 + \epsilon$ with:
 - $\epsilon\sim\mathcal{N}(0,20)$ and $\epsilon \perp \!\!\! \perp X$.
 
 ```{r}
-set.seed(1)
+set.seed(4)
 n <- 200 # Sample size
 p <- 30 # Number of variables in X
 p_star <- 10 # Number of relevant variables in X
@@ -175,10 +175,17 @@ The `SIR` function is applied to these data.
 res_SIR = SIR(Y = Y, X = X, H = 10,graphic = FALSE)
 ```
 
-The object `res_SIR` is an object of class `SIR` and contains many numerical results, summarized in the S3 methods `print` and `summary`.
+The object `res_SIR` is an object of class `SIR` and contains many numerical results (see ?SIR for more details), summarized in the S3 methods `print` and `summary`.
 ```{r}
 summary(res_SIR)
 ```
+
+You can now access the estimation of the EDR direction with `res_SIR$b`. Thus, it is possible to compute the correlation between $\beta$ and $\hat{b}$  :
+
+```{r}
+cor(c(beta),c(res_SIR$b))
+```
+
 
 Here are the two graphical outputs obtained with the method `plot` of the objects of class `SIR`.
 ```{r,fig.asp=1,fig.show='hold'}
@@ -187,8 +194,41 @@ plot(res_SIR,choice="eigvals")
 ```
 
 
+The first plot shows the reconstructed index by plotting $Y$ versus $X\hat{b}$ with $\hat{b}$ the estimated $EDR$ direction. 
 
+The second one shows the ten largest eigenvalues of the interest matrix. The $EDR$ direction is the eigenvector $\hat{b}$ associated with the largest eigenvalue. This plot can be useful to check if the largest eigenvalues are very close or not. In the case where they are close, it could be interesting to try to choose the other as the second or third largest eigenvector to reconstruct the index. You can access the interest matrix with `res_SIR$M1$`, and then compute the eigenvectors and eigenvalues with the function `eigen()`.
 
+By looking at $\hat{b}$, we notice that the coefficient associated to some variables are close to $0$. We assume that some variables are useless and that it would be interesting to do variable selection. 
+
+### Use optimally thresholded SIR
+
+An other approach is to directly use the optimally thresholded version of $SIR$ which will provide an estimate of the $EDR$ direction, and select the relevant variables. Let's start with $ST-SIR$ (soft thresholded SIR) with 300 $\lambda$ values to test :
+
+```{r}
+res_STSIR = SIR_threshold_opt(Y=Y, X=X, H=10, n_lambda=300, thresholding="soft", graphic=FALSE)
+```
+
+The object `res_STSIR` is an object of class `SIR_threshold_opt` and contains many numerical results (see ?SIR_threshold_opt for more details), summarized in the S3 methods `print` and `summary`.
+
+```{r}
+summary(res_STSIR)
+```
+
+Here are some graphical outputs obtained with the method `plot` of the objects of class `SIR_threshold_opt`.
+```{r,fig.asp=1,fig.width=6,fig.align='center'}
+plot(res_STSIR,choice="cos2_selec")
+```
+This plot show the evolution of $cos^2(\hat{b}_{ST-SIR},\hat{b}_{SIR})$ and the percentage of variables selected by the model, according to the value of $\lambda$. This graph is very informative as it show the compromise between variable selection and distortion of the estimated direction. The $\hat{\lambda}_{opt}$ must provide a balance between these two.
+
+```{r,fig.asp=1,fig.width=6,fig.align='center'}
+plot(res_STSIR,choice="opt_lambda")
+```
+This plot .....
+
+```{r,fig.asp=1,fig.width=6,fig.align='center'}
+plot(res_STSIR,choice="regul_path")
+```
+This plot .....
 
 
 ## Example with ?????? dataset
