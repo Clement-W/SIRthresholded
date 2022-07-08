@@ -214,22 +214,47 @@ The object `res_STSIR` is an object of class `SIR_threshold_opt` and contains ma
 summary(res_STSIR)
 ```
 
-Here are some graphical outputs obtained with the method `plot` of the objects of class `SIR_threshold_opt`.
+Here are some graphical outputs obtained with the method `plot` of the objects of class `SIR_threshold_opt`. 
 ```{r,fig.asp=1,fig.width=6,fig.align='center'}
 plot(res_STSIR,choice="cos2_selec")
 ```
-This plot show the evolution of $cos^2(\hat{b}_{ST-SIR},\hat{b}_{SIR})$ and the percentage of variables selected by the model, according to the value of $\lambda$. This graph is very informative as it show the compromise between variable selection and distortion of the estimated direction. The $\hat{\lambda}_{opt}$ must provide a balance between these two.
+This plot shows the evolution of $cos^2(\hat{b}_{ST-SIR},\hat{b}_{SIR})$ and the percentage of variables selected by the model, according to the value of $\lambda$. This graph is very informative as it shows the compromise between variable selection and distortion of the estimated direction. The $\hat{\lambda}_{opt}$ must provide a balance between these two.
 
 ```{r,fig.asp=1,fig.width=6,fig.align='center'}
 plot(res_STSIR,choice="opt_lambda")
 ```
-This plot .....
+This plot shows how the optimal lambda has been chosen. For each feature of $X$, the percentage of $\lambda$ associated with a selection of this feature is stored in a vector, which is sorted and plotted here. Thanks to `strucchange::breakpoints`, a breakpoint is found in this sorted vector, which allows to deduce the $\lambda_{opt}$ as explained in the Overview.[TODO INSERT LINK]
 
 ```{r,fig.asp=1,fig.width=6,fig.align='center'}
 plot(res_STSIR,choice="regul_path")
 ```
-This plot .....
+This plot shows the regularization path of $\hat{b}$ according to the value of $\lambda$. Here, we can see that some variables are rapidly set to 0, whereas the 10 relevant variables are more difficult to toggle to 0.
 
+As the soft thresholding deforms the matrix of interest with the $\lambda$ parameter, the estimation of $\hat{b}$ is biased. That is why, at the end of the s3 summary method, it is proposed to create a new SIR model based only on the relevant variables, selected by the method. Let's copy paste the command line and see the results.
+
+### Estimate a new SIR model on the relevant variables
+
+```{r}
+res_SIR_pstar = SIR(Y=res_STSIR$Y, X=res_STSIR$X_reduced, H=res_STSIR$H)
+summary(res_SIR_pstar)
+```
+
+As done previously, let's compute the correlation between $\beta$ and $\hat{b}_{ST-SIR-p^\star}$ and compare it with the results of classic SIR. As the real $\beta$ vector has a length of 30 and $\hat{b}_{ST-SIR-p^\star}$ has a length of 10, we need to create a new vector of size 30 to be able to compare them.
+
+```{r}
+b_extended <- matrix(rep(0,p),nrow=1) # Create the empty vector
+colnames(b_extended) <- colnames(X) # Assign the colnames of X 
+# Assign the values of b_extended according to the colnames
+b_extended[which(colnames(b_extended) %in% colnames(res_SIR_pstar$b))] = res_SIR_pstar$b
+```
+
+Let's compute the correlation :
+
+```{r}
+cor(c(beta),c(b_extended))
+```
+
+We notice that the estimation of $\beta$ is better than with the classic $SIR$ method (). 
 
 ## Example with ?????? dataset
 
