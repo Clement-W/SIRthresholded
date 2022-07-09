@@ -254,7 +254,18 @@ Let's compute the correlation :
 cor(c(beta),c(b_extended))
 ```
 
-We notice that the estimation of $\beta$ is better than with the classic $SIR$ method (). 
+We notice that the estimation of $\beta$ is better than with the classic $SIR$ method (95% for $SIR$ and 99% for $ST-SIR-p^\star$). The 20 useless variables have been eliminated, and the estimation of the $EDR$ direction is very good.
+
+### Test the robustness of the model with bootstrapping
+
+To test the robustness of the model, it is relevant to perform bootstrapping. This method is even more relevant when the sample size is small. Lets call `SIR_threshold_bootstrap` on the data.
+```{r}
+res_SIR_boot = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2,choice="coefs_b")
+
+summary(res_SIR_boot)
+```
+
+
 
 ## Example with ?????? dataset
 

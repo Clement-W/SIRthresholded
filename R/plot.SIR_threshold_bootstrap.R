@@ -93,7 +93,7 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
         boxplot(mat_b, xlab = "coefficients of b", ylab = "", main =
             paste("Value of b over the", x$n_replications, "bootstrap replications"),
             names = colnames(x$b))
-        points(matrix(x$b,ncol=1),pch=19,col=6,lwd=3)
+        points(matrix(x$b * sign(x$b[j0]),ncol=1),pch=19,col=6,lwd=3)
         legend("topright", legend = expression(hat(beta) ~ " associated to optimal" ~ lambda), col = 6,
                pch = 19)
     }
