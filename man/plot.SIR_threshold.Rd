@@ -30,14 +30,11 @@ eps <- rnorm(n)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply SIR with hard thresholding
-SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
-
-# Apply SIR with soft thresholding
-SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "soft")
+res = SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
 
 # Eigen values
-plot.SIR_threshold(res,choice="eigvals")
+plot(res,choice="eigvals")
 
 # Estimated index versus Y
-plot.SIR_threshold(res,choice="estim_ind")
+plot(res,choice="estim_ind")
 }

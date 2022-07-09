@@ -32,8 +32,8 @@ Y <- (X\%*\%beta)**3+eps
 res = SIR(Y, X, H = 10, graphic = FALSE)
 
 # Eigen values
-plot.SIR(res,choice="eigvals")
+plot(res,choice="eigvals")
 
 # Estimated index versus Y
-plot.SIR(res,choice="estim_ind")
+plot(res,choice="estim_ind")
 }

@@ -23,22 +23,19 @@
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="hard")
-#' 
-#' # Apply SIR with soft thresholding
-#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
+#' res = SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
 #' 
 #' # Estimated index versus Y
-#' plot.SIR_threshold_opt(res,choice="estim_ind")
+#' plot(res,choice="estim_ind")
 #' 
 #' # Choice of optimal lambda
-#' plot.SIR_threshold_opt(res,choice="opt_lambda")
+#' plot(res,choice="opt_lambda")
 #' 
 #' # Evolution of cos^2 and var selection according to lambda
-#' plot.SIR_threshold_opt(res,choice="cos2_selec")
+#' plot(res,choice="cos2_selec")
 #' 
 #' # Regularization path
-#' plot.SIR_threshold_opt(res,choice="regul_path")
+#' plot(res,choice="regul_path")
 #' @export
 plot.SIR_threshold_opt <- function(x, choice = "", ...) {
 

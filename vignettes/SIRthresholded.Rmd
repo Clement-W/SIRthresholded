@@ -223,16 +223,35 @@ This plot shows the evolution of $cos^2(\hat{b}_{ST-SIR},\hat{b}_{SIR})$ and the
 ```{r,fig.asp=1,fig.width=6,fig.align='center'}
 plot(res_STSIR,choice="opt_lambda")
 ```
-This plot shows how the optimal lambda has been chosen. For each feature of $X$, the percentage of $\lambda$ associated with a selection of this feature is stored in a vector, which is sorted and plotted here. Thanks to `strucchange::breakpoints`, a breakpoint is found in this sorted vector, which allows to deduce the $\lambda_{opt}$ as explained in the Overview.[TODO INSERT LINK]
+This plot shows how the optimal lambda has been chosen. For each feature of $X$, the percentage of $\lambda$ associated with a selection of this feature is stored in a vector, which is sorted and plotted here. Thanks to `strucchange::breakpoints`, a breakpoint is found in this sorted vector, which allows to deduce the $\lambda_{opt}$ as explained in the [Overview](#overview).
 
 ```{r,fig.asp=1,fig.width=6,fig.align='center'}
 plot(res_STSIR,choice="regul_path")
 ```
 This plot shows the regularization path of $\hat{b}$ according to the value of $\lambda$. Here, we can see that some variables are rapidly set to 0, whereas the 10 relevant variables are more difficult to toggle to 0.
 
-As the soft thresholding deforms the matrix of interest with the $\lambda$ parameter, the estimation of $\hat{b}$ is biased. That is why, at the end of the s3 summary method, it is proposed to create a new SIR model based only on the relevant variables, selected by the method. Let's copy paste the command line and see the results.
+
+We can also see the results with hard thresholding :
+```{r,fig.asp=1,fig.show='hold',fig.width=6}
+res_HTSIR = SIR_threshold_opt(Y=Y, X=X, H=10, n_lambda=300, thresholding="hard", graphic=FALSE)
+
+plot(res_HTSIR,choice="cos2_selec")
+plot(res_HTSIR,choice="opt_lambda")
+plot(res_HTSIR,choice="regul_path")
+```
+
+### SIR thresholded with a given $\lambda$ parameter
+
+If you want to experiment the thresholding operation by yourself, you can call `SIR_threshold` and give your own $\lambda$ to threshold the interest matrix :
+```{r}
+res_SIR_thresh = SIR_threshold(Y, X, H = 10, lambda = 0.04, thresholding = "hard")
+summary(res_SIR_thresh)
+```
+
 
 ### Estimate a new SIR model on the relevant variables
+
+As the soft thresholding deforms the matrix of interest with the $\lambda$ parameter, the estimation of $\hat{b}$ is biased. That is why, at the end of the s3 summary method, it is proposed to create a new SIR model based only on the relevant variables, selected by the method. Let's copy paste the command line from the result of `SIR_threshold_opt` and see the results:
 
 ```{r}
 res_SIR_pstar = SIR(Y=res_STSIR$Y, X=res_STSIR$X_reduced, H=res_STSIR$H)
@@ -254,21 +273,47 @@ Let's compute the correlation :
 cor(c(beta),c(b_extended))
 ```
 
-We notice that the estimation of $\beta$ is better than with the classic $SIR$ method (95% for $SIR$ and 99% for $ST-SIR-p^\star$). The 20 useless variables have been eliminated, and the estimation of the $EDR$ direction is very good.
+We notice that the estimation of $\beta$ is better than the classic $SIR$ method (95% for $SIR$ and 99% for $ST-SIR-p^\star$). The 20 useless variables have been eliminated, and the estimation of the $EDR$ direction is very good.
 
 ### Test the robustness of the model with bootstrapping
 
-To test the robustness of the model, it is relevant to perform bootstrapping. This method is even more relevant when the sample size is small. Lets call `SIR_threshold_bootstrap` on the data.
+To test the robustness of the model, it is relevant to perform bootstrapping. This method is even more relevant when the sample size is small. Lets call `SIR_threshold_bootstrap` on the data, with 30 replications, a bootstrapped sample size multiplied by 2 (k=2) and the hard thresholding method :
 ```{r}
-res_SIR_boot = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2,choice="coefs_b")
+res_SIR_boot = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2,graphic = FALSE)
+```
+The object `res_SIR_boot` is an object of class `SIR_threshold_bootstrap` and contains many numerical results (see ?SIR_threshold_bootstrap for more details), summarized in the S3 methods `print` and `summary`.
 
+```{r}
 summary(res_SIR_boot)
 ```
 
+Here are some graphical outputs obtained with the method `plot` of the objects of class `SIR_threshold_bootstrap`. 
 
+```{r,fig.asp=1,fig.width=6,fig.align='center'}
+plot(res_SIR_boot,choice="size")
+```
+
+This barplot shows the distribution of the number of variables keeped by the model.
+
+```{r,fig.asp=1,fig.width=6,fig.align='center'}
+plot(res_SIR_boot,choice="selec_var")
+```
+
+This barplot shows the percentage of selection of every variables.
+
+```{r,fig.asp=1,fig.width=6,fig.align='center'}
+plot(res_SIR_boot,choice="lambdas_replic")
+```
+
+This boxplot shows the distribution of the $\lambda_{opt}$ choosen over the replications. Moreover, the $\lambda_{opt}$ that has been selected (see how in [the overview](#sir_threshold_bootstrap-function)) is indicated with a purple horizontal line. 
+
+```{r,fig.asp=1,fig.width=6,fig.align='center'}
+plot(res_SIR_boot,choice="coefs_b")
+```
+
+This plot shows the distribution of every coefficients of the $\hat{b}$ computed over the replications. The final coefficients of $\hat{b}$ that have been computed (see how in [the overview](#sir_threshold_bootstrap-function)) are indicated with a purple dot.
 
 ## Example with ?????? dataset
-
 
 
 ## References

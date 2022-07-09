@@ -19,13 +19,13 @@
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply bootstrap SIR
-#' SIR_bootstrap(Y, X, H = 10, B = 10)
+#' res = SIR_bootstrap(Y, X, H = 10, B = 10)
 #' 
 #' # Eigen values
-#' plot.SIR_bootstrap(res,choice="eigvals")
+#' plot(res,choice="eigvals")
 #'
 #' # Estimated index versus Y
-#' plot.SIR_bootstrap(res,choice="estim_ind")
+#' plot(res,choice="estim_ind")
 #' @export
 plot.SIR_bootstrap <- function(x, choice = "", ...) {
 
