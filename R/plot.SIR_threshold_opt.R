@@ -37,7 +37,7 @@
 #' # Regularization path
 #' plot(res,choice="regul_path")
 #' @export
-plot.SIR_threshold_opt <- function(x, choice = "", ...) {
+plot.SIR_threshold_opt <- function(x, choice = "") {
 
     if (!inherits(x, "SIR_threshold_opt"))
         stop("Only use with \"SIR_threshold_opt\" obects")
@@ -90,7 +90,7 @@ plot.SIR_threshold_opt <- function(x, choice = "", ...) {
         # lambda
         points(x$lambdas, x$vect_cos_squared, type = "l", ylab = "", xlab = "lambda",
             lwd = 3, col = "black")
-        title(paste("Variable selection and cos² (with", x$thresholding, "thresholding)"))
+        title(paste("Variable selection and cos^2 (with", x$thresholding, "thresholding)"))
 
         # Vertical line at optimal lambda
         abline(v = x$lambda_opt, col = 6, lwd = 3)

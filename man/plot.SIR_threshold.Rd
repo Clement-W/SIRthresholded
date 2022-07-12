@@ -4,7 +4,7 @@
 \alias{plot.SIR_threshold}
 \title{Graphical output of SIR_threshold}
 \usage{
-\method{plot}{SIR_threshold}(x, choice = "", ...)
+\method{plot}{SIR_threshold}(x, choice = "")
 }
 \arguments{
 \item{x}{A SIR_threshold object}

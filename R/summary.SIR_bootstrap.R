@@ -1,6 +1,6 @@
 #' @export
 #' @keywords internal
-summary.SIR_bootstrap <- function(x, ...) {
+summary.SIR_bootstrap <- function(x) {
     if (!inherits(x, "SIR_bootstrap")) stop("Only use with \"SIR_bootstrap\" obects")
 
     cat("\nCall:\n", deparse(x$call), "\n", sep = "")

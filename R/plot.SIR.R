@@ -26,7 +26,7 @@
 #' # Estimated index versus Y
 #' plot(res,choice="estim_ind")
 #' @export
-plot.SIR <- function(x, choice = "", ...) {
+plot.SIR <- function(x, choice = "") {
 
     if (!inherits(x, "SIR"))
         stop("Only use with \"SIR\" obects")

@@ -12,14 +12,9 @@ cosine_squared(b1, b2)
 \item{b2}{Second vector}
 }
 \value{
-The cosine squared of the two vectors
+The cosine squared between the two vectors
 }
 \description{
 Calculates the quality of the correlation between two vectors
 (real beta and estimated beta)
-}
-\examples{
-b1 = c(-0.22,-0.31,-0.27)
-b2 = c(1,1,1)
-cosine_squared(b1,b2)
 }

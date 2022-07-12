@@ -2,9 +2,13 @@
 title: "How to use the SIRthresholded package"
 author: "Clément Weinreich"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  html_document: rmarkdown::html_vignette
+  pdf_document: default
 vignette: |
-  %\VignetteIndexEntry{How to use the SIRthresholded package} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{How to use the SIRthresholded package}
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
@@ -194,7 +198,7 @@ plot(res_SIR,choice="eigvals")
 
 The first plot shows the reconstructed index by plotting $Y$ versus $X\hat{b}$ with $\hat{b}$ the estimated $EDR$ direction. 
 
-The second one shows the ten largest eigenvalues of the interest matrix. The $EDR$ direction is the eigenvector $\hat{b}$ associated with the largest eigenvalue. This plot can be useful to check if the largest eigenvalues are very close or not. In the case where they are close, it could be interesting to try to choose the other as the second or third largest eigenvector to reconstruct the index. You can access the interest matrix with `res_SIR$M1$`, and then compute the eigenvectors and eigenvalues with the function `eigen()`.
+The second one shows the ten largest eigenvalues of the interest matrix. The $EDR$ direction is the eigenvector $\hat{b}$ associated with the largest eigenvalue. This plot can be useful to check if the largest eigenvalues are very close or not. In the case where they are close, it could be interesting to try to choose the second or third largest eigenvector to reconstruct the index. You can access the interest matrix with `res_SIR$M1`, and then compute the eigenvectors and eigenvalues with the function `eigen()`.
 
 By looking at $\hat{b}$, we notice that the coefficient associated to some variables are close to $0$. We assume that some variables are useless and that it would be interesting to do variable selection. 
 
@@ -226,7 +230,7 @@ This plot shows how the optimal lambda has been chosen. For each feature of $X$,
 ```{r,fig.asp=1,fig.width=6,fig.align='center'}
 plot(res_STSIR,choice="regul_path")
 ```
-This plot shows the regularization path of $\hat{b}$ according to the value of $\lambda$. Here, we can see that some variables are rapidly set to 0, whereas the 10 relevant variables are more difficult to toggle to 0.
+This plot shows the regularization path of $\hat{b}$ according to the value of $\lambda$. Here, we can see that according to $\lambda$, some variables rapidly converge to 0, whereas the 10 relevant variables are more difficult to toggle to 0.
 
 Then, let's plot plot Y versus the estimated first index $X\hat{b}$.
 ```{r,fig.asp=1,fig.width=6,fig.align='center'}
@@ -241,7 +245,7 @@ plot(res_HTSIR,choice="cos2_selec")
 plot(res_HTSIR,choice="regul_path")
 ```
 
-The hard thresholding results in a more abrupt variable selection according to the $\lambda$s, wich explains that the curves are straighter with bigger jumps between values.
+The hard thresholding method results in a more abrupt variable selection according to the $\lambda$s, wich explains that the curves are straighter with bigger jumps between values.
 
 ### Estimate a new SIR model on the relevant variables
 
@@ -253,7 +257,8 @@ summary(res_SIR_pstar)
 ```
 
 Let's plot Y versus the estimated first index $X\hat{b}$
-```{r,fig.asp=1,fig.show='hold'}
+
+```{r,fig.asp=1,fig.width=4,fig.align="center"}
 plot(res_SIR_pstar,choice="estim_ind")
 ```
 We directly notice that this estimated index is very close to the theoretical index plotted earlier.
@@ -309,7 +314,7 @@ This barplot shows the distribution of the number of variables keeped by the mod
 plot(res_SIR_boot,choice="selec_var")
 ```
 
-This barplot shows the percentage of selection of every variables.
+This barplot shows the percentage of selection by the model for every variables.
 
 ```{r,fig.asp=1,fig.width=6,fig.align='center'}
 plot(res_SIR_boot,choice="lambdas_replic")

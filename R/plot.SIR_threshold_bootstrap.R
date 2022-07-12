@@ -39,7 +39,7 @@
 #' # Optimal lambdas
 #' plot(res,choice="lambdas_replic")
 #' @export
-plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
+plot.SIR_threshold_bootstrap <- function(x, choice = "") {
 
     if (!inherits(x, "SIR_threshold_bootstrap"))
         stop("Only use with \"SIR_threshold_bootstrap\" obects")

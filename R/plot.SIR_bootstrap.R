@@ -27,7 +27,7 @@
 #' # Estimated index versus Y
 #' plot(res,choice="estim_ind")
 #' @export
-plot.SIR_bootstrap <- function(x, choice = "", ...) {
+plot.SIR_bootstrap <- function(x, choice = "") {
 
     if (!inherits(x, "SIR_bootstrap"))
         stop("Only use with \"SIR_bootstrap\" obects")

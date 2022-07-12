@@ -1,6 +1,6 @@
 #' @export
 #' @keywords internal
-summary.SIR_threshold = function(x, ...) {
+summary.SIR_threshold = function(x) {
     if (!inherits(x, "SIR_threshold"))
         stop("Only use with \"SIR_threshold\" obects")
 

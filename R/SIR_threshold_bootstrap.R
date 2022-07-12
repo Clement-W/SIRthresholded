@@ -133,7 +133,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         lambdas_opt_boot[replic] <- res_boot$lambda_opt
 
         if (output && replic %% 5 == 0) {
-            print(paste("Replication n°", replic, "/", n_replications))
+            print(paste("Replication", replic, "/", n_replications))
         }
     }
 

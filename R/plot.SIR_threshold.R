@@ -27,7 +27,7 @@
 #' # Estimated index versus Y
 #' plot(res,choice="estim_ind")
 #' @export
-plot.SIR_threshold <- function(x, choice = "", ...) {
+plot.SIR_threshold <- function(x, choice = "") {
 
     if (!inherits(x, "SIR_threshold"))
         stop("Only use with \"SIR_threshold\" obects")

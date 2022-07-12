@@ -1,6 +1,6 @@
 #' @export
 #' @keywords internal
-summary.SIR <- function(x, ...) {
+summary.SIR <- function(x) {
     if (!inherits(x, "SIR")) stop("Only use with \"SIR\" obects")
 
     cat("\nCall:\n", deparse(x$call), "\n", sep = "")

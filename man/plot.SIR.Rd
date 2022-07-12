@@ -4,7 +4,7 @@
 \alias{plot.SIR}
 \title{Graphical output of SIR}
 \usage{
-\method{plot}{SIR}(x, choice = "", ...)
+\method{plot}{SIR}(x, choice = "")
 }
 \arguments{
 \item{x}{A SIR object}

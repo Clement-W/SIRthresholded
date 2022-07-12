@@ -4,7 +4,7 @@
 \alias{plot.SIR_threshold_bootstrap}
 \title{Graphical output of SIR_threshold_bootstrap}
 \usage{
-\method{plot}{SIR_threshold_bootstrap}(x, choice = "", ...)
+\method{plot}{SIR_threshold_bootstrap}(x, choice = "")
 }
 \arguments{
 \item{x}{A SIR_threshold_bootstrap object}
