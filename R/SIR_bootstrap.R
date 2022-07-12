@@ -1,11 +1,10 @@
 #'  Bootstrap SIR
 #'
-#' Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped samples of 
-#' (X,Y) with H slices.
+#' Apply a single-index \eqn{SIR} on \eqn{B} bootstraped samples of \eqn{(X,Y)} with \eqn{H} slices. 
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
-#' @param B The number of bootstrapped sample to draw
+#' @param B The number of bootstrapped samples to draw
 #' @param graphic A boolean that must be set to true to display graphics
 #' @param choice the graph to plot: 
 #' \itemize{

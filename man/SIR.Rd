@@ -36,7 +36,10 @@ eigenvector of the interest matrix.}
 \item{Y}{The response vector}
 }
 \description{
-Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices.
+Apply a single-index \eqn{SIR} on \eqn{(X,Y)} with \eqn{H} slices. This function allows to obtain an 
+estimate of a basis of the \eqn{EDR} (Effective Dimension Reduction) space via the eigenvector 
+\eqn{\hat{b}} associated with the largest nonzero eigenvalue of the matrix of interest 
+\eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n}. Thus, \eqn{\hat{b}} is an \eqn{EDR} direction.
 }
 \examples{
 # Generate Data

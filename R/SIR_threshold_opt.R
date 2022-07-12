@@ -1,10 +1,24 @@
 #' SIR optimally thresholded
 #'
-#' Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, 
-#' thresholded by an optimal lambda parameter. The optimal lambda is found among n_lambda 
-#' that threshold the interest matrix. Then, for each variable in X, we store how many
-#' lambda selects this variable in a vector of size p. Thus, we find a breakpoint in 
-#' this sorted vector, which indicates the optimal lambda.
+#' Apply a single-index \eqn{SIR} on \eqn{(X,Y)} with \eqn{H} slices, with a soft/hard thresholding 
+#' of the interest matrix \eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n} by an optimal 
+#' parameter \eqn{\lambda_{opt}}. The \eqn{\lambda_{opt}} is found automatically among a vector 
+#' of `n_lambda` \eqn{\lambda}, starting from 0 to the maximum value of 
+#' \eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n}. For each feature of \eqn{X}, 
+#' the number of \eqn{\lambda} associated with a selection of this feature is stored 
+#' (in a vector of size \eqn{p}). This vector is sorted in a decreasing way. Then, thanks to 
+#' `strucchange::breakpoints`, a breakpoint is found in this sorted vector. The coefficients 
+#' of the variables at the left of the breakpoint, tend to be automatically toggled to 0 due
+#' to the thresholding operation based on \eqn{\lambda_{opt}}, and so should be removed (useless
+#' variables). Finally, \eqn{\lambda_{opt}} corresponds to the first \eqn{\lambda} such that the 
+#' associated \eqn{\hat{b}} provides the same number of zeros as the breakpoint's value.
+#'  
+#' For example, for \eqn{X \in \mathbb{R}^{10}} and `n_lambda=100`, this sorted vector can look like this :
+#' | X10 	| X3 	| X8 	| X5 	| X7 	| X9 	| X4 	| X6 	| X2 	| X1  	|
+#' |-----	|----	|----	|----	|----	|----	|----	|----	|----	|-----	|
+#' | 2   	| 3  	| 3  	| 4  	| 4  	| 4  	| 6  	| 10 	| 95 	| 100 	|
+#'  
+#' Here, the breakpoint would be 8.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
@@ -66,6 +80,7 @@
 #' # Apply SIR with soft thresholding
 #' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
 #' @export
+#' @md
 #' @importFrom strucchange breakpoints
 SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard",
     graphic = TRUE, output = TRUE, choice = "") {

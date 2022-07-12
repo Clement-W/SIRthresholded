@@ -109,11 +109,11 @@ Apply a single-index $SIR$ on $B$ bootstraped samples of $(X,Y)$ with $H$ slices
 
 ### `SIR_threshold` function
 
-Apply a single-index $SIR$ on $(X,Y)$ with $H$ slices, with a parameter $\lambda$ which apply a soft/hard thresholding the interest matrix $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$.
+Apply a single-index $SIR$ on $(X,Y)$ with $H$ slices, with a parameter $\lambda$ which apply a soft/hard thresholding to the interest matrix $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$.
 
 ### `SIR_threshold_opt` function
 
-Apply a single-index SIR on $(X,Y)$ with $H$ slices, with a soft/hard thresholding of the interest matrix $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$ by an optimal parameter $\lambda_{opt}$. The $\lambda_{opt}$ is found automatically among a vector of `n_lambda` $\lambda$, starting from 0 to the maximum value of $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$. For each feature of $X$, the number of $\lambda$ associated with a selection of this feature is stored (in a vector of size $p$). This vector is sorted in a decreasing way. Then, thanks to `strucchange::breakpoints`, a breakpoint is found in this sorted vector. The coefficients of the variables at the left of the breakpoint, tend to be automatically toggled to 0 due to the thresholding operation based on $\lambda_{opt}$, and so should be removed (useless variables). Finally, $\lambda_{opt}$ corresponds to the first $\lambda$ such that the associated $\hat{\beta}$ provides the same number of zeros as the breakpoint's value.
+Apply a single-index SIR on $(X,Y)$ with $H$ slices, with a soft/hard thresholding of the interest matrix $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$ by an optimal parameter $\lambda_{opt}$. The $\lambda_{opt}$ is found automatically among a vector of `n_lambda` $\lambda$, starting from 0 to the maximum value of $\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n$. For each feature of $X$, the number of $\lambda$ associated with a selection of this feature is stored (in a vector of size $p$). This vector is sorted in a decreasing way. Then, thanks to `strucchange::breakpoints`, a breakpoint is found in this sorted vector. The coefficients of the variables at the left of the breakpoint, tend to be automatically toggled to 0 due to the thresholding operation based on $\lambda_{opt}$, and so should be removed (useless variables). Finally, $\lambda_{opt}$ corresponds to the first $\lambda$ such that the associated $\hat{b}$ provides the same number of zeros as the breakpoint's value.
 
 For example, for $X \in \mathbb{R}^{10}$ and `n_lambda=100`, this sorted vector can look like this :
 
@@ -125,7 +125,7 @@ Here, the breakpoint would be 8.
 
 ### `SIR_threshold_bootstrap` function
 
-Apply a single-index optimally soft/hard thresholded $SIR$ with $H$ slices on `n_replications` bootstraped replications of $(X,Y)$. The optimal number of selected variables is the number of selected variables that came back most often among the replications performed. From this, we can get the corresponding $\hat{\beta}$ and $\lambda_{opt}$ that produce the same number of selected variables in the result of `SIR_threshold_opt`. 
+Apply a single-index optimally soft/hard thresholded $SIR$ with $H$ slices on `n_replications` bootstraped replications of $(X,Y)$. The optimal number of selected variables is the number of selected variables that came back most often among the replications performed. From this, we can get the corresponding $\hat{b}$ and $\lambda_{opt}$ that produce the same number of selected variables in the result of `SIR_threshold_opt`. 
 
 This method allow to validate the robustness of the model.
 
@@ -232,7 +232,6 @@ Then, let's plot plot Y versus the estimated first index $X\hat{b}$.
 ```{r,fig.asp=1,fig.width=6,fig.align='center'}
 plot(res_STSIR,choice="estim_ind")
 ```
-As the soft thresholding eforms the interest matrix, the estimated EDR direction is also biased.
 
 We can also see some graphical outputs of `SIR_threshold_opt` with hard thresholding :
 ```{r,fig.asp=1,fig.show='hold',fig.width=6}
@@ -257,6 +256,7 @@ Let's plot Y versus the estimated first index $X\hat{b}$
 ```{r,fig.asp=1,fig.show='hold'}
 plot(res_SIR_pstar,choice="estim_ind")
 ```
+We directly notice that this estimated index is very close to the theoretical index plotted earlier.
 
 As done previously, let's compute the correlation between $\beta$ and $\hat{b}_{ST-SIR-p^\star}$ and compare it with the results of classic SIR. As the real $\beta$ vector has a length of 30 and $\hat{b}_{ST-SIR-p^\star}$ has a length of 10, we need to create a new vector of size 30 to be able to compare them.
 

@@ -22,7 +22,7 @@ SIR_threshold_opt(
 
 \item{H}{The chosen number of slices.}
 
-\item{n_lambda}{The number of lambda to test. The N.lambda tested lambdas are 
+\item{n_lambda}{The number of lambda to test. The N.lambda tested lambdas are
 between 0 and the maximum value of the interest matrix.}
 
 \item{thresholding}{The thresholding method (choose between hard, soft)}
@@ -31,32 +31,32 @@ between 0 and the maximum value of the interest matrix.}
 
 \item{output}{A boolean, set to TRUE to print informations}
 
-\item{choice}{the graph to plot: 
+\item{choice}{the graph to plot:
 \itemize{
-  \item "estim_ind" Plot the estimated index by the SIR model versus Y
-  \item "opt_lambda" Plot the choice of the optimal lambda
-  \item "cos2_selec" Plot the evolution of cos^2 and variable selection according to 
-  lambda
-  \item "regul_path" Plot the regularization path of b
-  \item "" Plot every graphs
+\item "estim_ind" Plot the estimated index by the SIR model versus Y
+\item "opt_lambda" Plot the choice of the optimal lambda
+\item "cos2_selec" Plot the evolution of cos^2 and variable selection according to
+lambda
+\item "regul_path" Plot the regularization path of b
+\item "" Plot every graphs
 }}
 }
 \value{
 An object of class SIR_threshold_opt, with attributes:
-\item{b}{This is the optimal estimated EDR direction, which is the principal 
+\item{b}{This is the optimal estimated EDR direction, which is the principal
 eigenvector of the interest matrix.}
 \item{lambdas}{A vector that contains the tested lambdas}
 \item{lambda_opt}{The optimal lambda}
-\item{mat_b}{A matrix of size p*n_lambda that contains an estimation of beta 
+\item{mat_b}{A matrix of size p*n_lambda that contains an estimation of beta
 in the columns for each lambda}
 \item{n_lambda}{The number of lambda tested}
 \item{vect_nb_zeros}{The number of 0 in b for each lambda}
-\item{list_relevant_variables}{A list that contains the variables selected by 
+\item{list_relevant_variables}{A list that contains the variables selected by
 the model}
 \item{fit_bp}{An object of class breakpoints from the strucchange package,
 that contains informations about the breakpoint which allows to deduce the
 optimal lambda.}
-\item{indices_useless_var}{A vector that contains p items: each variable is 
+\item{indices_useless_var}{A vector that contains p items: each variable is
 associated with the number of lambda that selects this variable.}
 \item{vect_cos_squared}{A vector that contains for each lambda,
 the cosine squared between vanilla SIR and SIR thresholded}
@@ -73,11 +73,26 @@ the estimation of b.}
 \item{index_pred}{The index Xb' estimated by SIR}
 }
 \description{
-Apply a single-index SIR (Sliced Inverse Regression) on (X,Y) with H slices, 
-thresholded by an optimal lambda parameter. The optimal lambda is found among n_lambda 
-that threshold the interest matrix. Then, for each variable in X, we store how many
-lambda selects this variable in a vector of size p. Thus, we find a breakpoint in 
-this sorted vector, which indicates the optimal lambda.
+Apply a single-index \eqn{SIR} on \eqn{(X,Y)} with \eqn{H} slices, with a soft/hard thresholding
+of the interest matrix \eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n} by an optimal
+parameter \eqn{\lambda_{opt}}. The \eqn{\lambda_{opt}} is found automatically among a vector
+of \code{n_lambda} \eqn{\lambda}, starting from 0 to the maximum value of
+\eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n}. For each feature of \eqn{X},
+the number of \eqn{\lambda} associated with a selection of this feature is stored
+(in a vector of size \eqn{p}). This vector is sorted in a decreasing way. Then, thanks to
+\code{strucchange::breakpoints}, a breakpoint is found in this sorted vector. The coefficients
+of the variables at the left of the breakpoint, tend to be automatically toggled to 0 due
+to the thresholding operation based on \eqn{\lambda_{opt}}, and so should be removed (useless
+variables). Finally, \eqn{\lambda_{opt}} corresponds to the first \eqn{\lambda} such that the
+associated \eqn{\hat{b}} provides the same number of zeros as the breakpoint's value.
+
+For example, for \eqn{X \in \mathbb{R}^{10}} and \code{n_lambda=100}, this sorted vector can look like this :\tabular{llllllllll}{
+   X10 \tab X3 \tab X8 \tab X5 \tab X7 \tab X9 \tab X4 \tab X6 \tab X2 \tab X1 \cr
+   2 \tab 3 \tab 3 \tab 4 \tab 4 \tab 4 \tab 6 \tab 10 \tab 95 \tab 100 \cr
+}
+
+
+Here, the breakpoint would be 8.
 }
 \examples{
 # Generate Data

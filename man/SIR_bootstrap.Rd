@@ -13,7 +13,7 @@ SIR_bootstrap(Y, X, H = 10, B = 10, graphic = TRUE, choice = "")
 
 \item{H}{The chosen number of slices.}
 
-\item{B}{The number of bootstrapped sample to draw}
+\item{B}{The number of bootstrapped samples to draw}
 
 \item{graphic}{A boolean that must be set to true to display graphics}
 
@@ -38,8 +38,7 @@ the columns for each bootstrapped sample}
 \item{Y}{The response vector}
 }
 \description{
-Apply a single-index SIR (Sliced Inverse Regression) on B bootstraped samples of 
-(X,Y) with H slices.
+Apply a single-index \eqn{SIR} on \eqn{B} bootstraped samples of \eqn{(X,Y)} with \eqn{H} slices.
 }
 \examples{
 # Generate Data

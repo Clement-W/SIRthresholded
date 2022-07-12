@@ -1,10 +1,11 @@
 #' SIR optimally thresholded on bootstraped replications
 #'
-#' Apply a single-index optimally thresholded SIR (Sliced Inverse Regression) 
-#' on N bootstraped replications of (X,Y) with H slices.The optimal number of 
+#' Apply a single-index optimally soft/hard thresholded \eqn{SIR} with \eqn{H} slices on 
+#' `n_replications` bootstraped replications of \eqn{(X,Y)}. The optimal number of 
 #' selected variables is the number of selected variables that came back most often 
-#' among the replications performed. Then, we can get the beta and optimal lambda 
-#' which corresponds to this number of selected variables in SIR_threshold_opt.
+#' among the replications performed. From this, we can get the corresponding \eqn{\hat{b}} 
+#' and \eqn{\lambda_{opt}} that produce the same number of selected variables in the result of 
+#' `SIR_threshold_opt`. 
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
