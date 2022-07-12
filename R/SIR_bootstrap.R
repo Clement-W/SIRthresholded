@@ -5,7 +5,7 @@
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
 #' @param B The number of bootstrapped samples to draw
-#' @param graphic A boolean that must be set to true to display graphics
+#' @param graph A boolean that must be set to true to display graphics
 #' @param choice the graph to plot: 
 #' \itemize{
 #'   \item "eigvals" Plot the eigen values of the matrix of interest
@@ -35,7 +35,7 @@
 #' # Apply bootstrap SIR
 #' SIR_bootstrap(Y, X, H = 10, B = 10)
 #' @export
-SIR_bootstrap <- function(Y, X, H = 10, B = 10, graphic = TRUE, choice = "") {
+SIR_bootstrap <- function(Y, X, H = 10, B = 10, graph = TRUE, choice = "") {
 
     cl <- match.call()
 
@@ -50,7 +50,7 @@ SIR_bootstrap <- function(Y, X, H = 10, B = 10, graphic = TRUE, choice = "") {
         # of X samples and store it in a vector (Bootstrap)
         indice <- sample(1:n, replace = TRUE)
         # store each estimate b in the columns of mat_b
-        mat_b[, r] <- SIR(Y[indice], X[indice,], H = H, graphic = FALSE)$b
+        mat_b[, r] <- SIR(Y[indice], X[indice,], H = H, graph = FALSE)$b
     }
 
     # we recover the eigenvector associated to the largest eigenvalue of mat_b
@@ -74,7 +74,7 @@ SIR_bootstrap <- function(Y, X, H = 10, B = 10, graphic = TRUE, choice = "") {
     index_pred = index_pred, eig_values = eig_values, Y = Y)
     class(res) <- "SIR_bootstrap"
 
-    if (graphic) {
+    if (graph) {
         plot.SIR_bootstrap(res, choice = choice)
     }
 

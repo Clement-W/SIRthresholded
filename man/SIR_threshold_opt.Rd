@@ -10,7 +10,7 @@ SIR_threshold_opt(
   H = 10,
   n_lambda = 100,
   thresholding = "hard",
-  graphic = TRUE,
+  graph = TRUE,
   output = TRUE,
   choice = ""
 )
@@ -27,7 +27,7 @@ between 0 and the maximum value of the interest matrix.}
 
 \item{thresholding}{The thresholding method (choose between hard, soft)}
 
-\item{graphic}{A boolean, set to TRUE to plot graphs}
+\item{graph}{A boolean, set to TRUE to plot graphs}
 
 \item{output}{A boolean, set to TRUE to print informations}
 

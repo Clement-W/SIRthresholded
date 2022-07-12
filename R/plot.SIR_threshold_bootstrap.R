@@ -39,6 +39,8 @@
 #' # Optimal lambdas
 #' plot(res,choice="lambdas_replic")
 #' @export
+#' @importFrom grDevices dev.new
+#' @importFrom graphics abline barplot box boxplot legend title
 plot.SIR_threshold_bootstrap <- function(x, choice = "") {
 
     if (!inherits(x, "SIR_threshold_bootstrap"))
@@ -50,7 +52,7 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "") {
             \"coefs_b\" or \"lambdas_replic\"", call. = FALSE)
 
     if (choice == "" || choice == "estim_ind") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)
@@ -59,7 +61,7 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "") {
 
     if (choice == "" || choice == "size") {
         # Barplot of the number of selected variable by the model 
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         barplot((table(x$vec_nb_var_selec) / x$n_replications) * 100, ylab = "percent",
@@ -68,7 +70,7 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "") {
     }
 
     if (choice == "" || choice == "selec_var") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         # Barplot of the number of time where each variable has been selected
@@ -79,7 +81,7 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "") {
 
     if (choice == "" || choice == "coefs_b") {
         # Boxplot showing the distribution of the coefficients of b
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         mat_b <- x$mat_b
@@ -90,14 +92,14 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "") {
         boxplot(mat_b, xlab = "coefficients of b", ylab = "", main =
             paste("Value of b over the", x$n_replications, "bootstrap replications"),
             names = colnames(x$b))
-        points(matrix(x$b * sign(x$b[j0]),ncol=1),pch=19,col=6,lwd=3)
+        points(matrix(x$b * sign(x$b[j0]), ncol = 1), pch = 19, col = 6, lwd = 3)
         legend("topright", legend = expression(hat(beta) ~ " associated to optimal" ~ lambda), col = 6,
                pch = 19)
     }
 
     if (choice == "" || choice == "lambdas_replic") {
         # Boxplot showing the distribution of the optimal lambdas found
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         boxplot(x$lambdas_opt_boot, xlab = expression(lambda), ylab = "",

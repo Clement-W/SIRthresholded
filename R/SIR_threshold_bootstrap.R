@@ -16,7 +16,7 @@
 #' estimate the model.
 #' @param k Multiplication factor of the bootstrapped sample size
 #' (default is 1 = keep the same size as original data)
-#' @param graphic A boolean, set to TRUE to plot graphs
+#' @param graph A boolean, set to TRUE to plot graphs
 #' @param output A boolean, set to TRUE to print information
 #' @param choice the graph to plot: 
 #' \itemize{
@@ -72,7 +72,7 @@
 #' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=30,k=2)
 #' @export
 SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
-    n_replications = 50, graphic = TRUE, output = TRUE, n_lambda = 300, k = 2,
+    n_replications = 50, graph = TRUE, output = TRUE, n_lambda = 300, k = 2,
     choice = "") {
 
     cl <- match.call()
@@ -191,7 +191,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
 
     # Get the corresponding thresholded interest matrix
     M1_th = SIR_threshold(Y, X, H = H, lambda = lambda_optim,
-            thresholding = thresholding, graphic = FALSE)$M1
+            thresholding = thresholding, graph = FALSE)$M1
 
     res <- list(b = b, lambda_opt = lambda_optim,
         vec_nb_var_selec = vec_nb_var_selec, occurrences_var = occurrences_var, call = cl,
@@ -202,7 +202,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
 
     class(res) <- "SIR_threshold_bootstrap"
 
-    if (graphic == TRUE) {
+    if (graph == TRUE) {
         plot.SIR_threshold_bootstrap(res, choice = choice)
     }
 

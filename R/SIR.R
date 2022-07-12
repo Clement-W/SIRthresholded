@@ -7,7 +7,7 @@
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
 #' @param H The chosen number of slices.
-#' @param graphic A boolean that must be set to true to display graphics
+#' @param graph A boolean that must be set to true to display graphics
 #' @param choice the graph to plot: 
 #' \itemize{
 #'   \item "eigvals" Plot the eigen values of the matrix of interest
@@ -37,7 +37,8 @@
 #' # Apply SIR
 #' SIR(Y, X, H = 10)
 #' @export
-SIR <- function(Y, X, H = 10, graphic = TRUE, choice = "") {
+#' @importFrom stats var
+SIR <- function(Y, X, H = 10, graph = TRUE, choice = "") {
 
     cl <- match.call()
 
@@ -133,7 +134,7 @@ SIR <- function(Y, X, H = 10, graphic = TRUE, choice = "") {
         Y = Y)
     class(res) <- "SIR"
 
-    if (graphic) {
+    if (graph) {
         plot.SIR(res, choice = choice)
     }
 

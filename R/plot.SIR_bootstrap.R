@@ -27,6 +27,8 @@
 #' # Estimated index versus Y
 #' plot(res,choice="estim_ind")
 #' @export
+#' @importFrom grDevices dev.new
+#' @importFrom graphics axis barplot title
 plot.SIR_bootstrap <- function(x, choice = "") {
 
     if (!inherits(x, "SIR_bootstrap"))

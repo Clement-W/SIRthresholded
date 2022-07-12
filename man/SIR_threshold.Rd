@@ -10,7 +10,7 @@ SIR_threshold(
   H = 10,
   lambda = 0,
   thresholding = "hard",
-  graphic = TRUE,
+  graph = TRUE,
   choice = ""
 )
 }
@@ -25,7 +25,7 @@ SIR_threshold(
 
 \item{thresholding}{The thresholding method (choose between hard, soft)}
 
-\item{graphic}{A boolean that must be set to true to display graphics}
+\item{graph}{A boolean that must be set to true to display graphics}
 
 \item{choice}{the graph to plot: 
 \itemize{

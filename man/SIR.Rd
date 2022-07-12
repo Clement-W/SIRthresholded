@@ -4,7 +4,7 @@
 \alias{SIR}
 \title{Vanilla SIR}
 \usage{
-SIR(Y, X, H = 10, graphic = TRUE, choice = "")
+SIR(Y, X, H = 10, graph = TRUE, choice = "")
 }
 \arguments{
 \item{Y}{A numeric vector representing the dependent variable (a response vector).}
@@ -13,7 +13,7 @@ SIR(Y, X, H = 10, graphic = TRUE, choice = "")
 
 \item{H}{The chosen number of slices.}
 
-\item{graphic}{A boolean that must be set to true to display graphics}
+\item{graph}{A boolean that must be set to true to display graphics}
 
 \item{choice}{the graph to plot: 
 \itemize{

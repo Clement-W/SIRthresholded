@@ -10,7 +10,7 @@ SIR_threshold_bootstrap(
   H = 10,
   thresholding = "hard",
   n_replications = 50,
-  graphic = TRUE,
+  graph = TRUE,
   output = TRUE,
   n_lambda = 300,
   k = 2,
@@ -29,7 +29,7 @@ SIR_threshold_bootstrap(
 \item{n_replications}{The number of bootstraped replications of (X,Y) done to
 estimate the model.}
 
-\item{graphic}{A boolean, set to TRUE to plot graphs}
+\item{graph}{A boolean, set to TRUE to plot graphs}
 
 \item{output}{A boolean, set to TRUE to print information}
 

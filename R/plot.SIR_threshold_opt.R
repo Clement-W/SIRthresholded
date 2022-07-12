@@ -37,6 +37,8 @@
 #' # Regularization path
 #' plot(res,choice="regul_path")
 #' @export
+#' @importFrom grDevices dev.new
+#' @importFrom graphics abline axis box legend matplot mtext par points text title
 plot.SIR_threshold_opt <- function(x, choice = "") {
 
     if (!inherits(x, "SIR_threshold_opt"))
@@ -47,7 +49,7 @@ plot.SIR_threshold_opt <- function(x, choice = "") {
          \"regul_path\"", call. = FALSE)
 
     if (choice == "" || choice == "estim_ind") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)
@@ -55,7 +57,7 @@ plot.SIR_threshold_opt <- function(x, choice = "") {
     }
 
     if (choice == "" || choice == "opt_lambda") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         par(las = 2)
@@ -78,7 +80,7 @@ plot.SIR_threshold_opt <- function(x, choice = "") {
     }
 
     if (choice == "" || choice == "cos2_selec") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         # Display the percentage of useful variables according to the lambdas
@@ -102,7 +104,7 @@ plot.SIR_threshold_opt <- function(x, choice = "") {
     }
 
     if (choice == "" || choice == "regul_path") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         par(mar = c(5.1, 4.1, 6, 2.1))

@@ -7,7 +7,7 @@
 #' @param H The chosen number of slices.
 #' @param lambda The thresholding parameter
 #' @param thresholding The thresholding method (choose between hard, soft)
-#' @param graphic A boolean that must be set to true to display graphics
+#' @param graph A boolean that must be set to true to display graphics
 #' @param choice the graph to plot: 
 #' \itemize{
 #'   \item "eigvals" Plot the eigen values of the matrix of interest
@@ -50,7 +50,7 @@
 #' # Apply SIR with soft thresholding
 #' SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "soft")
 #' @export
-SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graphic = TRUE, choice = "") {
+SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph = TRUE, choice = "") {
 
     cl <- match.call()
 
@@ -62,7 +62,7 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph
     }
 
     # Estimation of b and the interest matrix with the classic SIR method
-    res_SIR <- SIR(Y, X, H = H, graphic = FALSE)
+    res_SIR <- SIR(Y, X, H = H, graph = FALSE)
     b_sir <- res_SIR$b
     M1 <- res_SIR$M1
 
@@ -112,7 +112,7 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph
         lambda = lambda, thresholding = thresholding, call = cl, X_reduced = X_reduced)
     class(res) <- "SIR_threshold"
 
-    if (graphic) {
+    if (graph) {
         plot.SIR_threshold(res, choice = choice)
     }
 

@@ -25,7 +25,7 @@
 #' @param n_lambda The number of lambda to test. The N.lambda tested lambdas are 
 #' between 0 and the maximum value of the interest matrix.
 #' @param thresholding The thresholding method (choose between hard, soft)
-#' @param graphic A boolean, set to TRUE to plot graphs 
+#' @param graph A boolean, set to TRUE to plot graphs 
 #' @param output A boolean, set to TRUE to print informations
 #' @param choice the graph to plot: 
 #' \itemize{
@@ -83,7 +83,7 @@
 #' @md
 #' @importFrom strucchange breakpoints
 SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard",
-    graphic = TRUE, output = TRUE, choice = "") {
+    graph = TRUE, output = TRUE, choice = "") {
 
     cl <- match.call()
 
@@ -95,7 +95,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
     }
 
     # Estimation of b and the interest matrix with the classic SIR method
-    res_SIR <- SIR(Y, X, H = 10, graphic = FALSE)
+    res_SIR <- SIR(Y, X, H = 10, graph = FALSE)
     b_sir <- res_SIR$b
     M1 <- res_SIR$M1
 
@@ -124,7 +124,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
 
         # Get the result of SIR thresholded with lambda_i
         res_SIR_th <- SIR_threshold(Y, X, H = H, lambda = lambdas[i],
-            thresholding = thresholding, graphic = FALSE)
+            thresholding = thresholding, graph = FALSE)
 
         # Store the corresponding b in row i of the matrix
         mat_b[i,] <- res_SIR_th$b
@@ -196,7 +196,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
             # Get the relevant variables (the columns of b where the value is not 0)
             list_relevant_var <- colnames(b)[-which(b == 0)]
             M1_th = SIR_threshold(Y, X, H = H, lambda = lambda_opt,
-                thresholding = thresholding, graphic = FALSE)$M1
+                thresholding = thresholding, graph = FALSE)$M1
         }
 
         # If thresholded SIR could not make variable selection, keep the result of
@@ -224,7 +224,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
 
     class(res) <- "SIR_threshold_opt"
 
-    if (graphic == TRUE) {
+    if (graph == TRUE) {
         plot.SIR_threshold_opt(res, choice = choice)
     }
 

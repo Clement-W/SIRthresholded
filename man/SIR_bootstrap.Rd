@@ -4,7 +4,7 @@
 \alias{SIR_bootstrap}
 \title{Bootstrap SIR}
 \usage{
-SIR_bootstrap(Y, X, H = 10, B = 10, graphic = TRUE, choice = "")
+SIR_bootstrap(Y, X, H = 10, B = 10, graph = TRUE, choice = "")
 }
 \arguments{
 \item{Y}{A numeric vector representing the dependent variable (a response vector).}
@@ -15,7 +15,7 @@ SIR_bootstrap(Y, X, H = 10, B = 10, graphic = TRUE, choice = "")
 
 \item{B}{The number of bootstrapped samples to draw}
 
-\item{graphic}{A boolean that must be set to true to display graphics}
+\item{graph}{A boolean that must be set to true to display graphics}
 
 \item{choice}{the graph to plot: 
 \itemize{

@@ -18,7 +18,7 @@
 #' Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR
-#' res = SIR(Y, X, H = 10, graphic = FALSE)
+#' res = SIR(Y, X, H = 10, graph = FALSE)
 #' 
 #' # Eigen values
 #' plot(res,choice="eigvals")
@@ -26,6 +26,8 @@
 #' # Estimated index versus Y
 #' plot(res,choice="estim_ind")
 #' @export
+#' @importFrom grDevices dev.new
+#' @importFrom graphics axis barplot title
 plot.SIR <- function(x, choice = "") {
 
     if (!inherits(x, "SIR"))
@@ -35,7 +37,7 @@ plot.SIR <- function(x, choice = "") {
         stop("\"choice\" must be either \"eigvals\" or \"estim_ind\"", call. = FALSE)
 
     if (choice == "" || choice == "eigvals") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
 
@@ -54,7 +56,7 @@ plot.SIR <- function(x, choice = "") {
 
 
     if (choice == "" || choice == "estim_ind") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)

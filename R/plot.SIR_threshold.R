@@ -27,6 +27,8 @@
 #' # Estimated index versus Y
 #' plot(res,choice="estim_ind")
 #' @export
+#' @importFrom grDevices dev.new
+#' @importFrom graphics axis barplot title
 plot.SIR_threshold <- function(x, choice = "") {
 
     if (!inherits(x, "SIR_threshold"))
@@ -36,7 +38,7 @@ plot.SIR_threshold <- function(x, choice = "") {
         stop("\"choice\" must be either \"eigvals\" or \"estim_ind\"", call. = FALSE)
 
     if (choice == "" || choice == "eigvals") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         # on prend au plus les 10 premières valeurs propres et on les affichent 
@@ -55,7 +57,7 @@ plot.SIR_threshold <- function(x, choice = "") {
 
 
     if (choice == "" || choice == "estim_ind") {
-        if(choice==""){
+        if (choice == "") {
             dev.new()
         }
         plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)

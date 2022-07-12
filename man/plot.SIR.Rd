@@ -29,7 +29,7 @@ eps <- rnorm(n)
 Y <- (X\%*\%beta)**3+eps
 
 # Apply SIR
-res = SIR(Y, X, H = 10, graphic = FALSE)
+res = SIR(Y, X, H = 10, graph = FALSE)
 
 # Eigen values
 plot(res,choice="eigvals")
