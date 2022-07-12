@@ -210,7 +210,7 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
     class(res) <- "SIR_threshold_opt"
 
     if (graphic == TRUE) {
-        plot.SIR_threshold_opt.R(res, choice = choice)
+        plot.SIR_threshold_opt(res, choice = choice)
     }
 
     return(res)
