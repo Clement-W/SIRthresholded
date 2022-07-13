@@ -4,7 +4,7 @@
 \alias{plot.SIR_threshold_bootstrap}
 \title{Graphical output of SIR_threshold_bootstrap}
 \usage{
-\method{plot}{SIR_threshold_bootstrap}(x, choice = "")
+\method{plot}{SIR_threshold_bootstrap}(x, choice = "", ...)
 }
 \arguments{
 \item{x}{A SIR_threshold_bootstrap object}
@@ -14,15 +14,17 @@
   \item "estim_ind" Plot the estimated index by the SIR model versus Y
   \item "size" Plot the size of the models across the replications
   \item "selec_var" Plot the occurrence of the selected variables across the replications
-  \item "coefs_b" Plot the value of b across the replications
-  \item "lambdas_replic" Plot the optimal lambdas across the replications
+  \item "coefs_b" Plot the value of \eqn{\hat{b}} across the replications
+  \item "lambdas_replic" Plot the distribution of \eqn{\lambda_{opt}} across the replications
   \item "" Plot every graphs
 }}
+
+\item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}
 }
 \description{
-Display the estimated index versus Y of the SIR model, the size of the models
-the occurrence of variable selection, the coefficients of b and the optimal lambda 
-found across the replications.
+Display the estimated index versus Y of the SIR model, the size of the models,
+the occurrence of variable selection, the distribution of the coefficients of  
+and \eqn{\hat{b}} and the distribution of \eqn{\lambda_{opt}} found across the replications.
 }
 \examples{
 # Generate Data

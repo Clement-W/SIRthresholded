@@ -4,7 +4,7 @@
 \alias{plot.SIR_bootstrap}
 \title{Graphical output of SIR_bootstrap}
 \usage{
-\method{plot}{SIR_bootstrap}(x, choice = "")
+\method{plot}{SIR_bootstrap}(x, choice = "", ...)
 }
 \arguments{
 \item{x}{A SIR_bootstrap object}
@@ -15,6 +15,8 @@
   \item "estim_ind" Plot the estimated index by the SIR model versus Y
   \item "" Plot every graphs
 }}
+
+\item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}
 }
 \description{
 Display the 10 first eigen values and the estimated index versus Y of the 

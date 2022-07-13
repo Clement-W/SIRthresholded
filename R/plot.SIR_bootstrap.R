@@ -9,6 +9,7 @@
 #'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
 #'   \item "" Plot every graphs
 #' }
+#' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
 #' @examples
 #' # Generate Data
 #' set.seed(10)
@@ -29,7 +30,7 @@
 #' @export
 #' @importFrom grDevices dev.new
 #' @importFrom graphics axis barplot title
-plot.SIR_bootstrap <- function(x, choice = "") {
+plot.SIR_bootstrap <- function(x, choice = "",...) {
 
     if (!inherits(x, "SIR_bootstrap"))
         stop("Only use with \"SIR_bootstrap\" obects")

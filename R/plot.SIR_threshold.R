@@ -1,7 +1,7 @@
 #'  Graphical output of SIR_threshold
 #'
 #' Display the 10 first eigen values and the estimated index versus Y of the 
-#' thresholded SIR model
+#' thresholded SIR model.
 #' @param x A SIR_threshold object
 #' @param choice the graph to plot: 
 #' \itemize{
@@ -9,6 +9,7 @@
 #'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
 #'   \item "" Plot every graphs
 #' }
+#' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
 #' @examples
 #' # Generate Data
 #' set.seed(10)
@@ -29,7 +30,7 @@
 #' @export
 #' @importFrom grDevices dev.new
 #' @importFrom graphics axis barplot title
-plot.SIR_threshold <- function(x, choice = "") {
+plot.SIR_threshold <- function(x, choice = "",...) {
 
     if (!inherits(x, "SIR_threshold"))
         stop("Only use with \"SIR_threshold\" obects")

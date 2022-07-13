@@ -4,7 +4,7 @@
 \alias{plot.SIR_threshold_opt}
 \title{Graphical output of SIR_threshold_opt}
 \usage{
-\method{plot}{SIR_threshold_opt}(x, choice = "")
+\method{plot}{SIR_threshold_opt}(x, choice = "", ...)
 }
 \arguments{
 \item{x}{A SIR_threshold_opt object}
@@ -12,17 +12,19 @@
 \item{choice}{the graph to plot: 
 \itemize{
   \item "estim_ind" Plot the estimated index by the SIR model versus Y
-  \item "opt_lambda" Plot the choice of the optimal lambda
-  \item "cos2_selec" Plot the evolution of cos^2 and variable selection according to 
-  lambda
-  \item "regul_path" Plot the regularization path of b
+  \item "opt_lambda" Plot the choice of \eqn{\lambda_{opt}}
+  \item "cos2_selec" Plot the evolution of \eqn{cos^2} and variable selection according to 
+  \eqn{\lambda}
+  \item "regul_path" Plot the regularization path of \eqn{\hat{b}}
   \item "" Plot every graphs
 }}
+
+\item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}
 }
 \description{
 Display the 10 first eigen values,the estimated index versus Y of the SIR model,
-the evolution of cos^2 and variable selection according to lambda, and the 
-regularization path of b
+the evolution of \eqn{cos^2} and variable selection according to \eqn{\lambda}, and the 
+regularization path of \eqn{\hat{b}}
 }
 \examples{
 # Generate Data

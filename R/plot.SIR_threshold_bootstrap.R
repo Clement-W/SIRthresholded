@@ -1,18 +1,19 @@
 #'  Graphical output of SIR_threshold_bootstrap
 #'
-#' Display the estimated index versus Y of the SIR model, the size of the models
-#' the occurrence of variable selection, the coefficients of b and the optimal lambda 
-#' found across the replications.
+#' Display the estimated index versus Y of the SIR model, the size of the models,
+#' the occurrence of variable selection, the distribution of the coefficients of  
+#' and \eqn{\hat{b}} and the distribution of \eqn{\lambda_{opt}} found across the replications.
 #' @param x A SIR_threshold_bootstrap object
 #' @param choice the graph to plot: 
 #' \itemize{
 #'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
 #'   \item "size" Plot the size of the models across the replications
 #'   \item "selec_var" Plot the occurrence of the selected variables across the replications
-#'   \item "coefs_b" Plot the value of b across the replications
-#'   \item "lambdas_replic" Plot the optimal lambdas across the replications
+#'   \item "coefs_b" Plot the value of \eqn{\hat{b}} across the replications
+#'   \item "lambdas_replic" Plot the distribution of \eqn{\lambda_{opt}} across the replications
 #'   \item "" Plot every graphs
 #' }
+#' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
 #' @examples
 #' # Generate Data
 #' set.seed(10)
@@ -41,7 +42,7 @@
 #' @export
 #' @importFrom grDevices dev.new
 #' @importFrom graphics abline barplot box boxplot legend title
-plot.SIR_threshold_bootstrap <- function(x, choice = "") {
+plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
 
     if (!inherits(x, "SIR_threshold_bootstrap"))
         stop("Only use with \"SIR_threshold_bootstrap\" obects")

@@ -1,6 +1,6 @@
 #' @export
 #' @keywords internal
-print.SIR_threshold_opt <- function(x) {
+print.SIR_threshold_opt <- function(x,...) {
     if (!inherits(x, "SIR_threshold_opt"))
         stop("Only use with \"SIR_threshold_opt\" obects")
 

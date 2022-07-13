@@ -1,6 +1,6 @@
 #' @export
 #' @keywords internal
-print.SIR_threshold_bootstrap <- function(x) {
+print.SIR_threshold_bootstrap <- function(x,...) {
     if (!inherits(x, "SIR_threshold_bootstrap"))
         stop("Only use with \"SIR_threshold_bootstrap\" obects")
 

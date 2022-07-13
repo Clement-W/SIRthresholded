@@ -1,6 +1,6 @@
 #' @export
 #' @keywords internal
-print.SIR <- function(x) {
+print.SIR <- function(x,...) {
     if (!inherits(x, "SIR"))
         stop("Only use with \"SIR\" obects")
 

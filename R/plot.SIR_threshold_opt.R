@@ -1,18 +1,19 @@
 #'  Graphical output of SIR_threshold_opt
 #'
 #' Display the 10 first eigen values,the estimated index versus Y of the SIR model,
-#' the evolution of cos^2 and variable selection according to lambda, and the 
-#' regularization path of b
+#' the evolution of \eqn{cos^2} and variable selection according to \eqn{\lambda}, and the 
+#' regularization path of \eqn{\hat{b}}
 #' @param x A SIR_threshold_opt object
 #' @param choice the graph to plot: 
 #' \itemize{
 #'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
-#'   \item "opt_lambda" Plot the choice of the optimal lambda
-#'   \item "cos2_selec" Plot the evolution of cos^2 and variable selection according to 
-#'   lambda
-#'   \item "regul_path" Plot the regularization path of b
+#'   \item "opt_lambda" Plot the choice of \eqn{\lambda_{opt}}
+#'   \item "cos2_selec" Plot the evolution of \eqn{cos^2} and variable selection according to 
+#'   \eqn{\lambda}
+#'   \item "regul_path" Plot the regularization path of \eqn{\hat{b}}
 #'   \item "" Plot every graphs
 #' }
+#' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
 #' @examples
 #' # Generate Data
 #' set.seed(10)
@@ -39,7 +40,7 @@
 #' @export
 #' @importFrom grDevices dev.new
 #' @importFrom graphics abline axis box legend matplot mtext par points text title
-plot.SIR_threshold_opt <- function(x, choice = "") {
+plot.SIR_threshold_opt <- function(x, choice = "",...) {
 
     if (!inherits(x, "SIR_threshold_opt"))
         stop("Only use with \"SIR_threshold_opt\" obects")

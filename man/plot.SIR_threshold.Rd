@@ -4,7 +4,7 @@
 \alias{plot.SIR_threshold}
 \title{Graphical output of SIR_threshold}
 \usage{
-\method{plot}{SIR_threshold}(x, choice = "")
+\method{plot}{SIR_threshold}(x, choice = "", ...)
 }
 \arguments{
 \item{x}{A SIR_threshold object}
@@ -15,10 +15,12 @@
   \item "estim_ind" Plot the estimated index by the SIR model versus Y
   \item "" Plot every graphs
 }}
+
+\item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}
 }
 \description{
 Display the 10 first eigen values and the estimated index versus Y of the 
-thresholded SIR model
+thresholded SIR model.
 }
 \examples{
 # Generate Data

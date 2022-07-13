@@ -1,6 +1,6 @@
 #'  Graphical output of SIR
 #'
-#' Display the 10 first eigen values and the estimated index versus Y of the SIR model
+#' Display the 10 first eigen values and the estimated index versus Y of the SIR model.
 #' @param x A SIR object
 #' @param choice the graph to plot: 
 #' \itemize{
@@ -8,6 +8,7 @@
 #'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
 #'   \item "" Plot every graphs
 #' }
+#' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
 #' @examples
 #' # Generate Data
 #' set.seed(10)
@@ -28,7 +29,7 @@
 #' @export
 #' @importFrom grDevices dev.new
 #' @importFrom graphics axis barplot title
-plot.SIR <- function(x, choice = "") {
+plot.SIR <- function(x, choice = "", ...) {
 
     if (!inherits(x, "SIR"))
         stop("Only use with \"SIR\" obects")
