@@ -343,6 +343,8 @@ As done with `SIR_threshold_opt`, we can also create a new SIR model considering
 
 ## Example with ?????? dataset
 
+
+
 ## References
 
 Duan, N., & Li, K.-C. (1991). Slicing Regression : A Link-Free Regression Method. The Annals of Statistics, 19(2), 505‑530.

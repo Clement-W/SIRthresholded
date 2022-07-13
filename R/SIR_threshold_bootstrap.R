@@ -153,14 +153,31 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     # Optimal number of selected variables = the number of selected variables 
     # that came back most often among the replications performed
     nb_var_selec_opt <-
-        as.numeric(names(which(table(vec_nb_var_selec) == max(table(vec_nb_var_selec)))))[1]
-
+        as.numeric(names(which(table(vec_nb_var_selec) == max(table(vec_nb_var_selec)))))
+    
     # Number of optimal zero
     nb_zeros_opt <- p - nb_var_selec_opt
 
     # estimation of b by taking the beta estimated on the whole sample by the
     # method, at the lambda from which the optimal number of zeros appears
-    b <- res_SIR_th$mat_b[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt)),]
+    
+    # FIXME: si aucun lambda de res_SIR_th n'a donné le même nombre de zéro que 
+    # le nombre de zero optimal, alors erreur
+    # FIX termporaire : on prend le nombre de zéro le plus proche inférieur
+    # (pour ne pas sélectionner trop de variables)
+    # Autre idée ? Car ici, on peut choisir un nombre de variable sélectionné qui n'est jamais arrivé
+    # au sein des réplications
+    if(sum(res_SIR_th$vect_nb_zeros == nb_zeros_opt) != 0){
+        b <- res_SIR_th$mat_b[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt)),]
+    }
+    else{
+        #FIX temporaire : 
+        while(sum(res_SIR_th$vect_nb_zeros == nb_zeros_opt) == 0){
+            nb_zeros_opt = nb_zeros_opt - 1
+        }
+        b <- res_SIR_th$mat_b[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt)),]
+        
+    }
     # Convert it into a one-line matrix
     b <- matrix(b, nrow = 1)
     # Rename columns
