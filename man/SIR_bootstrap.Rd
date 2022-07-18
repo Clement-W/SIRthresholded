@@ -42,13 +42,13 @@ Apply a single-index \eqn{SIR} on \eqn{B} bootstraped samples of \eqn{(X,Y)} wit
 }
 \examples{
 # Generate Data
-set.seed(10)
-n <- 500
-beta <- c(1,1,rep(0,8))
-X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-eps <- rnorm(n)
-Y <- (X\%*\%beta)**3+eps
+# set.seed(10)
+# n <- 500
+# beta <- c(1,1,rep(0,8))
+# X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+# eps <- rnorm(n)
+# Y <- (X\%*\%beta)**3+eps
 
 # Apply bootstrap SIR
-SIR_bootstrap(Y, X, H = 10, B = 10)
+# SIR_bootstrap(Y, X, H = 10, B = 10)
 }

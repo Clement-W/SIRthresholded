@@ -24,19 +24,19 @@ thresholded SIR model.
 }
 \examples{
 # Generate Data
-set.seed(10)
-n <- 500
-beta <- c(1,1,rep(0,8))
-X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-eps <- rnorm(n)
-Y <- (X\%*\%beta)**3+eps
+# set.seed(10)
+# n <- 500
+# beta <- c(1,1,rep(0,8))
+# X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+# eps <- rnorm(n)
+# Y <- (X\%*\%beta)**3+eps
 
 # Apply SIR with hard thresholding
-res = SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
+# res = SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
 
 # Eigen values
-plot(res,choice="eigvals")
+# plot(res,choice="eigvals")
 
 # Estimated index versus Y
-plot(res,choice="estim_ind")
+# plot(res,choice="estim_ind")
 }

@@ -37,18 +37,18 @@
 #' the estimation of b}
 #' @examples 
 #' # Generate Data
-#' set.seed(10)
-#' n <- 500
-#' beta <- c(1,1,rep(0,8))
-#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-#' eps <- rnorm(n)
-#' Y <- (X%*%beta)**3+eps
+#' # set.seed(10)
+#' # n <- 500
+#' # beta <- c(1,1,rep(0,8))
+#' # X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+#' # eps <- rnorm(n)
+#' # Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
+#' # SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
 #' 
 #' # Apply SIR with soft thresholding
-#' SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "soft")
+#' # SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "soft")
 #' @export
 SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph = TRUE, choice = "") {
 

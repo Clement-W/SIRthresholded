@@ -17,7 +17,3 @@ The matrix M thresholded
 \description{
 Apply a hard thresholding of parameter lambda to the matrix M
 }
-\examples{
-M = matrix(rnorm(36),nrow=6)
-M1 = do_hard_thresholding(M = M, lambda = 0.4)
-}
