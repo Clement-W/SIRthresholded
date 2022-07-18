@@ -1,4 +1,4 @@
-#'  Vanilla SIR
+#'  Classic SIR
 #'
 #' Apply a single-index \eqn{SIR} on \eqn{(X,Y)} with \eqn{H} slices. This function allows to obtain an 
 #' estimate of a basis of the \eqn{EDR} (Effective Dimension Reduction) space via the eigenvector 

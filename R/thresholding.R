@@ -7,7 +7,6 @@
 #' @examples 
 #' M = matrix(rnorm(36),nrow=6)
 #' M1 = do_soft_thresholding(M = M, lambda = 0.4)
-#' @export
 do_soft_thresholding <- function(M, lambda) {
     abs_m <- abs(M)
     M_th <- abs_m - lambda
@@ -24,7 +23,6 @@ do_soft_thresholding <- function(M, lambda) {
 #' @examples 
 #' M = matrix(rnorm(36),nrow=6)
 #' M1 = do_hard_thresholding(M = M, lambda = 0.4)
-#' @export
 do_hard_thresholding <- function(M, lambda) {
     M.hard <- M
     abs_m <- abs(M)

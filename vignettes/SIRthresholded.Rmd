@@ -134,6 +134,15 @@ This method allow to validate the robustness of the model.
 
 ## Example with simulated data
 
+TODO:
+on va générer des données
+faire SIR classique, regarder les sorties 
+SIRTH pour selection de var
+dire que mieux à 5% pour le beta
+bootstrap
+
+sous forme de liste
+
 ### Generate the data
 
 Let's create $Y = (X\beta)^3 + \epsilon$ with:
@@ -256,7 +265,7 @@ The hard thresholding method results in a more abrupt variable selection accordi
 
 ### Estimate a new SIR model on the relevant variables
 
-As the soft thresholding deforms the matrix of interest with the $\lambda$ parameter, the estimation of $\hat{b}$ is biased. That is why, at the end of the s3 summary method, it is proposed to create a new SIR model based only on the relevant variables, selected by the method. Let's copy paste the command line from the result of `SIR_threshold_opt` and see the results:
+As the soft thresholding deforms the matrix of interest with the $\lambda$ parameter, the estimation of $\hat{b}$ is biased. That is why, at the end of the S3 summary method, it is proposed to create a new SIR model based only on the relevant variables, selected by the method. Let's copy paste the command line from the result of `SIR_threshold_opt` and see the results:
 
 ```{r}
 res_SIR_pstar = SIR(Y=res_STSIR$Y, X=res_STSIR$X_reduced, H=res_STSIR$H)
