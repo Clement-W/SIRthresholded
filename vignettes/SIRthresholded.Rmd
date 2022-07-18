@@ -17,8 +17,10 @@ knitr::opts_chunk$set(echo=TRUE,eval=TRUE,comment="#>")
 __Table of content__
 
 - [How SIR and SIR thresholded works](#how-sir-and-sir-thresholded-works)
-- [Overview](#overview)
+- [Overview of the package](#overview)
 - [Example with simulated data](#example-with-simulated-data)
+
+---
 
 This package offers an implementation of the $SIR$ (Sliced Inverse Regression) method, along with a thresholded version of $SIR$ that allows variable selection. The purpose of this vignettes is to explain the function implemented in the package, and how they are used. The first section is dedicated to the theoretical explaination of $SIR$, and its thresholded version. Reading this section is therefore optional, but can be useful to better understand how the package functions work.
 
@@ -106,7 +108,7 @@ The choice of the thresholding hyper-parameter $\lambda$ must provide a balance 
 
 Then, once the $p^{\star}$ useful variables have been identified, a new $SIR$ model can be estimated on the basis of these $p^{\star}$ selected variables. Thus, the estimation of $\beta$ will be easier because the estimation is done in a space of reduced dimension.
 
-## Overview
+## Overview of the package
 
 ### `SIR` function
 
