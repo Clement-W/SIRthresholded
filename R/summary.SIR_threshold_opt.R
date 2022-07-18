@@ -10,7 +10,7 @@ summary.SIR_threshold_opt <- function(object, ...) {
 
     cat("\n")
     cat(paste("Number of observations:", object$n), "\n")
-    cat(paste("Number of variables in object:", object$p), "\n")
+    cat(paste("Number of variables in X:", object$p), "\n")
     cat(paste("Number of slices:", object$H), "\n")
     cat(paste("Testing:", object$n_lambda, "lambda between 0 and",
         signif(max(abs(object$M1)), 3)), "\n")

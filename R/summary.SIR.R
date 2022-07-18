@@ -10,7 +10,7 @@ summary.SIR <- function(object,...) {
 
     cat("\n")
     cat(paste("Number of observations:", object$n), "\n")
-    cat(paste("Number of variables in object:", object$p), "\n")
+    cat(paste("Number of variables in X:", object$p), "\n")
     cat(paste("Number of slices:", object$H), "\n")
     cat("\n")
 

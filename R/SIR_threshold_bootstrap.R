@@ -76,6 +76,10 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     choice = "") {
 
     cl <- match.call()
+    
+    # Ensure that X and Y are matrices
+    X = ensure_matrix(X) 
+    Y = ensure_matrix(Y)
 
     # SIR optimally thresholded
     res_SIR_th <- SIR_threshold_opt(Y, X, H = H, thresholding = thresholding,
@@ -185,7 +189,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
 
 
     # If variables have been removed
-    if (nb_zeros_opt > 0) {
+    if (sum(nb_zeros_opt > 0)>0) {
         # Update the list of relevant variables
         list_relevant_variables <- colnames(X)[-which(b == 0)]
 

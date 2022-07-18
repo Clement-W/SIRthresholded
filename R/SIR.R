@@ -42,10 +42,9 @@ SIR <- function(Y, X, H = 10, graph = TRUE, choice = "") {
 
     cl <- match.call()
 
-    # To deal with the case where X contains only one variable
-    if (is.null(dim(X)) || length(dim(X)) == 1) {
-        X <- matrix(X, ncol = 1)
-    }
+    # Ensure that X and Y are matrices
+    X = ensure_matrix(X) 
+    Y = ensure_matrix(Y)
 
     n <- nrow(X)
     p <- ncol(X)

@@ -86,6 +86,10 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
     graph = TRUE, output = TRUE, choice = "") {
 
     cl <- match.call()
+    
+    # Ensure that X and Y are matrices
+    X = ensure_matrix(X) 
+    Y = ensure_matrix(Y)
 
     n <- nrow(X)
     p <- ncol(X)
