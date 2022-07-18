@@ -214,7 +214,7 @@ By looking at $\hat{b}$, we notice that the coefficient associated to some varia
 
 ### Use optimally thresholded SIR
 
-An other approach is to directly use the optimally thresholded version of $SIR$ which will provide an estimate of the $EDR$ direction, and select the relevant variables. Let's start with $ST-SIR$ (soft thresholded SIR) with 300 $\lambda$ values to test :
+An other approach is to directly use the optimally thresholded version of $SIR$ which will provide an estimate of the $EDR$ direction, and select the relevant variables. Let's start with $ST-SIR$ (soft thresholded SIR) with 100 $\lambda$ values to test :
 
 ```{r}
 res_STSIR = SIR_threshold_opt(Y=Y, X=X, H=10, n_lambda=100, thresholding="soft", graph=FALSE)
