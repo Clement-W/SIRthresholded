@@ -4,7 +4,6 @@ author: "Clément Weinreich"
 date: "`r Sys.Date()`"
 output:
     html_document: rmarkdown::html_vignette
-#    pdf_document: default
 vignette: |
     %\VignetteIndexEntry{How to use the SIRthresholded package}
     %\VignetteEngine{knitr::rmarkdown} 
@@ -15,7 +14,14 @@ vignette: |
 knitr::opts_chunk$set(echo=TRUE,eval=TRUE,comment="#>")
 ```
 
+__Table of content__
+
+- [How SIR and SIR thresholded works](#how-sir-and-sir-thresholded-works)
+- [Overview](#overview)
+- [Example with simulated data](#example-with-simulated-data)
+
 This package offers an implementation of the $SIR$ (Sliced Inverse Regression) method, along with a thresholded version of $SIR$ that allows variable selection. The purpose of this vignettes is to explain the function implemented in the package, and how they are used. The first section is dedicated to the theoretical explaination of $SIR$, and its thresholded version. Reading this section is therefore optional, but can be useful to better understand how the package functions work.
+
 
 ## How SIR and SIR thresholded works
 
@@ -134,14 +140,14 @@ This method allow to validate the robustness of the model.
 
 ## Example with simulated data
 
-TODO:
-on va générer des données
-faire SIR classique, regarder les sorties 
-SIRTH pour selection de var
-dire que mieux à 5% pour le beta
-bootstrap
+In this section :
 
-sous forme de liste
+- [(1)](#generate-the-data) A dataset is created.
+- [(2)](#create-a-sir-model) Classic SIR is applied to this dataset. The outputs from the S3 summary and plot methods are described.
+- [(3)](#use-optimally-thresholded-sir) SIR optimally thresholded is applied to this dataset in order to do variable selection. The outputs from the S3 summary and plot methods are described.
+- [(4)](#estimate-a-new-sir-model-on-the-relevant-variables) A new SIR model is estimated on the relevant variables, selected by SIR thresholded. We notice that the estimation of the EDR direction is better than with the classic SIR method.
+- [(5)](#sir-thresholded-with-a-given-lambda-parameter) SIR thresholded is applied on the dataset with a custom $\lambda$ parameter.
+- [(6)](#test-the-robustness-of-the-model-with-bootstrapping) A bootstrapped version of SIR optimally thresholded is applied to the data, in order to ensure the robustness of the model. The outputs from the S3 summary and plot methods are described.
 
 ### Generate the data
 
@@ -310,7 +316,7 @@ summary(res_SIR_thresh)
 
 ### Test the robustness of the model with bootstrapping
 
-To test the robustness of the model, it is relevant to perform bootstrapping. This method is even more relevant when the sample size is small. Lets call `SIR_threshold_bootstrap` on the data, with 10 replications, a bootstrapped sample size multiplied by 2 (k=2) and the hard thresholding method :
+To test the robustness of the model, it is relevant to perform bootstrapping. This method is even more relevant when the sample size is small. Lets call `SIR_threshold_bootstrap` on the data, with 10 replications (only 10 to simplify vignettes building), a bootstrapped sample size multiplied by 2 (k=2) and the hard thresholding method :
 
 ```{r}
 res_SIR_boot = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=100,thresholding="hard", n_replications=10,k=2,graph = FALSE)

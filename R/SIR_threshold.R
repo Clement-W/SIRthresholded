@@ -36,7 +36,7 @@
 #' It can be used to estimate a new SIR model on the relevant variables to improve
 #' the estimation of b}
 #' @examples 
-#' # Generate Data
+#' ## Generate Data
 #' # set.seed(10)
 #' # n <- 500
 #' # beta <- c(1,1,rep(0,8))
@@ -44,7 +44,7 @@
 #' # eps <- rnorm(n)
 #' # Y <- (X%*%beta)**3+eps
 #'
-#' # Apply SIR with hard thresholding
+#' ## Apply SIR with hard thresholding
 #' # SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
 #' 
 #' # Apply SIR with soft thresholding

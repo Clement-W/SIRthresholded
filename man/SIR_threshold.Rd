@@ -62,7 +62,7 @@ Apply a single-index \eqn{SIR} on \eqn{(X,Y)} with \eqn{H} slices, with a parame
 apply a soft/hard thresholding to the interest matrix \eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n}.
 }
 \examples{
-# Generate Data
+## Generate Data
 # set.seed(10)
 # n <- 500
 # beta <- c(1,1,rep(0,8))
@@ -70,7 +70,7 @@ apply a soft/hard thresholding to the interest matrix \eqn{\widehat{\Sigma}_n^{-
 # eps <- rnorm(n)
 # Y <- (X\%*\%beta)**3+eps
 
-# Apply SIR with hard thresholding
+## Apply SIR with hard thresholding
 # SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
 
 # Apply SIR with soft thresholding

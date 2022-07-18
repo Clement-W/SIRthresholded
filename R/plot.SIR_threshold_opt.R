@@ -15,7 +15,7 @@
 #' }
 #' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
 #' @examples
-#' # Generate Data
+#' ## Generate Data
 #' # set.seed(10)
 #' # n <- 200
 #' # beta <- c(1,1,rep(0,8))
@@ -23,19 +23,19 @@
 #' # eps <- rnorm(n)
 #' # Y <- (X%*%beta)**3+eps
 #'
-#' # Apply SIR with hard thresholding
+#' ## Apply SIR with hard thresholding
 #' # res = SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
 #' 
-#' # Estimated index versus Y
+#' ## Estimated index versus Y
 #' # plot(res,choice="estim_ind")
 #' 
-#' # Choice of optimal lambda
+#' ## Choice of optimal lambda
 #' # plot(res,choice="opt_lambda")
 #' 
-#' # Evolution of cos^2 and var selection according to lambda
+#' ## Evolution of cos^2 and var selection according to lambda
 #' # plot(res,choice="cos2_selec")
 #' 
-#' # Regularization path
+#' ## Regularization path
 #' # plot(res,choice="regul_path")
 #' @export
 #' @importFrom grDevices dev.new

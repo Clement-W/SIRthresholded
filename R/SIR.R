@@ -26,7 +26,7 @@
 #' \item{index_pred}{The index Xb' estimated by SIR}
 #' \item{Y}{The response vector}
 #' @examples
-#' # Generate Data
+#' ## Generate Data
 #' # set.seed(10)
 #' # n <- 500
 #' # beta <- c(1,1,rep(0,8))
@@ -34,7 +34,7 @@
 #' # eps <- rnorm(n)
 #' # Y <- (X%*%beta)**3+eps
 #'
-#' # Apply SIR
+#' ## Apply SIR
 #' # SIR(Y, X, H = 10)
 #' @export
 #' @importFrom stats var

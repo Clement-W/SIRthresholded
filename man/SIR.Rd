@@ -42,7 +42,7 @@ estimate of a basis of the \eqn{EDR} (Effective Dimension Reduction) space via t
 \eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n}. Thus, \eqn{\hat{b}} is an \eqn{EDR} direction.
 }
 \examples{
-# Generate Data
+## Generate Data
 # set.seed(10)
 # n <- 500
 # beta <- c(1,1,rep(0,8))
@@ -50,6 +50,6 @@ estimate of a basis of the \eqn{EDR} (Effective Dimension Reduction) space via t
 # eps <- rnorm(n)
 # Y <- (X\%*\%beta)**3+eps
 
-# Apply SIR
+## Apply SIR
 # SIR(Y, X, H = 10)
 }

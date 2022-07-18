@@ -1,9 +1,5 @@
-#'  Ensure matrix
-#'
-#' Verify if `data` is a matrix. If not, it is converted into
-#' a matrix if possible. Else, an error is thrown.
-#' @param data The data
-#' @return The data as a matrix
+# Verify if `data` is a matrix. If not, it is converted into
+# a matrix if possible. Else, an error is thrown.
 ensure_matrix <- function(data) {
     
     if(!is.matrix(data)){
@@ -17,6 +13,11 @@ ensure_matrix <- function(data) {
     }
     
     return(data)
-    
+}
+
+# Calculates the quality of the correlation between two vectors
+cosine_squared <- function(b1, b2) {
+    (matrix(b1, nrow = 1) %*% matrix(b2, ncol = 1)) ^ 2 / ((matrix(b1, nrow = 1)
+    %*% matrix(b1, ncol = 1)) * (matrix(b2, nrow = 1) %*% matrix(b2, ncol = 1)))
 }
 

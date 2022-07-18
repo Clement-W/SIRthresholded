@@ -23,7 +23,7 @@ Display the 10 first eigen values and the estimated index versus Y of the
 SIRbootstrap model
 }
 \examples{
-# Generate Data
+## Generate Data
 # set.seed(10)
 # n <- 500
 # beta <- c(1,1,rep(0,8))
@@ -31,12 +31,12 @@ SIRbootstrap model
 # eps <- rnorm(n)
 # Y <- (X\%*\%beta)**3+eps
 
-# Apply bootstrap SIR
+## Apply bootstrap SIR
 # res = SIR_bootstrap(Y, X, H = 10, B = 10)
 
-# Eigen values
+## Eigen values
 # plot(res,choice="eigvals")
 
-# Estimated index versus Y
+## Estimated index versus Y
 # plot(res,choice="estim_ind")
 }

@@ -41,7 +41,7 @@ the columns for each bootstrapped sample}
 Apply a single-index \eqn{SIR} on \eqn{B} bootstraped samples of \eqn{(X,Y)} with \eqn{H} slices.
 }
 \examples{
-# Generate Data
+## Generate Data
 # set.seed(10)
 # n <- 500
 # beta <- c(1,1,rep(0,8))
@@ -49,6 +49,6 @@ Apply a single-index \eqn{SIR} on \eqn{B} bootstraped samples of \eqn{(X,Y)} wit
 # eps <- rnorm(n)
 # Y <- (X\%*\%beta)**3+eps
 
-# Apply bootstrap SIR
+## Apply bootstrap SIR
 # SIR_bootstrap(Y, X, H = 10, B = 10)
 }

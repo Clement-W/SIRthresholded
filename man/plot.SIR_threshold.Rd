@@ -23,7 +23,7 @@ Display the 10 first eigen values and the estimated index versus Y of the
 thresholded SIR model.
 }
 \examples{
-# Generate Data
+## Generate Data
 # set.seed(10)
 # n <- 500
 # beta <- c(1,1,rep(0,8))
@@ -31,12 +31,12 @@ thresholded SIR model.
 # eps <- rnorm(n)
 # Y <- (X\%*\%beta)**3+eps
 
-# Apply SIR with hard thresholding
+## Apply SIR with hard thresholding
 # res = SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
 
-# Eigen values
+## Eigen values
 # plot(res,choice="eigvals")
 
-# Estimated index versus Y
+## Estimated index versus Y
 # plot(res,choice="estim_ind")
 }

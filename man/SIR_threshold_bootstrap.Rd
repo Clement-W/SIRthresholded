@@ -89,7 +89,7 @@ and \eqn{\lambda_{opt}} that produce the same number of selected variables in th
 }
 \examples{
 
-# Generate Data
+## Generate Data
 # set.seed(8)
 # n <-  170
 # beta <- c(1,1,1,1,1,rep(0,15))
@@ -97,9 +97,9 @@ and \eqn{\lambda_{opt}} that produce the same number of selected variables in th
 # eps <- rnorm(n,sd=8)
 # Y <- (X\%*\%beta)**3+eps
 
-# Apply SIR with hard thresholding
+## Apply SIR with hard thresholding
 # SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
 
-# Apply SIR with soft thresholding
+## Apply SIR with soft thresholding
 # SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=30,k=2)
 }

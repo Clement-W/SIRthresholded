@@ -1,9 +1,4 @@
-#'  Soft thresholding
-#'
-#' Apply a soft thresholding of parameter lambda to the matrix M
-#' @param M The matrix that will be thresholded
-#' @param lambda The parameter of the tresholding
-#' @return The matrix M thresholded
+# Apply a soft thresholding of parameter lambda to the matrix M
 do_soft_thresholding <- function(M, lambda) {
     abs_m <- abs(M)
     M_th <- abs_m - lambda
@@ -11,12 +6,7 @@ do_soft_thresholding <- function(M, lambda) {
     return(M_th * sign(M))
 }
 
-#'  Hard thresholding
-#'
-#' Apply a hard thresholding of parameter lambda to the matrix M
-#' @param M The matrix that will be thresholded
-#' @param lambda The parameter of the tresholding
-#' @return The matrix M thresholded
+# Apply a hard thresholding of parameter lambda to the matrix M
 do_hard_thresholding <- function(M, lambda) {
     M.hard <- M
     abs_m <- abs(M)

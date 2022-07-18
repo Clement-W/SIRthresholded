@@ -95,7 +95,7 @@ For example, for \eqn{X \in \mathbb{R}^{10}} and \code{n_lambda=100}, this sorte
 Here, the breakpoint would be 8.
 }
 \examples{
-# Generate Data
+## Generate Data
 # set.seed(2)
 # n <- 200
 # beta <- c(1,1,rep(0,8))
@@ -103,9 +103,9 @@ Here, the breakpoint would be 8.
 # eps <- rnorm(n)
 # Y <- (X\%*\%beta)**3+eps
 
-# Apply SIR with hard thresholding
+## Apply SIR with hard thresholding
 # SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="hard")
 
-# Apply SIR with soft thresholding
+## Apply SIR with soft thresholding
 # SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
 }

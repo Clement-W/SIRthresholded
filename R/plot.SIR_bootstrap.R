@@ -11,7 +11,7 @@
 #' }
 #' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
 #' @examples
-#' # Generate Data
+#' ## Generate Data
 #' # set.seed(10)
 #' # n <- 500
 #' # beta <- c(1,1,rep(0,8))
@@ -19,13 +19,13 @@
 #' # eps <- rnorm(n)
 #' # Y <- (X%*%beta)**3+eps
 #'
-#' # Apply bootstrap SIR
+#' ## Apply bootstrap SIR
 #' # res = SIR_bootstrap(Y, X, H = 10, B = 10)
 #' 
-#' # Eigen values
+#' ## Eigen values
 #' # plot(res,choice="eigvals")
 #'
-#' # Estimated index versus Y
+#' ## Estimated index versus Y
 #' # plot(res,choice="estim_ind")
 #' @export
 #' @importFrom grDevices dev.new

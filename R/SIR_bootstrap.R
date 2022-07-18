@@ -24,7 +24,7 @@
 #' \item{index_pred}{The index b'X estimated by SIR}
 #' \item{Y}{The response vector}
 #' @examples
-#' # Generate Data
+#' ## Generate Data
 #' # set.seed(10)
 #' # n <- 500
 #' # beta <- c(1,1,rep(0,8))
@@ -32,7 +32,7 @@
 #' # eps <- rnorm(n)
 #' # Y <- (X%*%beta)**3+eps
 #'
-#' # Apply bootstrap SIR
+#' ## Apply bootstrap SIR
 #' # SIR_bootstrap(Y, X, H = 10, B = 10)
 #' @export
 SIR_bootstrap <- function(Y, X, H = 10, B = 10, graph = TRUE, choice = "") {
