@@ -67,18 +67,18 @@
 #' \item{index_pred}{The index Xb' estimated by SIR}
 #' @examples 
 #' # Generate Data
-#' set.seed(2)
-#' n <- 200
-#' beta <- c(1,1,rep(0,8))
-#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-#' eps <- rnorm(n)
-#' Y <- (X%*%beta)**3+eps
+#' # set.seed(2)
+#' # n <- 200
+#' # beta <- c(1,1,rep(0,8))
+#' # X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+#' # eps <- rnorm(n)
+#' # Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="hard")
+#' # SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="hard")
 #' 
 #' # Apply SIR with soft thresholding
-#' SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
+#' # SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
 #' @export
 #' @md
 #' @importFrom strucchange breakpoints

@@ -27,15 +27,15 @@
 #' \item{Y}{The response vector}
 #' @examples
 #' # Generate Data
-#' set.seed(10)
-#' n <- 500
-#' beta <- c(1,1,rep(0,8))
-#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-#' eps <- rnorm(n)
-#' Y <- (X%*%beta)**3+eps
+#' # set.seed(10)
+#' # n <- 500
+#' # beta <- c(1,1,rep(0,8))
+#' # X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+#' # eps <- rnorm(n)
+#' # Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR
-#' SIR(Y, X, H = 10)
+#' # SIR(Y, X, H = 10)
 #' @export
 #' @importFrom stats var
 SIR <- function(Y, X, H = 10, graph = TRUE, choice = "") {

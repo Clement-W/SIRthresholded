@@ -58,18 +58,18 @@
 #' @examples
 #'
 #' # Generate Data
-#' set.seed(8)
-#' n <-  170
-#' beta <- c(1,1,1,1,1,rep(0,15))
-#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,20))
-#' eps <- rnorm(n,sd=8)
-#' Y <- (X%*%beta)**3+eps
+#' # set.seed(8)
+#' # n <-  170
+#' # beta <- c(1,1,1,1,1,rep(0,15))
+#' # X <- mvtnorm::rmvnorm(n,sigma=diag(1,20))
+#' # eps <- rnorm(n,sd=8)
+#' # Y <- (X%*%beta)**3+eps
 #'
 #' # Apply SIR with hard thresholding
-#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
+#' # SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
 #' 
 #' # Apply SIR with soft thresholding
-#' SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=30,k=2)
+#' # SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=30,k=2)
 #' @export
 SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     n_replications = 50, graph = TRUE, output = TRUE, n_lambda = 300, k = 2,
