@@ -217,7 +217,7 @@ By looking at $\hat{b}$, we notice that the coefficient associated to some varia
 An other approach is to directly use the optimally thresholded version of $SIR$ which will provide an estimate of the $EDR$ direction, and select the relevant variables. Let's start with $ST-SIR$ (soft thresholded SIR) with 300 $\lambda$ values to test :
 
 ```{r}
-res_STSIR = SIR_threshold_opt(Y=Y, X=X, H=10, n_lambda=300, thresholding="soft", graph=FALSE)
+res_STSIR = SIR_threshold_opt(Y=Y, X=X, H=10, n_lambda=100, thresholding="soft", graph=FALSE)
 ```
 
 The object `res_STSIR` is an object of class `SIR_threshold_opt` and contains many numerical results (see ?SIR_threshold_opt for more details), summarized in the S3 methods `print` and `summary`.
@@ -255,7 +255,7 @@ plot(res_STSIR,choice="estim_ind")
 We can also see some graphical outputs of `SIR_threshold_opt` with hard thresholding :
 
 ```{r,fig.asp=1,fig.show='hold',fig.width=6}
-res_HTSIR = SIR_threshold_opt(Y=Y, X=X, H=10, n_lambda=300, thresholding="hard", graph=FALSE)
+res_HTSIR = SIR_threshold_opt(Y=Y, X=X, H=10, n_lambda=100, thresholding="hard", graph=FALSE)
 
 plot(res_HTSIR,choice="cos2_selec")
 plot(res_HTSIR,choice="regul_path")
@@ -310,10 +310,10 @@ summary(res_SIR_thresh)
 
 ### Test the robustness of the model with bootstrapping
 
-To test the robustness of the model, it is relevant to perform bootstrapping. This method is even more relevant when the sample size is small. Lets call `SIR_threshold_bootstrap` on the data, with 30 replications, a bootstrapped sample size multiplied by 2 (k=2) and the hard thresholding method :
+To test the robustness of the model, it is relevant to perform bootstrapping. This method is even more relevant when the sample size is small. Lets call `SIR_threshold_bootstrap` on the data, with 10 replications, a bootstrapped sample size multiplied by 2 (k=2) and the hard thresholding method :
 
 ```{r}
-res_SIR_boot = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2,graph = FALSE)
+res_SIR_boot = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=100,thresholding="hard", n_replications=10,k=2,graph = FALSE)
 ```
 
 The object `res_SIR_boot` is an object of class `SIR_threshold_bootstrap` and contains many numerical results (see ?SIR_threshold_bootstrap for more details), summarized in the S3 methods `print` and `summary`.
