@@ -4,11 +4,11 @@ Title: Sliced Inverse Regression with trehsolding
 Version: 0.0.1.0
 Authors@R: c(person("Clement", "Weinreich", role = c("aut", "cre"),
                     email = "clement@weinreich.fr"),
-             person("Jerome", "Saracco", role = "aut"),
-             person("Hadrien", "Lorenzo", role = "aut"))
+             person("Jerome", "Saracco", role = c("aut", "cre")),
+             person("Hadrien", "Lorenzo", role = c("aut", "cre")))
 Author: Clement Weinreich [aut, cre],
-    Jerome Saracco [aut],
-    Hadrien Lorenzo [aut],
+    Jerome Saracco [aut, cre],
+    Hadrien Lorenzo [aut, cre],
 Maintainer: Clément Weinreich <clement@weinreich.fr>
 License: GPL (>=2.0)
 Description: Implements a thresholded version of the Sliced Inverse Regression method, which
