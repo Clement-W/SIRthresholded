@@ -16,3 +16,13 @@ do_hard_thresholding <- function(M, lambda) {
 }
 
 #TODO: Add SCAD thresholding
+
+do_scad_thresholding <- function(M,lambda,a) {
+    M.scad <- M
+    abs_m <- abs(M)
+    index_cond1 = which(abs_m <= 2*lambda)
+    M.scad[index_cond1] = sign(M[index_cond1]) * ifelse((abs_m[index_cond1] - lambda) > 0,abs_m[index_cond1] - lambda,0) 
+    index_cond2 = which((abs_m > 2*lambda) & (abs_m <= a*lambda))
+    M.scad[index_cond2] = -sign(M[index_cond2]) * a * lambda + (a - 1) * M[index_cond2]
+    return(M.scad)
+}
