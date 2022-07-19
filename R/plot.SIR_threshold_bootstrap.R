@@ -88,7 +88,9 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
         mat_b <- x$mat_b
         j0 <- which.max(abs(mat_b[1,]))
         for (i in 1:nrow(mat_b)) {
-            mat_b[i,] = mat_b[i,] * sign(mat_b[i, j0])
+            if(mat_b[i, j0] != 0){
+                mat_b[i,] <- mat_b[i,] * sign(mat_b[i, j0])
+            }
         }
         boxplot(mat_b, xlab = "coefficients of b", ylab = "", main =
             paste("Value of b over the", x$n_replications, "bootstrap replications"),

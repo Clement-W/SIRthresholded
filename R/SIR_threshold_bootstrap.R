@@ -175,7 +175,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
         b <- res_SIR_th$mat_b[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt)),]
     }
     else{
-        #FIX temporaire : 
+        #FIX temporaire MARCHE PAS BIEN : 
         while(sum(res_SIR_th$vect_nb_zeros == nb_zeros_opt) == 0){
             nb_zeros_opt = nb_zeros_opt - 1
         }
