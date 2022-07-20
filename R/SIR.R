@@ -61,14 +61,17 @@ SIR <- function(Y, X, H = 10, graph = TRUE, choice = "") {
     # the vector nH contains the number of observations for each slice H
     vect_nh <- rep(n %/% H, H) # %/% = integer division
 
-    # Take into account the reste of the integer division:
-    if ((n - sum(vect_nh)) > 0) {
+    # Take into account the rest of the integer division:
+    rest = n - sum(vect_nh)
+    if (rest > 0) {
         # For each sample not in vect_nh
-        for (i in 1:(n - sum(vect_nh))) {
-            # take a random slice
-            h <- sample(1:H, 1)
-            # add a sample in this slice
+        h = 1
+        for (i in 1:rest) {
+            # add a sample in the slice h
             vect_nh[h] <- vect_nh[h] + 1
+            
+            # Increment h (which is < H)
+            h <- h + 1
         }
     }
 
