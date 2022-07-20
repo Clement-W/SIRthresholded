@@ -11,9 +11,9 @@
 
 \item{choice}{the graph to plot: 
 \itemize{
-  \item "eigvals" Plot the eigen values of the matrix of interest
-  \item "estim_ind" Plot the estimated index by the SIR model versus Y
-  \item "" Plot every graphs
+  \item "eigvals" Plot the eigen values of the matrix of interest.
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+  \item "" Plot every graphs (default).
 }}
 
 \item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}

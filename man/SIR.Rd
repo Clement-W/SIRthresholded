@@ -11,15 +11,15 @@ SIR(Y, X, H = 10, graph = TRUE, choice = "")
 
 \item{X}{A matrix representing the quantitative explanatory variables (bind by column).}
 
-\item{H}{The chosen number of slices.}
+\item{H}{The chosen number of slices (default is 10).}
 
-\item{graph}{A boolean that must be set to true to display graphics}
+\item{graph}{A boolean that must be set to true to display graphics (default is TRUE).}
 
 \item{choice}{the graph to plot: 
 \itemize{
-  \item "eigvals" Plot the eigen values of the matrix of interest
-  \item "estim_ind" Plot the estimated index by the SIR model versus Y
-  \item "" Plot every graphs
+  \item "eigvals" Plot the eigen values of the matrix of interest.
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+  \item "" Plot every graphs. (default)
 }}
 }
 \value{
@@ -31,14 +31,14 @@ eigenvector of the interest matrix.}
 \item{n}{Sample size.}
 \item{p}{The number of variables in X.}
 \item{H}{The chosen number of slices.}
-\item{call}{Unevaluated call to the function}
-\item{index_pred}{The index Xb' estimated by SIR}
-\item{Y}{The response vector}
+\item{call}{Unevaluated call to the function.}
+\item{index_pred}{The index Xb' estimated by SIR.}
+\item{Y}{The response vector.}
 }
 \description{
 Apply a single-index \eqn{SIR} on \eqn{(X,Y)} with \eqn{H} slices. This function allows to obtain an 
 estimate of a basis of the \eqn{EDR} (Effective Dimension Reduction) space via the eigenvector 
-\eqn{\hat{b}} associated with the largest nonzero eigenvalue of the matrix of interest 
+\eqn{\hat{b}} associated with the largest nonzero eigenvalue of the matrix of interest
 \eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n}. Thus, \eqn{\hat{b}} is an \eqn{EDR} direction.
 }
 \examples{

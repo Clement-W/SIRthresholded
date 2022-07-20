@@ -11,12 +11,12 @@
 
 \item{choice}{the graph to plot: 
 \itemize{
-  \item "estim_ind" Plot the estimated index by the SIR model versus Y
-  \item "opt_lambda" Plot the choice of \eqn{\lambda_{opt}}
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+  \item "opt_lambda" Plot the choice of \eqn{\lambda_{opt}}.
   \item "cos2_selec" Plot the evolution of \eqn{cos^2} and variable selection according to 
-  \eqn{\lambda}
-  \item "regul_path" Plot the regularization path of \eqn{\hat{b}}
-  \item "" Plot every graphs
+  \eqn{\lambda}.
+  \item "regul_path" Plot the regularization path of \eqn{\hat{b}}.
+  \item "" Plot every graphs (default).
 }}
 
 \item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}
@@ -24,7 +24,7 @@
 \description{
 Display the 10 first eigen values,the estimated index versus Y of the SIR model,
 the evolution of \eqn{cos^2} and variable selection according to \eqn{\lambda}, and the 
-regularization path of \eqn{\hat{b}}
+regularization path of \eqn{\hat{b}}.
 }
 \examples{
 ## Generate Data

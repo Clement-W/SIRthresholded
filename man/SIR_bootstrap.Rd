@@ -11,17 +11,17 @@ SIR_bootstrap(Y, X, H = 10, B = 10, graph = TRUE, choice = "")
 
 \item{X}{A matrix representing the quantitative explanatory variables (bind by column).}
 
-\item{H}{The chosen number of slices.}
+\item{H}{The chosen number of slices (default is 10).}
 
-\item{B}{The number of bootstrapped samples to draw}
+\item{B}{The number of bootstrapped samples to draw (default is 10).}
 
-\item{graph}{A boolean that must be set to true to display graphics}
+\item{graph}{A boolean that must be set to true to display graphics (default is TRUE).}
 
 \item{choice}{the graph to plot: 
 \itemize{
-  \item "eigvals" Plot the eigen values of the matrix of interest
-  \item "estim_ind" Plot the estimated index by the SIR model versus Y
-  \item "" Plot every graphs
+  \item "eigvals" Plot the eigen values of the matrix of interest.
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+  \item "" Plot every graphs (default).
 }}
 }
 \value{
@@ -29,13 +29,13 @@ An object of class SIR_bootstrap, with attributes:
 \item{b}{This is an estimated EDR direction, which is the principal eigenvector
 of the interest matrix.}
 \item{mat_b}{A matrix of size p*B that contains an estimation of beta in 
-the columns for each bootstrapped sample}
+the columns for each bootstrapped sample.}
 \item{n}{Sample size.}
 \item{p}{The number of variables in X.}
 \item{H}{The chosen number of slices.}
-\item{call}{Unevaluated call to the function}
-\item{index_pred}{The index b'X estimated by SIR}
-\item{Y}{The response vector}
+\item{call}{Unevaluated call to the function.}
+\item{index_pred}{The index b'X estimated by SIR.}
+\item{Y}{The response vector.}
 }
 \description{
 Apply a single-index \eqn{SIR} on \eqn{B} bootstraped samples of \eqn{(X,Y)} with \eqn{H} slices.

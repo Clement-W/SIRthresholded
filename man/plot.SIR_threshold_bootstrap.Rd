@@ -11,12 +11,12 @@
 
 \item{choice}{the graph to plot: 
 \itemize{
-  \item "estim_ind" Plot the estimated index by the SIR model versus Y
-  \item "size" Plot the size of the models across the replications
-  \item "selec_var" Plot the occurrence of the selected variables across the replications
-  \item "coefs_b" Plot the value of \eqn{\hat{b}} across the replications
-  \item "lambdas_replic" Plot the distribution of \eqn{\lambda_{opt}} across the replications
-  \item "" Plot every graphs
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+  \item "size" Plot the size of the models across the replications.
+  \item "selec_var" Plot the occurrence of the selected variables across the replications.
+  \item "coefs_b" Plot the value of \eqn{\hat{b}} across the replications.
+  \item "lambdas_replic" Plot the distribution of \eqn{\lambda_{opt}} across the replications.
+  \item "" Plot every graphs (default).
 }}
 
 \item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}

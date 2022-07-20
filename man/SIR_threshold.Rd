@@ -19,19 +19,19 @@ SIR_threshold(
 
 \item{X}{A matrix representing the quantitative explanatory variables (bind by column).}
 
-\item{H}{The chosen number of slices.}
+\item{H}{The chosen number of slices (default is 10).}
 
-\item{lambda}{The thresholding parameter}
+\item{lambda}{The thresholding parameter (default is 0).}
 
-\item{thresholding}{The thresholding method (choose between hard, soft)}
+\item{thresholding}{The thresholding method to choose between hard and soft (default is hard).}
 
-\item{graph}{A boolean that must be set to true to display graphics}
+\item{graph}{A boolean that must be set to true to display graphics (default is TRUE).}
 
 \item{choice}{the graph to plot: 
 \itemize{
-  \item "eigvals" Plot the eigen values of the matrix of interest
-  \item "estim_ind" Plot the estimated index by the SIR model versus Y
-  \item "" Plot every graphs
+  \item "eigvals" Plot the eigen values of the matrix of interest.
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+  \item "" Plot every graphs (default).
 }}
 }
 \value{
@@ -46,16 +46,16 @@ of the interest matrix.}
 \item{p}{The number of variables in X.}
 \item{H}{The chosen number of slices.}
 \item{nb.zeros}{The number of 0 in the estimation of the vector beta.}
-\item{index_pred}{The index Xb' estimated by SIR}
+\item{index_pred}{The index Xb' estimated by SIR.}
 \item{list.relevant.variables}{A list that contains the variables selected by the
-model}
-\item{cos_squared}{The cosine squared between vanilla SIR and SIR thresholded}
-\item{lambda}{The thresholding parameter used}
-\item{thresholding}{The thresholding method used}
+model.}
+\item{cos_squared}{The cosine squared between vanilla SIR and SIR thresholded.}
+\item{lambda}{The thresholding parameter used.}
+\item{thresholding}{The thresholding method used.}
 \item{call}{Unevaluated call to the function.}
 \item{X_reduced}{The X data restricted to the variables selected by the model.
 It can be used to estimate a new SIR model on the relevant variables to improve
-the estimation of b}
+the estimation of b.}
 }
 \description{
 Apply a single-index \eqn{SIR} on \eqn{(X,Y)} with \eqn{H} slices, with a parameter \eqn{\lambda} which 

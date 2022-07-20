@@ -12,7 +12,7 @@ SIR_threshold_bootstrap(
   n_replications = 50,
   graph = TRUE,
   output = TRUE,
-  n_lambda = 300,
+  n_lambda = 100,
   k = 2,
   choice = ""
 )
@@ -22,61 +22,61 @@ SIR_threshold_bootstrap(
 
 \item{X}{A matrix representing the quantitative explanatory variables (bind by column).}
 
-\item{H}{The chosen number of slices.}
+\item{H}{The chosen number of slices (default is 10).}
 
-\item{thresholding}{The thresholding method (choose between hard, soft)}
+\item{thresholding}{The thresholding method to choose between hard and soft (default is hard).}
 
 \item{n_replications}{The number of bootstraped replications of (X,Y) done to
-estimate the model.}
+estimate the model (default is 50).}
 
-\item{graph}{A boolean, set to TRUE to plot graphs}
+\item{graph}{A boolean, set to TRUE to plot graphs (default is TRUE).}
 
-\item{output}{A boolean, set to TRUE to print information}
+\item{output}{A boolean, set to TRUE to print information (default is TRUE).}
 
 \item{n_lambda}{The number of lambda to test. The n_lambda tested lambdas are
-between 0 and the maximum value of the interest matrix.}
+uniformally distributed between 0 and the maximum value of the interest matrix (default is 100).}
 
 \item{k}{Multiplication factor of the bootstrapped sample size
-(default is 1 = keep the same size as original data)}
+(default is 1 = keep the same size as original data).}
 
 \item{choice}{the graph to plot: 
 \itemize{
-  \item "estim_ind" Plot the estimated index by the SIR model versus Y
-  \item "size" Plot the size of the models across the replications
-  \item "selec_var" Plot the occurrence of the selected variables across the replications
-  \item "coefs_b" Plot the value of b across the replications
-  \item "lambdas_replic" Plot the optimal lambdas across the replications
-  \item "" Plot every graphs
+  \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+  \item "size" Plot the size of the models across the replications.
+  \item "selec_var" Plot the occurrence of the selected variables across the replications.
+  \item "coefs_b" Plot the value of b across the replications.
+  \item "lambdas_replic" Plot the optimal lambdas across the replications.
+  \item "" Plot every graphs (default).
 }}
 }
 \value{
 An object of class SIR_threshold_bootstrap, with attributes:
 \item{b}{This is the optimal estimated EDR direction, which is the principal 
 eigenvector of the interest matrix.}
-\item{lambda_opt}{The optimal lambda}
+\item{lambda_opt}{The optimal lambda.}
 \item{vec_nb_var_selec}{Vector that contains the number of selected variables 
-for each replications}
+for each replications.}
 \item{occurrences_var}{Vector that contains at index i the number of times the 
-i_th variable has been selected in a replication}
+i_th variable has been selected in a replication.}
 \item{call}{Unevaluated call to the function.}
 \item{nb_var_selec_opt}{Optimal number of selected variables which is the number 
-of selected variables that came back most often among the replications performed}
+of selected variables that came back most often among the replications performed.}
 \item{list_relevant_variables}{A list that contains the variables selected by 
-the model}
+the model.}
 \item{n}{Sample size.}
 \item{p}{The number of variables in X.}
 \item{H}{The chosen number of slices.}
 \item{n_replications}{The number of bootstraped replications of (X,Y) done to
 estimate the model.}
-\item{thresholding}{The thresholding method used}
+\item{thresholding}{The thresholding method used.}
 \item{X_reduced}{The X data restricted to the variables selected by the model.
 It can be used to estimate a new SIR model on the relevant variables to improve
 the estimation of b.}
-\item{mat_b}{Contains the estimation b at each bootstraped replications}
+\item{mat_b}{Contains the estimation b at each bootstraped replications.}
 \item{lambdas_opt_boot}{Contains the optimal lambda found by SIR_threshold_opt at 
-each replication }
-\item{index_pred}{The index Xb' estimated by SIR}
-\item{Y}{The response vector}
+each replication.}
+\item{index_pred}{The index Xb' estimated by SIR.}
+\item{Y}{The response vector.}
 \item{M1}{The interest matrix thresholded with the optimal lambda.}
 }
 \description{
