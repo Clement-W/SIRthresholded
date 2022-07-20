@@ -21,50 +21,50 @@
 #' Here, the breakpoint would be 8.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
-#' @param H The chosen number of slices.
-#' @param n_lambda The number of lambda to test. The N.lambda tested lambdas are 
-#' between 0 and the maximum value of the interest matrix.
-#' @param thresholding The thresholding method (choose between hard, soft)
-#' @param graph A boolean, set to TRUE to plot graphs 
-#' @param output A boolean, set to TRUE to print informations
+#' @param H The chosen number of slices (default is 10).
+#' @param n_lambda The number of lambda to test. The n_lambda tested lambdas are
+#' uniformally distributed between 0 and the maximum value of the interest matrix. (default is 100).
+#' @param thresholding The thresholding method to choose between hard and soft (default is hard).
+#' @param graph A boolean, set to TRUE to plot graphs (default is TRUE).
+#' @param output A boolean, set to TRUE to print informations (default is TRUE).
 #' @param choice the graph to plot: 
 #' \itemize{
-#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
-#'   \item "opt_lambda" Plot the choice of the optimal lambda
+#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+#'   \item "opt_lambda" Plot the choice of the optimal lambda.
 #'   \item "cos2_selec" Plot the evolution of cos^2 and variable selection according to 
-#'   lambda
-#'   \item "regul_path" Plot the regularization path of b
-#'   \item "" Plot every graphs
+#'   lambda.
+#'   \item "regul_path" Plot the regularization path of b.
+#'   \item "" Plot every graphs (default).
 #' }
 #' @return An object of class SIR_threshold_opt, with attributes:
 #' \item{b}{This is the optimal estimated EDR direction, which is the principal 
 #' eigenvector of the interest matrix.}
-#' \item{lambdas}{A vector that contains the tested lambdas}
-#' \item{lambda_opt}{The optimal lambda}
+#' \item{lambdas}{A vector that contains the tested lambdas.}
+#' \item{lambda_opt}{The optimal lambda.}
 #' \item{mat_b}{A matrix of size p*n_lambda that contains an estimation of beta 
-#' in the columns for each lambda}
-#' \item{n_lambda}{The number of lambda tested}
-#' \item{vect_nb_zeros}{The number of 0 in b for each lambda}
+#' in the columns for each lambda.}
+#' \item{n_lambda}{The number of lambda tested.}
+#' \item{vect_nb_zeros}{The number of 0 in b for each lambda.}
 #' \item{list_relevant_variables}{A list that contains the variables selected by 
-#' the model}
+#' the model.}
 #' \item{fit_bp}{An object of class breakpoints from the strucchange package,
 #' that contains informations about the breakpoint which allows to deduce the
 #' optimal lambda.}
 #' \item{indices_useless_var}{A vector that contains p items: each variable is 
 #' associated with the number of lambda that selects this variable.}
 #' \item{vect_cos_squared}{A vector that contains for each lambda,
-#' the cosine squared between vanilla SIR and SIR thresholded}
+#' the cosine squared between vanilla SIR and SIR thresholded.}
 #' \item{Y}{The response vector.}
 #' \item{n}{Sample size.}
 #' \item{p}{The number of variables in X.}
 #' \item{H}{The chosen number of slices.}
 #' \item{M1}{The interest matrix thresholded with the optimal lambda.}
-#' \item{thresholding}{The thresholding method used}
+#' \item{thresholding}{The thresholding method used.}
 #' \item{call}{Unevaluated call to the function.}
 #' \item{X_reduced}{The X data restricted to the variables selected by the model.
 #' It can be used to estimate a new SIR model on the relevant variables to improve
 #' the estimation of b.}
-#' \item{index_pred}{The index Xb' estimated by SIR}
+#' \item{index_pred}{The index Xb' estimated by SIR.}
 #' @examples 
 #' ## Generate Data
 #' # set.seed(2)

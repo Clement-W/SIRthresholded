@@ -1,13 +1,13 @@
 #'  Graphical output of SIR_bootstrap
 #'
 #' Display the 10 first eigen values and the estimated index versus Y of the 
-#' SIRbootstrap model
+#' SIRbootstrap model.
 #' @param x A SIR_bootstrap object
 #' @param choice the graph to plot: 
 #' \itemize{
-#'   \item "eigvals" Plot the eigen values of the matrix of interest
-#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
-#'   \item "" Plot every graphs
+#'   \item "eigvals" Plot the eigen values of the matrix of interest.
+#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+#'   \item "" Plot every graphs (default).
 #' }
 #' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
 #' @examples

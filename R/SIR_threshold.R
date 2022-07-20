@@ -4,15 +4,15 @@
 #' apply a soft/hard thresholding to the interest matrix \eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n}.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
-#' @param H The chosen number of slices.
-#' @param lambda The thresholding parameter
-#' @param thresholding The thresholding method (choose between hard, soft)
-#' @param graph A boolean that must be set to true to display graphics
+#' @param H The chosen number of slices (default is 10).
+#' @param lambda The thresholding parameter (default is 0).
+#' @param thresholding The thresholding method to choose between hard and soft (default is hard).
+#' @param graph A boolean that must be set to true to display graphics (default is TRUE).
 #' @param choice the graph to plot: 
 #' \itemize{
-#'   \item "eigvals" Plot the eigen values of the matrix of interest
-#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
-#'   \item "" Plot every graphs
+#'   \item "eigvals" Plot the eigen values of the matrix of interest.
+#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+#'   \item "" Plot every graphs (default).
 #' }
 #' @return An object of class SIR_threshold, with attributes:
 #' \item{b}{This is an estimated EDR direction, which is the principal eigenvector 
@@ -25,16 +25,16 @@
 #' \item{p}{The number of variables in X.}
 #' \item{H}{The chosen number of slices.}
 #' \item{nb.zeros}{The number of 0 in the estimation of the vector beta.}
-#' \item{index_pred}{The index Xb' estimated by SIR}
+#' \item{index_pred}{The index Xb' estimated by SIR.}
 #' \item{list.relevant.variables}{A list that contains the variables selected by the
-#' model}
-#' \item{cos_squared}{The cosine squared between vanilla SIR and SIR thresholded}
-#' \item{lambda}{The thresholding parameter used}
-#' \item{thresholding}{The thresholding method used}
+#' model.}
+#' \item{cos_squared}{The cosine squared between vanilla SIR and SIR thresholded.}
+#' \item{lambda}{The thresholding parameter used.}
+#' \item{thresholding}{The thresholding method used.}
 #' \item{call}{Unevaluated call to the function.}
 #' \item{X_reduced}{The X data restricted to the variables selected by the model.
 #' It can be used to estimate a new SIR model on the relevant variables to improve
-#' the estimation of b}
+#' the estimation of b.}
 #' @examples 
 #' ## Generate Data
 #' # set.seed(10)

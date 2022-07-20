@@ -2,17 +2,17 @@
 #'
 #' Apply a single-index \eqn{SIR} on \eqn{(X,Y)} with \eqn{H} slices. This function allows to obtain an 
 #' estimate of a basis of the \eqn{EDR} (Effective Dimension Reduction) space via the eigenvector 
-#' \eqn{\hat{b}} associated with the largest nonzero eigenvalue of the matrix of interest 
+#' \eqn{\hat{b}} associated with the largest nonzero eigenvalue of the matrix of interest
 #' \eqn{\widehat{\Sigma}_n^{-1}\widehat{\Gamma}_n}. Thus, \eqn{\hat{b}} is an \eqn{EDR} direction.
 #' @param X A matrix representing the quantitative explanatory variables (bind by column).
 #' @param Y A numeric vector representing the dependent variable (a response vector).
-#' @param H The chosen number of slices.
-#' @param graph A boolean that must be set to true to display graphics
+#' @param H The chosen number of slices (default is 10).
+#' @param graph A boolean that must be set to true to display graphics (default is TRUE).
 #' @param choice the graph to plot: 
 #' \itemize{
-#'   \item "eigvals" Plot the eigen values of the matrix of interest
-#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y
-#'   \item "" Plot every graphs
+#'   \item "eigvals" Plot the eigen values of the matrix of interest.
+#'   \item "estim_ind" Plot the estimated index by the SIR model versus Y.
+#'   \item "" Plot every graphs. (default)
 #' }
 #' @return An object of class SIR, with attributes:
 #' \item{b}{This is an estimated EDR direction, which is the principal 
@@ -22,9 +22,9 @@
 #' \item{n}{Sample size.}
 #' \item{p}{The number of variables in X.}
 #' \item{H}{The chosen number of slices.}
-#' \item{call}{Unevaluated call to the function}
-#' \item{index_pred}{The index Xb' estimated by SIR}
-#' \item{Y}{The response vector}
+#' \item{call}{Unevaluated call to the function.}
+#' \item{index_pred}{The index Xb' estimated by SIR.}
+#' \item{Y}{The response vector.}
 #' @examples
 #' ## Generate Data
 #' # set.seed(10)
