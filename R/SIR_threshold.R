@@ -77,6 +77,9 @@ SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph
     if (thresholding == "hard") {
         M1_th <- do_hard_thresholding(M1, lambda = lambda)
     }
+    if (thresholding == "scad") {
+        M1_th <- do_scad_thresholding(M1, lambda = lambda,a=3*lambda)
+    }
 
     # Compute eigenvalues and eigenvectors of the thresholded interest matrix
     res_eig <- eigen(M1_th)

@@ -3,7 +3,8 @@ title: "How to use the SIRthresholded package"
 author: "Clément Weinreich"
 date: "`r Sys.Date()`"
 output:
-    html_document: rmarkdown::html_vignette
+    #html_document: rmarkdown::html_vignette
+    pdf_document: default
 vignette: |
     %\VignetteIndexEntry{How to use the SIRthresholded package}
     %\VignetteEngine{knitr::rmarkdown} 
