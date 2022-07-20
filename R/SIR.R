@@ -70,7 +70,7 @@ SIR <- function(Y, X, H = 10, graph = TRUE, choice = "") {
             # add a sample in the slice h
             vect_nh[h] <- vect_nh[h] + 1
             
-            # Increment h (which is < H)
+            # Increment h (which will be < H because rest < H)
             h <- h + 1
         }
     }
