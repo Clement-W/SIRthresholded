@@ -1,18 +1,13 @@
-
+library(SIRthresholded)
 #https://cran.r-project.org/web/packages/MXM/vignettes/MMPC_tutorial.html
 wine <-  read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data", header = FALSE) 
-colnames(wine) <- c('Type', 'Alcohol', 'Malic', 'Ash', 
-                    'Alcalinity', 'Magnesium', 'Phenols', 
-                    'Flavanoids', 'Nonflavanoids', 'Proanthocyanins',
-                    'Color', 'Hue', 'Dilution', 'Proline')
+colnames(wine) <- c('Type', 'Alcohol', 'Malic', 'Ash', 'Alcalinity', 'Magnesium', 'Phenols', 'Flavanoids', 
+                    'Nonflavanoids', 'Proanthocyanins', 'Color', 'Hue', 'Dilution', 'Proline')
+wine <- wine[,-1] # Remove the class information (type of cultivars)
 
-# 3. REMOVE the 1st attribute, which is the class information:
-wine <- wine[,-1] 
-
-targetVariable <- wine$Nonflavanoids
-target_NonFlav <- as.matrix(wine$Nonflavanoids,ncol=1)
-wine_dataset <- as.matrix(wine[, -8]) # remove target variable
-wine_dataset[, 12] <- as.numeric(wine_dataset[, 12]) # change type int to num
+Y <- wine$Nonflavanoids
+X <- wine[, -8] # remove target variable Nonflavanoids
 
 res = SIR_threshold_opt(scale(target_NonFlav),scale(wine_dataset),H=5,n_lambda = 200)
-res = SIR_threshold_bootstrap(scale(target_NonFlav),scale(wine_dataset),H=5,n_replications = 500) # à stocker quelque part
+res2 = SIR_threshold_bootstrap(scale(Y),scale(X),H=5,n_replications = 500,n_lambda=200) # à stocker quelque part
+save(res2,file = "data/res2.RData")

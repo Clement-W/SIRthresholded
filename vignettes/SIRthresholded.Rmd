@@ -20,6 +20,7 @@ __Table of content__
 - [How SIR and SIR thresholded works](#how-sir-and-sir-thresholded-works)
 - [Overview of the package](#overview)
 - [Example with simulated data](#example-with-simulated-data)
+- [Example with wine dataset](#example-with-wine-dataset)
 
 ---
 
@@ -359,10 +360,119 @@ This plot shows the distribution of every coefficients of the $\hat{b}$ computed
 
 As done with `SIR_threshold_opt`, we can also create a new SIR model considering only the relevant variables.
 
-## Example with ?????? dataset
+## Example with Wine dataset
 
+TODO : sommaire comme partie précédente
 
+### The data
 
+For this example, we chose the wine dataset from the UCI machine learning repository (https://archive.ics.uci.edu/ml/datasets/Wine). As explained on the page description of the dataset, these data are the results of a chemical analysis of wines grown in the same region in Italy, but derived from three different cultivars (not taken into account in this example). The analysis determined the quantities of 13 constituents found in the 178 samples of wine. Here, we'll try to find the relevant variables in order to perform regression on the target variable Nonflavanoids according to the 12 other constituents. First, let's load the dataset.
+
+```{r}
+wine <-  read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data", header = FALSE) 
+colnames(wine) <- c('Type', 'Alcohol', 'Malic', 'Ash', 'Alcalinity', 'Magnesium', 
+                    'Phenols', 'Flavanoids', 'Nonflavanoids', 'Proanthocyanins', 
+                    'Color', 'Hue', 'Dilution', 'Proline')
+
+# Extract the target variable
+Y <- wine$Nonflavanoids
+# Remove the target variable (Nonflavanoids) and the class information (type of cultivars)
+X <- wine[, -which(names(wine) %in% c("Type","Nonflavanoids"))] 
+
+head(cbind(Y,X),3)
+print(dim(X))
+```
+
+The X data contains 178 samples, with 12 variables. As suggested in the description page of this dataset, we'll standardise the variables with the `scale()` method. Here, scaling the data is mandatory to ensure that the SIR method works properly.
+```{r}
+X = scale(X)
+Y = scale(Y)
+```
+
+### A first model
+
+Now, we can use `SIR_threshold_opt` to do variable selection with an optimal thresholding parameter. The sample size is relatively small. To improve the estimations of $p_h$ and $m_h$ in the SIR method (more details in [the first part of this vignette](#how-sir-and-sir-thresholded-works)), we reduce the number of slices to 5, so there is more sample in each slices.
+
+```{r}
+res1 = SIR_threshold_opt(Y=Y, X=X, H=5, n_lambda=200, thresholding="hard", graph=FALSE)
+summary(res1)
+```
+
+In this first model, 2 variables are selected : Ash and Flavanoids. Let's  explore the graphs to better understand what is going on.
+
+```{r,fig.asp=1,fig.width=4,fig.align='center'}
+plot(res1,choice="estim_ind")
+```
+
+We first note that the model is very noisy. However, we still notice a linear tendency between the estimated index and Y.
+
+Let's now focus on variable selection.
+
+```{r,fig.asp=1,fig.show='hold',fig.width=6}
+plot(res1,choice="cos2_selec")
+plot(res1,choice="regul_path")
+```
+
+These two graphs helps us to understand the link between variable selection (the coefficients of $\hat{b}$) and $\lambda$. Here, the $\lambda_{opt}$ allows to select 2 variables. In the first plot, we notice that if $\lambda$ were a bit more or less than $\lambda_{opt}$, we could have selected 1 or 2 more variables, while improving the estimation of $\hat{b}$. In fact, in the second plot, we notice that the coefficients of $\hat{b}$ associated to the variables Dillution and Hue are set to 0 by $\lambda_{opt}$. The previous lambda would have kept both.
+
+### Perform Bootstrap
+
+As the data is noisy, the sample size is small, and the $\lambda_{opt}$ obtained with `SIR_threshold_opt` is questionable, it is relevant to perform SIR_threshold_opt on bootstrapped replications of the dataset. Let's perform 500 replications, with a bootstrapped sample size multiplied by 2 :
+
+```{r}
+# To lighten the build of the vignette, the result of this command was saved into data/res2.RData
+#res2 = SIR_threshold_bootstrap(Y=Y, X=X, H=5, n_lambda=200, thresholding="hard", n_replications = 500 , graph=FALSE)
+load("../data/res2.RData")
+summary(res2)
+```
+
+Let's explore some of the graphical outputs :
+```{r,fig.asp=1,fig.show='hold',fig.width=6}
+plot(res2,choice="size")
+```
+
+Over the 500 replications, 50% of the models selected 2 variables. Then, approximately 45% of the models selected 3,4,5 or 6 variables. Let's take a look at the percentage of variable selection.
+
+```{r,fig.asp=1,fig.show='hold',fig.width=6}
+plot(res2,choice="selec_var")
+```
+
+As expected, a large majority of the models have selected the variables Ash and Flavanoids. But it is interesting to see that 4 other variables were regularly selected (between 30 and 40% of the replications) : Magnesium, Phenols, Hue and Dilution. We notice that Hue and Dillution were closed to be selected in `SIR_threshold_opt`.
+
+```{r,fig.asp=1,fig.show='hold',fig.width=6}
+plot(res2,choice="coefs_b")
+```
+
+Looking at the boxplot of the value of $\hat{b}$ over the 500 replications, we also find the same results. The coefficients of $\hat{b}$ associated to Magnesium, Phenols, Hue and Dilution are greater than 0 in median.
+
+### Thresholding with a custom $\lambda$
+
+Let's look at the regularization path plotted earlier, and find the $\lambda$ which select the 4 potentially relevant variables. By looking at the top axis of the regularization path, we find the last lambda which select 6 variables, which is approximately 0.11 :
+
+```{r}
+res3 = SIR_threshold(Y=Y, X=X, H=5, lambda = 0.11, thresholding="hard", graph=FALSE)
+summary(res3)
+```
+
+Now, the 6 variables are selected with this estimation of $\hat{b}.$. Let's estimate a new SIR model only on these relevant variables.
+
+### Estimate SIR model on the relevant variables
+
+Let's copy paste the command from the previous output of the S3 summary method :
+
+```{r}
+res4 = SIR(Y=res3$Y, X=res3$X_reduced, H=res3$H, graph = FALSE)
+summary(res4)
+```
+
+blabla
+```{r,fig.asp=1,fig.width=4,fig.align="center"}
+plot(res4,choice="estim_ind")
+```
+
+blabla
 ## References
 
 Duan, N., & Li, K.-C. (1991). Slicing Regression : A Link-Free Regression Method. The Annals of Statistics, 19(2), 505‑530.
+
+Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
