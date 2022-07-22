@@ -24,6 +24,19 @@ To install the current development version from GitHub:
 devtools::install_github("clement-w/sirthresholded", build_vignettes = TRUE)
 ```
 
+It is also possible to clone the repository, and install it manually (note: pandoc is required to build the vignette):
+```sh
+git clone git@github.com:Clement-W/SIRthresholded.git
+cd SIRthresholded
+R
+```
+```r
+# install.packages("devtools")
+devtools::install(build_vignettes = TRUE)
+library(SIRthresholded)
+```
+
+
 ### Access the vignette
 
 Once that package is installed, you can access the vignette with
