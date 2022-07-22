@@ -376,7 +376,7 @@ In this section :
 
 ### The data
 
-For this example, we chose the wine dataset from the UCI machine learning repository (https://archive.ics.uci.edu/ml/datasets/Wine). As explained on the page description of the dataset, these data are the results of a chemical analysis of wines grown in the same region in Italy. The analysis determined the quantities of 12 constituents found in the 178 samples of wine. Here, we'll try to find the relevant variables in order to perform regression on the target variable Nonflavanoids according to the 12 other constituents. First, let's load the dataset.
+For this example, we chose the wine dataset from the UCI machine learning repository (https://archive.ics.uci.edu/ml/datasets/Wine). As explained on the page description of the dataset, these data are the results of a chemical analysis of wines grown in the same region in Italy. The analysis determined the quantities of 12 constituents found in the 178 samples of wine. Here, we'll try to find the relevant variables in order to perform regression on the response variable Nonflavanoids according to the 12 other constituents. First, let's load the dataset.
 
 ```{r}
 wine <-  read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data", header = FALSE) 
@@ -384,9 +384,9 @@ colnames(wine) <- c('Type', 'Alcohol', 'Malic', 'Ash', 'Alcalinity', 'Magnesium'
                     'Phenols', 'Flavanoids', 'Nonflavanoids', 'Proanthocyanins', 
                     'Color', 'Hue', 'Dilution', 'Proline')
 
-# Extract the target variable
+# Extract the response variable
 Y <- wine$Nonflavanoids
-# Remove the target variable (Nonflavanoids) and the class information (type of cultivars)
+# Remove the response variable (Nonflavanoids) and the class information (type of cultivars)
 X <- wine[, -which(names(wine) %in% c("Type","Nonflavanoids"))] 
 
 head(cbind(Y,X),3)
@@ -508,7 +508,7 @@ The best compromise seems to be the SIR model that keep 6 variables. The R-squar
 
 ### Concluding remarks
 
-The package SIRthresholded helped us to find the relevant variables, in order to create the best non-parametric regression on the target variable Nonflavanoids. This example shown that only using `SIR_threshold_opt` can be limiting on real data, especially when the data is noisy with a small sample size. The method `SIR_threshold_bootstrap` helped us to counter this issue, and retrieve important information about the potential relevant variables. Finally, the best model is `res4` which is a SIR model only based on the 6 relevant variables : Flavanoids, Ash, Magnesium, Dilution, Phenols, Hue.  
+The package SIRthresholded helped us to find the relevant variables, in order to create the best non-parametric regression on the response variable Nonflavanoids. This example shown that only using `SIR_threshold_opt` can be limiting on real data, especially when the data is noisy with a small sample size. The method `SIR_threshold_bootstrap` helped us to counter this issue, and retrieve important information about the potential relevant variables. Finally, the best model is `res4` which is a SIR model only based on the 6 relevant variables : Flavanoids, Ash, Magnesium, Dilution, Phenols, Hue.  
 
 ## References
 
