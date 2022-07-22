@@ -13,12 +13,14 @@ vignette: |
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo=TRUE,eval=TRUE,comment="#>")
+custom_lambda = 0.071
+
 ```
 
 __Table of content__
 
 - [How SIR and SIR thresholded works](#how-sir-and-sir-thresholded-works)
-- [Overview of the package](#overview)
+- [Overview of the package](#overview-of-the-package)
 - [Example with simulated data](#example-with-simulated-data)
 - [Example with wine dataset](#example-with-wine-dataset)
 
@@ -180,7 +182,7 @@ Y <- (X %*% beta)**3 + eps # The model
 
 We can now plot Y versus the reconstructed index $X\beta$
 
-```{r,fig.align='center',fig.width=4,fig.asp=1}
+```{r,fig.align='center',fig.width=5,fig.asp=1,out.width="300px"}
 par(mar=c(5,4,1,1)+0.1)
 plot(X %*% beta, Y, xlab = "true index")
 ```
@@ -211,7 +213,7 @@ cor(c(beta),c(res_SIR$b))
 
 Here are the two graphical outputs obtained with the method `plot` of the objects of class `SIR`.
 
-```{r,fig.asp=1,fig.show='hold'}
+```{r,fig.asp=1,fig.show='hold',fig.width=5,out.width="300px",fig.align='center',fig.cap=' '}
 plot(res_SIR,choice="estim_ind")
 plot(res_SIR,choice="eigvals")
 ```
@@ -238,19 +240,19 @@ summary(res_STSIR)
 
 Here are some graphical outputs obtained with the method `plot` of the objects of class `SIR_threshold_opt`.
 
-```{r,fig.asp=1,fig.width=6,fig.align='center'}
+```{r,fig.width=7,out.width="450px",fig.asp=1,fig.align='center'}
 plot(res_STSIR,choice="cos2_selec")
 ```
 
 This plot shows the evolution of $cos^2(\hat{b}_{ST-SIR},\hat{b}_{SIR})$ and the percentage of variables selected by the model, according to the value of $\lambda$. This graph is very informative as it shows the compromise between variable selection and distortion of the estimated direction. The $\hat{\lambda}_{opt}$ must provide a balance between these two.
 
-```{r,fig.asp=1,fig.width=6,fig.align='center'}
+```{r,fig.width=7,out.width="450px",fig.asp=1,fig.align='center'}
 plot(res_STSIR,choice="opt_lambda")
 ```
 
 This plot shows how the optimal lambda has been chosen. For each feature of $X$, the percentage of $\lambda$ associated with a selection of this feature is stored in a vector, which is sorted and plotted here. Thanks to `strucchange::breakpoints`, a breakpoint is found in this sorted vector, which allows to deduce the $\lambda_{opt}$ as explained in the [Overview](#overview).
 
-```{r,fig.asp=1,fig.width=6,fig.align='center'}
+```{r,fig.width=7,out.width="500px",fig.asp=1,fig.align='center'}
 plot(res_STSIR,choice="regul_path")
 ```
 
@@ -258,13 +260,13 @@ This plot shows the regularization path of $\hat{b}$ according to the value of $
 
 Then, let's plot plot Y versus the estimated first index $X\hat{b}$.
 
-```{r,fig.asp=1,fig.width=6,fig.align='center'}
+```{r,fig.align='center',fig.width=5,fig.asp=1,out.width="300px"}
 plot(res_STSIR,choice="estim_ind")
 ```
 
 We can also see some graphical outputs of `SIR_threshold_opt` with hard thresholding :
 
-```{r,fig.asp=1,fig.show='hold',fig.width=6}
+```{r,fig.asp=1,fig.show='hold',fig.width=8,out.width="330px",fig.align='center',fig.cap=' '}
 res_HTSIR = SIR_threshold_opt(Y=Y, X=X, H=10, n_lambda=100, thresholding="hard", graph=FALSE)
 
 plot(res_HTSIR,choice="cos2_selec")
@@ -284,7 +286,7 @@ summary(res_SIR_pstar)
 
 Let's plot Y versus the estimated first index $X\hat{b}$
 
-```{r,fig.asp=1,fig.width=4,fig.align="center"}
+```{r,fig.align='center',fig.width=5,fig.asp=1,out.width="300px"}
 plot(res_SIR_pstar,choice="estim_ind")
 ```
 
@@ -334,25 +336,25 @@ summary(res_SIR_boot)
 
 Here are some graphical outputs obtained with the method `plot` of the objects of class `SIR_threshold_bootstrap`.
 
-```{r,fig.asp=1,fig.width=6,fig.align='center'}
+```{r,fig.align='center',fig.width=9,fig.asp=1,out.width="400px"}
 plot(res_SIR_boot,choice="size")
 ```
 
 This barplot shows the distribution of the number of variables keeped by the model.
 
-```{r,fig.asp=1,fig.width=6,fig.align='center'}
+```{r,fig.align='center',fig.width=9,fig.asp=1,out.width="400px"}
 plot(res_SIR_boot,choice="selec_var")
 ```
 
 This barplot shows the percentage of selection by the model for every variables.
 
-```{r,fig.asp=1,fig.width=6,fig.align='center'}
+```{r,fig.align='center',fig.width=9,fig.asp=1,out.width="400px"}
 plot(res_SIR_boot,choice="lambdas_replic")
 ```
 
 This boxplot shows the distribution of the $\lambda_{opt}$ choosen over the replications. Moreover, the $\lambda_{opt}$ that has been selected (see how in [the overview](#sir_threshold_bootstrap-function)) is indicated with a purple horizontal line.
 
-```{r,fig.asp=1,fig.width=6,fig.align='center'}
+```{r,fig.align='center',fig.width=9,fig.asp=1,out.width="400px"}
 plot(res_SIR_boot,choice="coefs_b")
 ```
 
@@ -408,7 +410,7 @@ summary(res1)
 
 In this first model, 2 variables are selected : Ash and Flavanoids. Let's  explore the graphs to better understand what is going on.
 
-```{r,fig.asp=1,fig.width=4,fig.align='center'}
+```{r,fig.align='center',fig.width=5,fig.asp=1,out.width="300px"}
 plot(res1,choice="estim_ind")
 ```
 
@@ -416,7 +418,7 @@ We first note that the model is very noisy. However, we still notice a linear te
 
 Let's now focus on variable selection.
 
-```{r,fig.show='hold',fig.width=7,fig.height=7}
+```{r,fig.asp=1,fig.show='hold',fig.width=8,out.width="400px",fig.align='center',fig.cap=' '}
 plot(res1,choice="cos2_selec")
 plot(res1,choice="regul_path")
 ```
@@ -428,26 +430,26 @@ These two graphs helps us to understand the link between variable selection (the
 As the data is noisy, the sample size is small, and the $\lambda_{opt}$ obtained with `SIR_threshold_opt` is questionable, it is relevant to perform SIR_threshold_opt on bootstrapped replications of the dataset. Let's perform 500 replications, with a bootstrapped sample size multiplied by 2 :
 
 ```{r}
-# To lighten the build of the vignette, the result of this command was saved into data/res2.RData
+# To lighten the build of the vignette, the result of this command was saved into a RData file.
 #res2 = SIR_threshold_bootstrap(Y=Y, X=X, H=5, n_lambda=200, thresholding="hard", n_replications = 500 , graph=FALSE)
-load("../R/sysdata.rda")
+load("../R/sysdata.rda") # load res2
 summary(res2)
 ```
 
 Let's explore some of the graphical outputs :
-```{r,fig.asp=1,fig.align='center',fig.width=6}
+```{r,fig.align='center',fig.width=9,fig.asp=1,out.width="400px"}
 plot(res2,choice="size")
 ```
 
 Over the 500 replications, 50% of the models selected 2 variables. Then, approximately 45% of the models selected 3,4,5 or 6 variables. Let's take a look at the percentage of variable selection.
 
-```{r,fig.asp=1,fig.align='center',fig.width=7}
+```{r,fig.align='center',fig.width=9,fig.asp=1,out.width="400px"}
 plot(res2,choice="selec_var")
 ```
 
 As expected, a large majority of the models have selected the variables Ash and Flavanoids. But it is interesting to see that 4 other variables were regularly selected (between 30 and 40% of the replications) : Magnesium, Phenols, Hue and Dilution. We notice that these variables were closed to be selected in `SIR_threshold_opt`.
 
-```{r,fig.asp=1,fig.align='center',fig.width=7}
+```{r,fig.align='center',fig.width=9,fig.asp=1,out.width="400px"}
 plot(res2,choice="coefs_b")
 ```
 
@@ -473,7 +475,7 @@ res4 = SIR(Y=res3$Y, X=res3$X_reduced, H=res3$H, graph = FALSE)
 summary(res4)
 ```
 
-```{r,fig.asp=1,fig.width=5,fig.align="center"}
+```{r,fig.align='center',fig.width=5,fig.asp=1,out.width="300px"}
 plot(res4,choice="estim_ind")
 ```
 

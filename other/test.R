@@ -9,5 +9,5 @@ Y <- wine$Nonflavanoids
 X <- wine[, -8] # remove target variable Nonflavanoids
 
 res = SIR_threshold_opt(scale(Y),scale(X),H=5,n_lambda = 200)
-res2 = SIR_threshold_bootstrap(scale(Y),scale(X),H=5,n_replications = 500,n_lambda=200) # à stocker quelque part
+res2 = SIR_threshold_bootstrap(scale(Y),scale(X),H=5,n_replications = 100,n_lambda=200,k=1) # à stocker quelque part
 save(res2,file = "data/res2.RData")

@@ -51,6 +51,9 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
         "lambdas_replic")))
         stop("\"choice\" must be either \"estim_ind\",\"size\",\"selec_var\",
             \"coefs_b\" or \"lambdas_replic\"", call. = FALSE)
+    
+    cols = rep("gray",ncol(x$b))
+    cols[which(x$b!=0)] = "steelblue3"
 
     if (choice == "" || choice == "estim_ind") {
         if (choice == "") {
@@ -59,15 +62,22 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
         plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)
         title("Reconstructed index")
     }
-
+    
+    
+    
     if (choice == "" || choice == "size") {
         # Barplot of the number of selected variable by the model 
         if (choice == "") {
             dev.new()
         }
+        cols2 = rep("gray",length(table(x$vec_nb_var_selec)))
+        cols2[which.max(table(x$vec_nb_var_selec))] = "steelblue3"
+        
         barplot((table(x$vec_nb_var_selec) / x$n_replications) * 100, ylab = "percent",
-                xlab = "Number of selected variables")
+                xlab = "Number of selected variables",col=cols2)
         title(paste("Number of selected variables over the", x$n_replications, "bootstrap replications"))
+        legend("topright", legend = "optimal number of selected variables", col = c("steelblue3"),
+               pch = c(15))
     }
 
     if (choice == "" || choice == "selec_var") {
@@ -76,8 +86,10 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
         }
         # Barplot of the number of time where each variable has been selected
         barplot((x$occurrences_var / x$n_replications) * 100, names.arg =
-                colnames(x$b), ylab = "percent", xlab = "variable name")
+                colnames(x$b), ylab = "percent", xlab = "variable name",col=cols)
         title(paste("Selected variables over the", x$n_replications, "bootstrap replications"))
+        legend("topright", legend = "selected variables", col = c("steelblue3"),
+               pch = c(15))
     }
 
     if (choice == "" || choice == "coefs_b") {
@@ -92,12 +104,13 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
                 mat_b[i,] <- mat_b[i,] * sign(mat_b[i, j0])
             }
         }
+        
         boxplot(mat_b, xlab = "coefficients of b", ylab = "", main =
             paste("Value of b over the", x$n_replications, "bootstrap replications"),
-            names = colnames(x$b))
-        points(matrix(x$b * sign(x$b[j0]), ncol = 1), pch = 19, col = 6, lwd = 3)
-        legend("topright", legend = expression(hat(beta) ~ " associated to optimal" ~ lambda), col = 6,
-               pch = 19)
+            names = colnames(x$b),col=cols)
+        points(matrix(x$b * ifelse(sign(x$b[j0])!=0,sign(x$b[j0]),1), ncol = 1), pch = 19, col = 6, lwd = 3)
+        legend("topright", legend = c(expression(hat(beta) ~ " associated to optimal" ~ lambda),"selected variables"), col = c(6,"steelblue3"),
+               pch = c(19,15))
     }
 
     if (choice == "" || choice == "lambdas_replic") {
