@@ -362,11 +362,19 @@ As done with `SIR_threshold_opt`, we can also create a new SIR model considering
 
 ## Example with Wine dataset
 
-TODO : sommaire comme partie précédente
+In this section :
+
+- [(1)](#the-data) Load the wine dataset.
+- [(2)](#a-first-sir-model) A first SIR model optimally thresholded is applied to the data.
+- [(3)](#perform-bootstrap) A bootstrapped version of SIR optimally thresholded is applied to the data.
+- [(4)](#thresholding-with-a-custom-lambda) A SIR model thresholded with a custom $\lambda$ is applied to the data. 
+- [(5)](#estimate-a-sir-model-on-the-relevant-variables) A SIR model is applied on the relevant variables
+- [(6)](#additional-study) Additional study of the quality of the model with multiple linear regression
+- [(7)](#concluding-remarks) Concluding remarks
 
 ### The data
 
-For this example, we chose the wine dataset from the UCI machine learning repository (https://archive.ics.uci.edu/ml/datasets/Wine). As explained on the page description of the dataset, these data are the results of a chemical analysis of wines grown in the same region in Italy, but derived from three different cultivars (not taken into account in this example). The analysis determined the quantities of 13 constituents found in the 178 samples of wine. Here, we'll try to find the relevant variables in order to perform regression on the target variable Nonflavanoids according to the 12 other constituents. First, let's load the dataset.
+For this example, we chose the wine dataset from the UCI machine learning repository (https://archive.ics.uci.edu/ml/datasets/Wine). As explained on the page description of the dataset, these data are the results of a chemical analysis of wines grown in the same region in Italy. The analysis determined the quantities of 12 constituents found in the 178 samples of wine. Here, we'll try to find the relevant variables in order to perform regression on the target variable Nonflavanoids according to the 12 other constituents. First, let's load the dataset.
 
 ```{r}
 wine <-  read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data", header = FALSE) 
@@ -383,18 +391,18 @@ head(cbind(Y,X),3)
 print(dim(X))
 ```
 
-The X data contains 178 samples, with 12 variables. As suggested in the description page of this dataset, we'll standardise the variables with the `scale()` method. Here, scaling the data is mandatory to ensure that the SIR method works properly.
+The X data contains 178 samples of 12 variables. As suggested in the description page of this dataset, we'll standardise the variables with the `scale()` method. Here, scaling the data is mandatory to ensure that the SIR method works properly.
 ```{r}
 X = scale(X)
 Y = scale(Y)
 ```
 
-### A first model
+### A first SIR model
 
 Now, we can use `SIR_threshold_opt` to do variable selection with an optimal thresholding parameter. The sample size is relatively small. To improve the estimations of $p_h$ and $m_h$ in the SIR method (more details in [the first part of this vignette](#how-sir-and-sir-thresholded-works)), we reduce the number of slices to 5, so there is more sample in each slices.
 
 ```{r}
-res1 = SIR_threshold_opt(Y=Y, X=X, H=5, n_lambda=200, thresholding="hard", graph=FALSE)
+res1 = SIR_threshold_opt(Y=Y, X=X, H=5, n_lambda=300, thresholding="soft", graph=FALSE)
 summary(res1)
 ```
 
@@ -408,12 +416,12 @@ We first note that the model is very noisy. However, we still notice a linear te
 
 Let's now focus on variable selection.
 
-```{r,fig.asp=1,fig.show='hold',fig.width=6}
+```{r,fig.show='hold',fig.width=7,fig.height=7}
 plot(res1,choice="cos2_selec")
 plot(res1,choice="regul_path")
 ```
 
-These two graphs helps us to understand the link between variable selection (the coefficients of $\hat{b}$) and $\lambda$. Here, the $\lambda_{opt}$ allows to select 2 variables. In the first plot, we notice that if $\lambda$ were a bit more or less than $\lambda_{opt}$, we could have selected 1 or 2 more variables, while improving the estimation of $\hat{b}$. In fact, in the second plot, we notice that the coefficients of $\hat{b}$ associated to the variables Dillution and Hue are set to 0 by $\lambda_{opt}$. The previous lambda would have kept both.
+These two graphs helps us to understand the link between variable selection (the coefficients of $\hat{b}$) and $\lambda$. Here, the $\lambda_{opt}$ allows to select 2 variables. In the first plot, we notice that if $\lambda$ were a bit less than $\lambda_{opt}$, we could have selected 2 or 3 more variables, while improving the estimation of $\hat{b}$. In fact, in the second plot, we notice that the coefficients of $\hat{b}$ associated to the variables Dillution, Magnesium and Hue are set to 0 by $\lambda_{opt}$.
 
 ### Perform Bootstrap
 
@@ -427,36 +435,36 @@ summary(res2)
 ```
 
 Let's explore some of the graphical outputs :
-```{r,fig.asp=1,fig.show='hold',fig.width=6}
+```{r,fig.asp=1,fig.align='center',fig.width=6}
 plot(res2,choice="size")
 ```
 
 Over the 500 replications, 50% of the models selected 2 variables. Then, approximately 45% of the models selected 3,4,5 or 6 variables. Let's take a look at the percentage of variable selection.
 
-```{r,fig.asp=1,fig.show='hold',fig.width=6}
+```{r,fig.asp=1,fig.align='center',fig.width=7}
 plot(res2,choice="selec_var")
 ```
 
-As expected, a large majority of the models have selected the variables Ash and Flavanoids. But it is interesting to see that 4 other variables were regularly selected (between 30 and 40% of the replications) : Magnesium, Phenols, Hue and Dilution. We notice that Hue and Dillution were closed to be selected in `SIR_threshold_opt`.
+As expected, a large majority of the models have selected the variables Ash and Flavanoids. But it is interesting to see that 4 other variables were regularly selected (between 30 and 40% of the replications) : Magnesium, Phenols, Hue and Dilution. We notice that these variables were closed to be selected in `SIR_threshold_opt`.
 
-```{r,fig.asp=1,fig.show='hold',fig.width=6}
+```{r,fig.asp=1,fig.align='center',fig.width=7}
 plot(res2,choice="coefs_b")
 ```
 
-Looking at the boxplot of the value of $\hat{b}$ over the 500 replications, we also find the same results. The coefficients of $\hat{b}$ associated to Magnesium, Phenols, Hue and Dilution are greater than 0 in median.
+Looking at the boxplot of the value of $\hat{b}$ over the 500 replications, we also find the same results. The coefficients of $\hat{b}$ associated to Magnesium, Phenols, Hue and Dilution are greater than 0 in median. It would then be interesting to create a SIR model, that contains these variable.
 
 ### Thresholding with a custom $\lambda$
 
-Let's look at the regularization path plotted earlier, and find the $\lambda$ which select the 4 potentially relevant variables. By looking at the top axis of the regularization path, we find the first lambda which select 6 variables, which is approximately 0.7 :
+Let's look at the regularization path plotted earlier, and find the $\lambda$ which select the 4 potentially relevant variables. By looking at the top axis of the regularization path, we find the first lambda which select 6 variables, which is approximately 0.07 :
 
 ```{r}
-res3 = SIR_threshold(Y=Y, X=X, H=5, lambda = 0.07, thresholding="hard", graph=FALSE)
+res3 = SIR_threshold(Y=Y, X=X, H=5, lambda = 0.071, thresholding="hard", graph=FALSE)
 summary(res3)
 ```
 
 Now, the 6 variables are selected with this estimation of $\hat{b}.$. Let's estimate a new SIR model only on these relevant variables.
 
-### Estimate SIR model on the relevant variables
+### Estimate a SIR model on the relevant variables
 
 Let's copy paste the command from the previous output of the S3 summary method, and plot the estimated index versus Y :
 
@@ -469,8 +477,37 @@ summary(res4)
 plot(res4,choice="estim_ind")
 ```
 
-blabla 
-essayer de comparer mse avec index_pred et Y ? 
+We can note that the estimated index seems to be a bit less noisy, the linear tendency is easier to see.
+
+### Additional study
+
+Visually, the link between Y and X seems to be linear. To estimate the quality of our model, and to evaluate the relevance of the selected variable, we can build a linear model on the data.
+
+Let's start with a model containing every variables :
+
+```{r}
+summary(lm(Y~X))
+```
+The R-squared is equal to 44.33%, so aproximately 44% of the variability is explained by this model. We also notice that the coefficients associated to the variables Ash, Magnesium, Flavanoids, Hue and Dilution are significants.
+
+Let's compare with the R-squared obtained with the variables selected by the previous SIR model :
+
+- [The first model res1](#a-first-sir-model) which selected Flavanoids and Ash :
+    ```{r}
+    summary(lm(Y~Flavanoids+Ash,data=wine))$r.squared
+    ```
+
+- [The model with a custom thresholding parameter res3](#thresholding-with-a-custom-lambda) which selected Flavanoids, Ash, Magnesium, Dilution, Phenols, Hue :
+    ```{r}
+    summary(lm(Y~Ash+Magnesium+Phenols+Flavanoids+Hue+Dilution,data=wine))$r.squared
+    ```
+
+The best compromise seems to be the SIR model that keep 6 variables. The R-squared is almost identical (-1%) and half of the variables have been kept.
+
+### Concluding remarks
+
+The package SIRthresholded helped us to find the relevant variables, in order to create the best non-parametric regression on the target variable Nonflavanoids. This example shown that only using `SIR_threshold_opt` can be limiting on real data, especially when the data is noisy with a small sample size. The method `SIR_threshold_bootstrap` helped us to counter this issue, and retrieve important information about the potential relevant variables. Finally, the best model is `res4` which is a SIR model only based on the 6 relevant variables : Flavanoids, Ash, Magnesium, Dilution, Phenols, Hue.  
+
 ## References
 
 Duan, N., & Li, K.-C. (1991). Slicing Regression : A Link-Free Regression Method. The Annals of Statistics, 19(2), 505‑530.
