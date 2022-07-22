@@ -422,7 +422,7 @@ As the data is noisy, the sample size is small, and the $\lambda_{opt}$ obtained
 ```{r}
 # To lighten the build of the vignette, the result of this command was saved into data/res2.RData
 #res2 = SIR_threshold_bootstrap(Y=Y, X=X, H=5, n_lambda=200, thresholding="hard", n_replications = 500 , graph=FALSE)
-load("../data/res2.RData")
+load("../R/sysdata.rda")
 summary(res2)
 ```
 
@@ -447,10 +447,10 @@ Looking at the boxplot of the value of $\hat{b}$ over the 500 replications, we a
 
 ### Thresholding with a custom $\lambda$
 
-Let's look at the regularization path plotted earlier, and find the $\lambda$ which select the 4 potentially relevant variables. By looking at the top axis of the regularization path, we find the last lambda which select 6 variables, which is approximately 0.11 :
+Let's look at the regularization path plotted earlier, and find the $\lambda$ which select the 4 potentially relevant variables. By looking at the top axis of the regularization path, we find the first lambda which select 6 variables, which is approximately 0.7 :
 
 ```{r}
-res3 = SIR_threshold(Y=Y, X=X, H=5, lambda = 0.11, thresholding="hard", graph=FALSE)
+res3 = SIR_threshold(Y=Y, X=X, H=5, lambda = 0.07, thresholding="hard", graph=FALSE)
 summary(res3)
 ```
 
@@ -458,19 +458,19 @@ Now, the 6 variables are selected with this estimation of $\hat{b}.$. Let's esti
 
 ### Estimate SIR model on the relevant variables
 
-Let's copy paste the command from the previous output of the S3 summary method :
+Let's copy paste the command from the previous output of the S3 summary method, and plot the estimated index versus Y :
 
 ```{r}
 res4 = SIR(Y=res3$Y, X=res3$X_reduced, H=res3$H, graph = FALSE)
 summary(res4)
 ```
 
-blabla
-```{r,fig.asp=1,fig.width=4,fig.align="center"}
+```{r,fig.asp=1,fig.width=5,fig.align="center"}
 plot(res4,choice="estim_ind")
 ```
 
-blabla
+blabla 
+essayer de comparer mse avec index_pred et Y ? 
 ## References
 
 Duan, N., & Li, K.-C. (1991). Slicing Regression : A Link-Free Regression Method. The Annals of Statistics, 19(2), 505‑530.
