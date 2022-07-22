@@ -128,7 +128,8 @@ plot.SIR_threshold_opt <- function(x, choice = "",...) {
         lab <- x$p - x$vect_nb_zeros[id_breaks]
 
         matplot(x$lambdas, mat_b, type = "l", lty = 1, xlab = expression(lambda),
-            xlim = c(-0.02, max(x$lambdas)), ylim = c(min(mat_b), 1.1 * max(mat_b)))
+            xlim = c(-0.02, max(x$lambdas)), ylim = c(min(mat_b), 1.1 * max(mat_b)),
+            ylab="Value of the coefficients of b")
         title("Regularization path", line = 4)
         text(rep(0, ncol(mat_b)), mat_b[1,], colnames(x$b), pos = 2)
         axis(side = 3, labels = lab, at = interval)
