@@ -19,3 +19,4 @@ Imports:
     strucchange
 Suggests: knitr, rmarkdown, mvtnorm
 VignetteBuilder: knitr
+URL: https://clement-w.github.io/SIRthresholded/

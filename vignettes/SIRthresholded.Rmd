@@ -13,8 +13,6 @@ vignette: |
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo=TRUE,eval=TRUE,comment="#>")
-custom_lambda = 0.071
-
 ```
 
 __Table of content__
