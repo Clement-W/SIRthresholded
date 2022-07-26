@@ -7,7 +7,7 @@
 
 ## Description
 
-This package offers an implementation of the SIR (Sliced Inverse Regression) method, along with a thresholded version of SIR that allows variable selection. Fore more information, you can check the vignette of the package on [this link](TODO github workflow en publique)
+This package offers an implementation of the SIR (Sliced Inverse Regression) method, along with a thresholded version of SIR that allows variable selection. Fore more information, you can check the vignette of the package on [that link](https://clement-w.github.io/SIRthresholded/articles/SIRthresholded.html)
 
 The paper will soon be available.
 
