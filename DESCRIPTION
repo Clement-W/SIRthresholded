@@ -6,10 +6,10 @@ Authors@R: c(person("Clement", "Weinreich", role = c("aut", "cre"),
                     email = "clement@weinreich.fr"),
              person("Jerome", "Saracco", role = c("aut")),
              person("Hadrien", "Lorenzo", role = c("aut")))
-Author: Clement Weinreich [aut,cre],
+Author: Clement Weinreich [aut, cre],
     Jerome Saracco [aut],
-    Hadrien Lorenzo [aut],
-Maintainer: Clément Weinreich <clement@weinreich.fr>
+    Hadrien Lorenzo [aut]
+Maintainer: Clement Weinreich <clement@weinreich.fr>
 License: GPL (>=2.0)
 Description: Implements a thresholded version of the Sliced Inverse Regression method, which
     allows to do variable selection.

@@ -86,7 +86,7 @@ to the thresholding operation based on \eqn{\lambda_{opt}}, and so should be rem
 variables). Finally, \eqn{\lambda_{opt}} corresponds to the first \eqn{\lambda} such that the
 associated \eqn{\hat{b}} provides the same number of zeros as the breakpoint's value.
 
-For example, for \eqn{X \in \mathbb{R}^{10}} and \code{n_lambda=100}, this sorted vector can look like this :\tabular{llllllllll}{
+For example, for \eqn{X \in R^{10}} and \code{n_lambda=100}, this sorted vector can look like this :\tabular{llllllllll}{
    X10 \tab X3 \tab X8 \tab X5 \tab X7 \tab X9 \tab X4 \tab X6 \tab X2 \tab X1 \cr
    2 \tab 3 \tab 3 \tab 4 \tab 4 \tab 4 \tab 6 \tab 10 \tab 95 \tab 100 \cr
 }

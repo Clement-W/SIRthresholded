@@ -13,7 +13,7 @@
 #' variables). Finally, \eqn{\lambda_{opt}} corresponds to the first \eqn{\lambda} such that the 
 #' associated \eqn{\hat{b}} provides the same number of zeros as the breakpoint's value.
 #'  
-#' For example, for \eqn{X \in \mathbb{R}^{10}} and `n_lambda=100`, this sorted vector can look like this :
+#' For example, for \eqn{X \in R^{10}} and `n_lambda=100`, this sorted vector can look like this :
 #' | X10 	| X3 	| X8 	| X5 	| X7 	| X9 	| X4 	| X6 	| X2 	| X1  	|
 #' |-----	|----	|----	|----	|----	|----	|----	|----	|----	|-----	|
 #' | 2   	| 3  	| 3  	| 4  	| 4  	| 4  	| 6  	| 10 	| 95 	| 100 	|
@@ -86,9 +86,9 @@ SIR_threshold_opt <- function(Y, X, H = 10, n_lambda = 100, thresholding = "hard
     graph = TRUE, output = TRUE, choice = "") {
 
     cl <- match.call()
-    
+
     # Ensure that X and Y are matrices
-    X = ensure_matrix(X) 
+    X = ensure_matrix(X)
     Y = ensure_matrix(Y)
 
     n <- nrow(X)
