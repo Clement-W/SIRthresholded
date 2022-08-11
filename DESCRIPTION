@@ -1,12 +1,12 @@
 Package: SIRthresholded
 Type: Package
-Title: Sliced Inverse Regression with trehsolding
+Title: Sliced Inverse Regression with Thresholding
 Version: 1.0.0
-Authors@R: c(person("Clement", "Weinreich", role = c("aut", "cre"),
+Authors@R: c(person("Clément", "Weinreich", role = c("aut", "cre"),
                     email = "clement@weinreich.fr"),
              person("Jerome", "Saracco", role = c("aut")),
              person("Hadrien", "Lorenzo", role = c("aut")))
-Author: Clement Weinreich [aut],
+Author: Clement Weinreich [aut,cre],
     Jerome Saracco [aut],
     Hadrien Lorenzo [aut],
 Maintainer: Clément Weinreich <clement@weinreich.fr>
