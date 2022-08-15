@@ -119,17 +119,34 @@ eigenvector of the interest matrix.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Generate Data</span></span></span>
-<span class="r-in"><span><span class="co"># set.seed(10)</span></span></span>
-<span class="r-in"><span><span class="co"># n &lt;- 500</span></span></span>
-<span class="r-in"><span><span class="co"># beta &lt;- c(1,1,rep(0,8))</span></span></span>
-<span class="r-in"><span><span class="co"># X &lt;- mvtnorm::rmvnorm(n,sigma=diag(1,10))</span></span></span>
-<span class="r-in"><span><span class="co"># eps &lt;- rnorm(n)</span></span></span>
-<span class="r-in"><span><span class="co"># Y &lt;- (X%*%beta)**3+eps</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate Data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">500</span></span></span>
+<span class="r-in"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu">mvtnorm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html" class="external-link">rmvnorm</a></span><span class="op">(</span><span class="va">n</span>,sigma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">X</span><span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span><span class="va">beta</span><span class="op">)</span><span class="op">**</span><span class="fl">3</span><span class="op">+</span><span class="va">eps</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Apply SIR</span></span></span>
-<span class="r-in"><span><span class="co"># SIR(Y, X, H = 10)</span></span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="co"># Apply SIR</span></span></span>
+<span class="r-in"><span><span class="fu">SIR</span><span class="op">(</span><span class="va">Y</span>, <span class="va">X</span>, H <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SIR(Y = Y, X = X, H = 10)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Results of EDR directions estimation:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Estimated direction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1             -0.71000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2             -0.69900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3             -0.01830</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4              0.03170</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X5              0.00323</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X6              0.06760</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X7              0.01050</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X8              0.00896</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X9              0.00403</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X10            -0.01110</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

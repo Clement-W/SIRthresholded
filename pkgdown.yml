@@ -3,7 +3,7 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   SIRthresholded: SIRthresholded.html
-last_built: 2022-08-11T14:30Z
+last_built: 2022-08-15T17:41Z
 urls:
   reference: https://clement-w.github.io/SIRthresholded/reference
   article: https://clement-w.github.io/SIRthresholded/articles

@@ -75,34 +75,47 @@ and \(\hat{b}\) and the distribution of \(\lambda_{opt}\) found across the repli
 <dd><p>arguments to be passed to methods, such as graphical parameters (not used here).</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>No return value</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Generate Data</span></span></span>
-<span class="r-in"><span><span class="co"># set.seed(10)</span></span></span>
-<span class="r-in"><span><span class="co"># n &lt;- 200</span></span></span>
-<span class="r-in"><span><span class="co"># beta &lt;- c(1,1,rep(0,8))</span></span></span>
-<span class="r-in"><span><span class="co"># X &lt;- mvtnorm::rmvnorm(n,sigma=diag(1,10))</span></span></span>
-<span class="r-in"><span><span class="co"># eps &lt;- rnorm(n)</span></span></span>
-<span class="r-in"><span><span class="co"># Y &lt;- (X%*%beta)**3+eps</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Generate Data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span></span>
+<span class="r-in"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">8</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu">mvtnorm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html" class="external-link">rmvnorm</a></span><span class="op">(</span><span class="va">n</span>,sigma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">X</span><span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span><span class="va">beta</span><span class="op">)</span><span class="op">**</span><span class="fl">3</span><span class="op">+</span><span class="va">eps</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># res = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="SIR_threshold_bootstrap.html">SIR_threshold_bootstrap</a></span><span class="op">(</span><span class="va">Y</span>,<span class="va">X</span>,H<span class="op">=</span><span class="fl">10</span>,n_lambda<span class="op">=</span><span class="fl">300</span>,thresholding<span class="op">=</span><span class="st">"hard"</span>, n_replications<span class="op">=</span><span class="fl">30</span>,k<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Replication 5 / 30"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Replication 10 / 30"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Replication 15 / 30"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Replication 20 / 30"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Replication 25 / 30"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Replication 30 / 30"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Estimated index versus Y</span></span></span>
-<span class="r-in"><span><span class="co"># plot(res,choice="estim_ind")</span></span></span>
+<span class="r-in"><span><span class="co"># Estimated index versus Y</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span>,choice<span class="op">=</span><span class="st">"estim_ind"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Model size</span></span></span>
-<span class="r-in"><span><span class="co"># plot(res,choice="size")</span></span></span>
+<span class="r-in"><span><span class="co"># Model size</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span>,choice<span class="op">=</span><span class="st">"size"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Selected variables</span></span></span>
-<span class="r-in"><span><span class="co"># plot(res,choice="selec_var")</span></span></span>
+<span class="r-in"><span><span class="co"># Selected variables</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span>,choice<span class="op">=</span><span class="st">"selec_var"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Coefficients of b</span></span></span>
-<span class="r-in"><span><span class="co"># plot(res,choice="coefs_b")</span></span></span>
+<span class="r-in"><span><span class="co"># Coefficients of b</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span>,choice<span class="op">=</span><span class="st">"coefs_b"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Optimal lambdas</span></span></span>
-<span class="r-in"><span><span class="co"># plot(res,choice="lambdas_replic")</span></span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="co"># Optimal lambdas</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span>,choice<span class="op">=</span><span class="st">"lambdas_replic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

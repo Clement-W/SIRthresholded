@@ -61,7 +61,7 @@
       <img src="" class="logo" alt=""><h1>How to use the SIRthresholded package</h1>
                         <h4 data-toc-skip class="author">Clément Weinreich</h4>
             
-            <h4 data-toc-skip class="date">2022-08-11</h4>
+            <h4 data-toc-skip class="date">2022-08-15</h4>
       
       
       <div class="d-none name"><code>SIRthresholded.Rmd</code></div>
@@ -269,8 +269,7 @@ H_\lambda(M)_{i,j}= \begin{cases}
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">beta</span><span class="op">)</span><span class="op">**</span><span class="fl">3</span> <span class="op">+</span> <span class="va">eps</span> <span class="co"># The model</span></span></code></pre></div>
 <p>We can now plot Y versus the reconstructed index <span class="math inline">\(X\beta\)</span></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">beta</span>, <span class="va">Y</span>, xlab <span class="op">=</span> <span class="st">"true index"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">beta</span>, <span class="va">Y</span>, xlab <span class="op">=</span> <span class="st">"true index"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="SIRthresholded_files/figure-html/unnamed-chunk-2-1.png" width="300px" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
