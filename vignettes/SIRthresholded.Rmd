@@ -181,7 +181,6 @@ Y <- (X %*% beta)**3 + eps # The model
 We can now plot Y versus the reconstructed index $X\beta$
 
 ```{r,fig.align='center',fig.width=5,fig.asp=1,out.width="300px"}
-par(mar=c(5,4,1,1)+0.1)
 plot(X %*% beta, Y, xlab = "true index")
 ```
 

@@ -18,24 +18,27 @@
 
 \item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}
 }
+\value{
+No return value
+}
 \description{
 Display the 10 first eigen values and the estimated index versus Y of the SIR model.
 }
 \examples{
-## Generate Data
-# set.seed(10)
-# n <- 500
-# beta <- c(1,1,rep(0,8))
-# X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-# eps <- rnorm(n)
-# Y <- (X\%*\%beta)**3+eps
+# Generate Data
+set.seed(10)
+n <- 500
+beta <- c(1,1,rep(0,8))
+X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+eps <- rnorm(n)
+Y <- (X\%*\%beta)**3+eps
 
-## Apply SIR
-# res = SIR(Y, X, H = 10, graph = FALSE)
+# Apply SIR
+res = SIR(Y, X, H = 10, graph = FALSE)
 
-## Eigen values
-# plot(res,choice="eigvals")
+# Eigen values
+plot(res,choice="eigvals")
 
-## Estimated index versus Y
-# plot(res,choice="estim_ind")
+# Estimated index versus Y
+plot(res,choice="estim_ind")
 }

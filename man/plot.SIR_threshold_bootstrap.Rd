@@ -21,34 +21,39 @@
 
 \item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}
 }
+\value{
+No return value
+}
 \description{
 Display the estimated index versus Y of the SIR model, the size of the models,
 the occurrence of variable selection, the distribution of the coefficients of  
 and \eqn{\hat{b}} and the distribution of \eqn{\lambda_{opt}} found across the replications.
 }
 \examples{
-## Generate Data
-# set.seed(10)
-# n <- 200
-# beta <- c(1,1,rep(0,8))
-# X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-# eps <- rnorm(n)
-# Y <- (X\%*\%beta)**3+eps
+# Generate Data
+set.seed(10)
+n <- 200
+beta <- c(1,1,rep(0,8))
+X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+eps <- rnorm(n)
+Y <- (X\%*\%beta)**3+eps
 
-# res = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
+\donttest{
+res = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
 
-## Estimated index versus Y
-# plot(res,choice="estim_ind")
+# Estimated index versus Y
+plot(res,choice="estim_ind")
 
-## Model size
-# plot(res,choice="size")
+# Model size
+plot(res,choice="size")
 
-## Selected variables
-# plot(res,choice="selec_var")
+# Selected variables
+plot(res,choice="selec_var")
 
-## Coefficients of b
-# plot(res,choice="coefs_b")
+# Coefficients of b
+plot(res,choice="coefs_b")
 
-## Optimal lambdas
-# plot(res,choice="lambdas_replic")
+# Optimal lambdas
+plot(res,choice="lambdas_replic")
+}
 }

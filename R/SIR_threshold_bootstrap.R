@@ -57,28 +57,26 @@
 #' \item{M1}{The interest matrix thresholded with the optimal lambda.}
 #' @examples
 #'
-#' ## Generate Data
-#' # set.seed(8)
-#' # n <-  170
-#' # beta <- c(1,1,1,1,1,rep(0,15))
-#' # X <- mvtnorm::rmvnorm(n,sigma=diag(1,20))
-#' # eps <- rnorm(n,sd=8)
-#' # Y <- (X%*%beta)**3+eps
+#' # Generate Data
+#' set.seed(8)
+#' n <-  170
+#' beta <- c(1,1,1,1,1,rep(0,15))
+#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,20))
+#' eps <- rnorm(n,sd=8)
+#' Y <- (X%*%beta)**3+eps
 #'
-#' ## Apply SIR with hard thresholding
-#' # SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
+#' # Apply SIR with hard thresholding
+#' \donttest{SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)}
 #' 
-#' ## Apply SIR with soft thresholding
-#' # SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="soft",n_replications=30,k=2)
 #' @export
 SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     n_replications = 50, graph = TRUE, output = TRUE, n_lambda = 100, k = 2,
     choice = "") {
 
     cl <- match.call()
-    
+
     # Ensure that X and Y are matrices
-    X = ensure_matrix(X) 
+    X = ensure_matrix(X)
     Y = ensure_matrix(Y)
 
     # SIR optimally thresholded
@@ -158,23 +156,23 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
     # that came back most often among the replications performed
     nb_var_selec_opt <-
         as.numeric(names(which(table(vec_nb_var_selec) == max(table(vec_nb_var_selec)))))
-    
+
     # Number of optimal zero
     nb_zeros_opt <- p - nb_var_selec_opt
 
     # estimation of b by taking the beta estimated on the whole sample by the
     # method, at the lambda from which the optimal number of zeros appears
-    if(sum(res_SIR_th$vect_nb_zeros == nb_zeros_opt) != 0){
+    if (sum(res_SIR_th$vect_nb_zeros == nb_zeros_opt) != 0) {
         b <- res_SIR_th$mat_b[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt)),]
     }
     # If the nb_zero_opt did not appear for any lambda in res_SIR_th$vect_nb_zeros,
     # decrease nb_zero_opt to select less variable, until it exists in res_SIR_th$vect_nb_zeros
-    else{
-        while(sum(res_SIR_th$vect_nb_zeros == nb_zeros_opt) == 0){
+    else {
+        while (sum(res_SIR_th$vect_nb_zeros == nb_zeros_opt) == 0) {
             nb_zeros_opt = nb_zeros_opt - 1
         }
         b <- res_SIR_th$mat_b[min(which(res_SIR_th$vect_nb_zeros == nb_zeros_opt)),]
-        
+
     }
     # Convert it into a one-line matrix
     b <- matrix(b, nrow = 1)
@@ -183,7 +181,7 @@ SIR_threshold_bootstrap <- function(Y, X, H = 10, thresholding = "hard",
 
 
     # If variables have been removed
-    if (sum(nb_zeros_opt > 0)>0) {
+    if (sum(nb_zeros_opt > 0) > 0) {
         # Update the list of relevant variables
         list_relevant_variables <- colnames(X)[-which(b == 0)]
 

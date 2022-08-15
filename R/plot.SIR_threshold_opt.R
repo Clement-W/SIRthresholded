@@ -14,33 +14,34 @@
 #'   \item "" Plot every graphs (default).
 #' }
 #' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
+#' @return No return value
 #' @examples
-#' ## Generate Data
-#' # set.seed(10)
-#' # n <- 200
-#' # beta <- c(1,1,rep(0,8))
-#' # X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-#' # eps <- rnorm(n)
-#' # Y <- (X%*%beta)**3+eps
+#' # Generate Data
+#' set.seed(10)
+#' n <- 200
+#' beta <- c(1,1,rep(0,8))
+#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+#' eps <- rnorm(n)
+#' Y <- (X%*%beta)**3+eps
 #'
-#' ## Apply SIR with hard thresholding
-#' # res = SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
+#' # Apply SIR with soft thresholding
+#' res = SIR_threshold_opt(Y,X,H=10,n_lambda=100,thresholding="soft")
 #' 
-#' ## Estimated index versus Y
-#' # plot(res,choice="estim_ind")
+#' # Estimated index versus Y
+#' plot(res,choice="estim_ind")
 #' 
-#' ## Choice of optimal lambda
-#' # plot(res,choice="opt_lambda")
+#' # Choice of optimal lambda
+#' plot(res,choice="opt_lambda")
 #' 
-#' ## Evolution of cos^2 and var selection according to lambda
-#' # plot(res,choice="cos2_selec")
+#' # Evolution of cos^2 and var selection according to lambda
+#' plot(res,choice="cos2_selec")
 #' 
-#' ## Regularization path
-#' # plot(res,choice="regul_path")
+#' # Regularization path
+#' plot(res,choice="regul_path")
 #' @export
 #' @importFrom grDevices dev.new
 #' @importFrom graphics abline axis box legend matplot mtext par points text title
-plot.SIR_threshold_opt <- function(x, choice = "",...) {
+plot.SIR_threshold_opt <- function(x, choice = "", ...) {
 
     if (!inherits(x, "SIR_threshold_opt"))
         stop("Only use with \"SIR_threshold_opt\" obects")
@@ -48,6 +49,9 @@ plot.SIR_threshold_opt <- function(x, choice = "",...) {
     if (!(choice %in% c("", "estim_ind", "opt_lambda", "cos2_selec", "regul_path")))
         stop("\"choice\" must be either \"estim_ind\",\"opt_lambda\",\"cos2_selec\" or
          \"regul_path\"", call. = FALSE)
+    
+    oldpar <- par(no.readonly = TRUE)
+    on.exit(par(oldpar))
 
     if (choice == "" || choice == "estim_ind") {
         if (choice == "") {
@@ -114,7 +118,7 @@ plot.SIR_threshold_opt <- function(x, choice = "",...) {
         mat_b <- x$mat_b
         j0 <- which.max(abs(mat_b[1,]))
         for (i in 1:nrow(mat_b)) {
-            if(mat_b[i, j0] != 0){
+            if (mat_b[i, j0] != 0) {
                 mat_b[i,] <- mat_b[i,] * sign(mat_b[i, j0])
             }
         }
@@ -129,7 +133,7 @@ plot.SIR_threshold_opt <- function(x, choice = "",...) {
 
         matplot(x$lambdas, mat_b, type = "l", lty = 1, xlab = expression(lambda),
             xlim = c(-0.02, max(x$lambdas)), ylim = c(min(mat_b), 1.1 * max(mat_b)),
-            ylab="Value of the coefficients of b")
+            ylab = "Value of the coefficients of b")
         title("Regularization path", line = 4)
         text(rep(0, ncol(mat_b)), mat_b[1,], colnames(x$b), pos = 2)
         axis(side = 3, labels = lab, at = interval)

@@ -14,35 +14,38 @@
 #'   \item "" Plot every graphs (default).
 #' }
 #' @param \ldots arguments to be passed to methods, such as graphical parameters (not used here).
+#' @return No return value
 #' @examples
-#' ## Generate Data
-#' # set.seed(10)
-#' # n <- 200
-#' # beta <- c(1,1,rep(0,8))
-#' # X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-#' # eps <- rnorm(n)
-#' # Y <- (X%*%beta)**3+eps
+#' # Generate Data
+#' set.seed(10)
+#' n <- 200
+#' beta <- c(1,1,rep(0,8))
+#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+#' eps <- rnorm(n)
+#' Y <- (X%*%beta)**3+eps
 #'
-#' # res = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
+#' \donttest{
+#' res = SIR_threshold_bootstrap(Y,X,H=10,n_lambda=300,thresholding="hard", n_replications=30,k=2)
 #'
-#' ## Estimated index versus Y
-#' # plot(res,choice="estim_ind")
+#' # Estimated index versus Y
+#' plot(res,choice="estim_ind")
 #' 
-#' ## Model size
-#' # plot(res,choice="size")
+#' # Model size
+#' plot(res,choice="size")
 #' 
-#' ## Selected variables
-#' # plot(res,choice="selec_var")
+#' # Selected variables
+#' plot(res,choice="selec_var")
 #' 
-#' ## Coefficients of b
-#' # plot(res,choice="coefs_b")
+#' # Coefficients of b
+#' plot(res,choice="coefs_b")
 #'
-#' ## Optimal lambdas
-#' # plot(res,choice="lambdas_replic")
+#' # Optimal lambdas
+#' plot(res,choice="lambdas_replic")
+#' }
 #' @export
 #' @importFrom grDevices dev.new
 #' @importFrom graphics abline barplot box boxplot legend title
-plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
+plot.SIR_threshold_bootstrap <- function(x, choice = "", ...) {
 
     if (!inherits(x, "SIR_threshold_bootstrap"))
         stop("Only use with \"SIR_threshold_bootstrap\" obects")
@@ -51,9 +54,9 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
         "lambdas_replic")))
         stop("\"choice\" must be either \"estim_ind\",\"size\",\"selec_var\",
             \"coefs_b\" or \"lambdas_replic\"", call. = FALSE)
-    
-    cols = rep("gray",ncol(x$b))
-    cols[which(x$b!=0)] = "steelblue3"
+
+    cols = rep("gray", ncol(x$b))
+    cols[which(x$b != 0)] = "steelblue3"
 
     if (choice == "" || choice == "estim_ind") {
         if (choice == "") {
@@ -62,19 +65,19 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
         plot(x$index_pred, x$Y, xlab = "Estimated first index", ylab = "y", pch = 4)
         title("Reconstructed index")
     }
-    
-    
-    
+
+
+
     if (choice == "" || choice == "size") {
         # Barplot of the number of selected variable by the model 
         if (choice == "") {
             dev.new()
         }
-        cols2 = rep("gray",length(table(x$vec_nb_var_selec)))
+        cols2 = rep("gray", length(table(x$vec_nb_var_selec)))
         cols2[which.max(table(x$vec_nb_var_selec))] = "steelblue3"
-        
+
         barplot((table(x$vec_nb_var_selec) / x$n_replications) * 100, ylab = "percent",
-                xlab = "Number of selected variables",col=cols2)
+                xlab = "Number of selected variables", col = cols2)
         title(paste("Number of selected variables over the", x$n_replications, "bootstrap replications"))
         legend("topright", legend = "optimal number of selected variables", col = c("steelblue3"),
                pch = c(15))
@@ -86,7 +89,7 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
         }
         # Barplot of the number of time where each variable has been selected
         barplot((x$occurrences_var / x$n_replications) * 100, names.arg =
-                colnames(x$b), ylab = "percent", xlab = "variable name",col=cols)
+                colnames(x$b), ylab = "percent", xlab = "variable name", col = cols)
         title(paste("Selected variables over the", x$n_replications, "bootstrap replications"))
         legend("topright", legend = "selected variables", col = c("steelblue3"),
                pch = c(15))
@@ -100,17 +103,17 @@ plot.SIR_threshold_bootstrap <- function(x, choice = "",...) {
         mat_b <- x$mat_b
         j0 <- which.max(abs(mat_b[1,]))
         for (i in 1:nrow(mat_b)) {
-            if(mat_b[i, j0] != 0){
+            if (mat_b[i, j0] != 0) {
                 mat_b[i,] <- mat_b[i,] * sign(mat_b[i, j0])
             }
         }
-        
+
         boxplot(mat_b, xlab = "coefficients of b", ylab = "", main =
             paste("Value of b over the", x$n_replications, "bootstrap replications"),
-            names = colnames(x$b),col=cols)
-        points(matrix(x$b * ifelse(sign(x$b[j0])!=0,sign(x$b[j0]),1), ncol = 1), pch = 19, col = 6, lwd = 3)
-        legend("topright", legend = c(expression(hat(beta) ~ " associated to optimal" ~ lambda),"selected variables"), col = c(6,"steelblue3"),
-               pch = c(19,15))
+            names = colnames(x$b), col = cols)
+        points(matrix(x$b * ifelse(sign(x$b[j0]) != 0, sign(x$b[j0]), 1), ncol = 1), pch = 19, col = 6, lwd = 3)
+        legend("topright", legend = c(expression(hat(beta) ~ " associated to optimal" ~ lambda), "selected variables"), col = c(6, "steelblue3"),
+               pch = c(19, 15))
     }
 
     if (choice == "" || choice == "lambdas_replic") {

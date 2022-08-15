@@ -36,26 +36,23 @@
 #' It can be used to estimate a new SIR model on the relevant variables to improve
 #' the estimation of b.}
 #' @examples 
-#' ## Generate Data
-#' # set.seed(10)
-#' # n <- 500
-#' # beta <- c(1,1,rep(0,8))
-#' # X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-#' # eps <- rnorm(n)
-#' # Y <- (X%*%beta)**3+eps
+#' # Generate Data
+#' set.seed(10)
+#' n <- 500
+#' beta <- c(1,1,rep(0,8))
+#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+#' eps <- rnorm(n)
+#' Y <- (X%*%beta)**3+eps
 #'
-#' ## Apply SIR with hard thresholding
-#' # SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
-#' 
-#' # Apply SIR with soft thresholding
-#' # SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "soft")
+#' # Apply SIR with hard thresholding
+#' SIR_threshold(Y, X, H = 10, lambda = 0.2, thresholding = "hard")
 #' @export
 SIR_threshold <- function(Y, X, H = 10, lambda = 0, thresholding = "hard", graph = TRUE, choice = "") {
 
     cl <- match.call()
-    
+
     # Ensure that X and Y are matrices
-    X = ensure_matrix(X) 
+    X = ensure_matrix(X)
     Y = ensure_matrix(Y)
 
     n <- nrow(X)

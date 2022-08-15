@@ -21,32 +21,35 @@
 
 \item{\ldots}{arguments to be passed to methods, such as graphical parameters (not used here).}
 }
+\value{
+No return value
+}
 \description{
 Display the 10 first eigen values,the estimated index versus Y of the SIR model,
 the evolution of \eqn{cos^2} and variable selection according to \eqn{\lambda}, and the 
 regularization path of \eqn{\hat{b}}.
 }
 \examples{
-## Generate Data
-# set.seed(10)
-# n <- 200
-# beta <- c(1,1,rep(0,8))
-# X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-# eps <- rnorm(n)
-# Y <- (X\%*\%beta)**3+eps
+# Generate Data
+set.seed(10)
+n <- 200
+beta <- c(1,1,rep(0,8))
+X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+eps <- rnorm(n)
+Y <- (X\%*\%beta)**3+eps
 
-## Apply SIR with hard thresholding
-# res = SIR_threshold_opt(Y,X,H=10,n_lambda=300,thresholding="soft")
+# Apply SIR with soft thresholding
+res = SIR_threshold_opt(Y,X,H=10,n_lambda=100,thresholding="soft")
 
-## Estimated index versus Y
-# plot(res,choice="estim_ind")
+# Estimated index versus Y
+plot(res,choice="estim_ind")
 
-## Choice of optimal lambda
-# plot(res,choice="opt_lambda")
+# Choice of optimal lambda
+plot(res,choice="opt_lambda")
 
-## Evolution of cos^2 and var selection according to lambda
-# plot(res,choice="cos2_selec")
+# Evolution of cos^2 and var selection according to lambda
+plot(res,choice="cos2_selec")
 
-## Regularization path
-# plot(res,choice="regul_path")
+# Regularization path
+plot(res,choice="regul_path")
 }

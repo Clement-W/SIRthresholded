@@ -26,16 +26,16 @@
 #' \item{index_pred}{The index Xb' estimated by SIR.}
 #' \item{Y}{The response vector.}
 #' @examples
-#' ## Generate Data
-#' # set.seed(10)
-#' # n <- 500
-#' # beta <- c(1,1,rep(0,8))
-#' # X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
-#' # eps <- rnorm(n)
-#' # Y <- (X%*%beta)**3+eps
+#' # Generate Data
+#' set.seed(10)
+#' n <- 500
+#' beta <- c(1,1,rep(0,8))
+#' X <- mvtnorm::rmvnorm(n,sigma=diag(1,10))
+#' eps <- rnorm(n)
+#' Y <- (X%*%beta)**3+eps
 #'
-#' ## Apply SIR
-#' # SIR(Y, X, H = 10)
+#' # Apply SIR
+#' SIR(Y, X, H = 10)
 #' @export
 #' @importFrom stats var
 SIR <- function(Y, X, H = 10, graph = TRUE, choice = "") {
@@ -43,7 +43,7 @@ SIR <- function(Y, X, H = 10, graph = TRUE, choice = "") {
     cl <- match.call()
 
     # Ensure that X and Y are matrices
-    X = ensure_matrix(X) 
+    X = ensure_matrix(X)
     Y = ensure_matrix(Y)
 
     n <- nrow(X)
@@ -69,7 +69,7 @@ SIR <- function(Y, X, H = 10, graph = TRUE, choice = "") {
         for (i in 1:rest) {
             # add a sample in the slice h
             vect_nh[h] <- vect_nh[h] + 1
-            
+
             # Increment h (which will be < H because rest < H)
             h <- h + 1
         }
