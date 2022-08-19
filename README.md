@@ -4,20 +4,24 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/Clement-W/SIRthresholded/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clement-W/SIRthresholded/actions/workflows/R-CMD-check.yaml)
+[![CRAN](https://www.r-pkg.org/badges/version/SIRthresholded?color=orange)](https://cran.r-project.org/package=SIRthresholded)
+[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/SIRthresholded?color=blue)](https://cran.r-project.org/package=SIRthresholded)
 
 <!-- badges: end -->
 
 ## Description
 
-This package offers an implementation of the SIR (Sliced Inverse Regression) method, along with a thresholded version of SIR that allows variable selection. Fore more information, you can check the vignette of the package on [that link](https://clement-w.github.io/SIRthresholded/articles/SIRthresholded.html)
+This package offers an implementation of the SIR (Sliced Inverse Regression) method, along with a thresholded version of SIR that allows variable selection. Fore more information, you can check the vignette of the package on [that link](https://clement-w.github.io/SIRthresholded/articles/SIRthresholded.html), and explore the code on the [GitHub repository](https://github.com/Clement-W/SIRthresholded).
 
-The paper will soon be available.
+A paper is currently being written.
 
 ## Install
 
 ### From CRAN
 
-(not available yet)
+```r
+install.packages("SIRthresholded")
+```
 
 ### From GitHub
 
@@ -49,5 +53,3 @@ Once that package is installed, you can access the vignette with
 ```r
 vignette("SIRthresholded")
 ```
-
-##
