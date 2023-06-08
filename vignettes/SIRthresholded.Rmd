@@ -373,10 +373,10 @@ In this section :
 
 ### The data
 
-For this example, we chose the wine dataset from the UCI machine learning repository (https://archive.ics.uci.edu/ml/datasets/Wine). As explained on the page description of the dataset, these data are the results of a chemical analysis of wines grown in the same region in Italy. The analysis determined the quantities of 12 constituents found in the 178 samples of wine. Here, we'll try to find the relevant variables in order to perform regression on the response variable Nonflavanoids according to the 12 other constituents. First, let's load the dataset.
+For this example, we chose the wine dataset from the UCI machine learning repository (the official link is not working anymore, please find another version of the dataset on that link https://gist.githubusercontent.com/tijptjik/9408623/raw/b237fa5848349a14a14e5d4107dc7897c21951f5/wine.csv). As explained on the page description of the dataset, these data are the results of a chemical analysis of wines grown in the same region in Italy. The analysis determined the quantities of 12 constituents found in the 178 samples of wine. Here, we'll try to find the relevant variables in order to perform regression on the response variable Nonflavanoids according to the 12 other constituents. First, let's load the dataset.
 
 ```{r}
-wine <-  read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data", header = FALSE) 
+wine <-  read.csv("https://gist.githubusercontent.com/Clement-W/26d99a28ab89929b6321f70a04535451/raw/169a36568d1fc7c5a7c508e8d3e720d5040744cd/wine.csv", header = FALSE) 
 colnames(wine) <- c('Type', 'Alcohol', 'Malic', 'Ash', 'Alcalinity', 'Magnesium', 
                     'Phenols', 'Flavanoids', 'Nonflavanoids', 'Proanthocyanins', 
                     'Color', 'Hue', 'Dilution', 'Proline')
