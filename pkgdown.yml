@@ -1,9 +1,9 @@
-pandoc: 2.14.2
-pkgdown: 2.0.6
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   SIRthresholded: SIRthresholded.html
-last_built: 2022-08-19T18:34Z
+last_built: 2023-06-08T20:34Z
 urls:
   reference: https://clement-w.github.io/SIRthresholded/reference
   article: https://clement-w.github.io/SIRthresholded/articles
