@@ -1,7 +1,7 @@
 Package: SIRthresholded
 Type: Package
 Title: Sliced Inverse Regression with Thresholding
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(person("Clement", "Weinreich", role = c("aut", "cre"),
                     email = "clement@weinreich.fr"),
              person("Jerome", "Saracco", role = c("aut")),
