@@ -5,7 +5,7 @@
 
 [![R-CMD-check](https://github.com/Clement-W/SIRthresholded/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clement-W/SIRthresholded/actions/workflows/R-CMD-check.yaml)
 [![CRAN](https://www.r-pkg.org/badges/version/SIRthresholded?color=orange)](https://cran.r-project.org/package=SIRthresholded)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/SIRthresholded?color=blue)](https://cran.r-project.org/package=SIRthresholded)
+[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/grand-total/SIRthresholded)](https://cran.r-project.org/package=SIRthresholded)
 
 <!-- badges: end -->
 
